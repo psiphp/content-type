@@ -37,27 +37,32 @@ Now we can define a content type for it:
 
     cmf_content_type:
         types:
-            news_list:
+            Acme\Bundle\NewsPage:
                 fields:
                     title:
-                        type: string
-                        required: true
-                    list:
-                        type: children_collection
-                        defaults:
-                            parent_path: /news
-                            limit: 5
-                object: AppBundle\Entity\NewsList
-                driver: doctrine/orm
+                        type: Symfony\Cmf\Component\ContentType\Field\Text
+                    news:
+                        type: Symfony\Cmf\Component\ContentType\Field\ResourceList
+                        options:
+                            glob: "/cms/content/news/**/*"
+                        view_options:
+                            page_size: 10
+                driver: doctrine/phpcr
 
-Above we defined ``$title`` as a simple scalar ``string``, but ``$list`` is of 
-the type ``children_collection`` - this is a composite type which contains
-multiple scalar fields of its own (it is infact another content type defined
-elsewhere, we will discuss this later).
+Above we defined ``title`` as a text field, but ``news`` is of 
+the a "resource list" what this IS is not important here, what is important is
+that it is a  composite type which contains multiple scalar fields of its own.
 
-We then declared that we are mapping to an object of class
-``AppBundle\Entity\NewsList`` and that we will be using the Doctrine ORM as a
-storage layer.
+The ``Acme\Bundle\NewsPage`` will have need to be created and contain the
+properties `$title` and `$field`.
+
+Defining our content type above allows:
+
+- The storage mapping (e.g. for Doctrine PHPCR in this example) will be
+  automatically registered.
+- The form type to be generated.
+- The content to be transformed into a "view" object for rendering on the
+  frontend.
 
 Form Rendering
 ~~~~~~~~~~~~~~
@@ -69,17 +74,13 @@ Now you want to add a form to your backoffice, this as simple asking the
 
     <?php
 
-    // this is the data from the request
-    $data = [
-        'title' => 'Hello World!',
-        'list' => [
-            'parent_path' => '/cms/news',
-            'limit' => 5,
-        ],
-    ];
+
+    // create the content object (this is just a plain PHP object)
+    // TODO: What about value objects?
+    $content = new NewsPage();
 
     // get the form
-    $form = $contentTypeRegistry->get('news_list');
+    $form = $contentFormBuilder->buildFormForContent($content);
 
     // submit the data (bypassing validation etc..)
     $form->submit($data);
@@ -193,9 +194,18 @@ the mapping for your chosen object (i.e. ``AppBundle\Entity\NewsList``). This
 is good because it means that you do not have to do anything beyond defining
 your ``NewsList`` class.
 
-Whats going on behind the scenes? I the case of the Doctrine ORM it will map
-the ``ChildrenCollectionType`` as an *embeddable object* on ``NewsList`` -
-this means that all the data is stored in a single table and it is *fast*.
+Storage Stategies
+-----------------
 
-In the case of the (hierarhical) Doctrine PHPCR-ODM it will map the
-``ChildrenCollectionType`` as a child normal object.
+Most databases represent a record as a key-value set, which means that storing
+our complex types is not trivial.
+
+CMSes often store content data as a serialized array, but by doing this data
+integrity and searchability is sacrificed.
+
+Doctrine ORM offers embeddables - allowing objects to be nested within a
+single table, while PHPCR ODM is hierarchical and allows child objects (at a
+performance cost).
+
+The Content Type compoent aims to allow you to choose whichever solution best
+fits your requirements.
