@@ -5,6 +5,9 @@ namespace Symfony\Cmf\Component\ContentType;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\ViewRegistry;
 use Symfony\Cmf\Component\ContentType\ContentView;
+use Metadata\MetadataFactory;
+use Metadata\NullMetadata;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContentViewBuilder
 {
@@ -29,8 +32,8 @@ class ContentViewBuilder
         $metadata = $this->metadataFactory->getMetadataForClass($classFqn);
 
         if ($metadata instanceof NullMetadata) {
-            throw new \InvalidArgumentException(sprintf(
-                'Class "%s" has no content mapping',
+            throw new \RuntimeException(sprintf(
+                'Class "%s" is not mapped',
                 $classFqn
             ));
         }
