@@ -32,7 +32,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
                 'fields'=> [
                     'title' => [
                         'type' => 'Class\Fqn\TextField',
-                        'view_options' => [
+                        'options' => [
                             'option_1' => 100,
                         ],
                         'form_options' => [
@@ -57,11 +57,21 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
 
         $property1 = current($properties);
         $this->assertEquals('Class\Fqn\TextField', $property1->getType());
-        $this->assertEquals([ 'option_1' => 100 ], $property1->getViewOptions());
+        $this->assertEquals([ 'option_1' => 100 ], $property1->getOptions());
         $this->assertEquals([ 'length' => 100, 'required' => true ], $property1->getFormOptions());
 
         $property2 = next($properties);
         $this->assertEquals('Class\Fqn\ImageField', $property2->getType());
+    }
+
+    /**
+     * If the form is compound, it should add the serialize transformer.
+     *
+     * NOTE: We will be a strategy in the future to enable things such as Doctrine Embedables.
+     */
+    public function testCompound()
+    {
+        $this->markTestIncomplete('TODO');
     }
 
     private function createDriver(array $config)

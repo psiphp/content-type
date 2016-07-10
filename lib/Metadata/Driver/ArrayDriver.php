@@ -42,14 +42,14 @@ class ArrayDriver implements DriverInterface
         foreach ($config['fields'] as $fieldName => $fieldConfig) {
             $fieldConfig = array_merge([
                 'type' => null,
-                'view_options' => [],
+                'options' => [],
                 'form_options' => [],
             ], $fieldConfig);
             $propertyMetadata = new PropertyMetadata(
                 $class->getName(),
                 $fieldName,
                 $fieldConfig['type'],
-                $fieldConfig['view_options'],
+                $fieldConfig['options'],
                 $fieldConfig['form_options']
             );
 

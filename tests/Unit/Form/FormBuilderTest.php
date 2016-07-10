@@ -31,6 +31,7 @@ class FormBuilderTest extends \PHPUnit_Framework_TestCase
         $this->classMetadata = $this->prophesize(ClassMetadata::class);
         $this->propertyMetadata1 = $this->prophesize(PropertyMetadata::class);
         $this->formBuilder = $this->prophesize(FormBuilderInterface::class);
+        $this->childFormBuilder = $this->prophesize(FormBuilderInterface::class);
         $this->field1 = $this->prophesize(FieldInterface::class);
     }
 
@@ -79,10 +80,10 @@ class FormBuilderTest extends \PHPUnit_Framework_TestCase
             [
                 'one' => 'two',
             ]
-        )->shouldBeCalled();
+        )->willReturn($this->childFormBuilder->reveal())->shouldBeCalled();
 
         $builder = $this->builder->buildFormForContent($content);
 
-        $this->assertInstanceOf(
+        $this->assertSame($this->formBuilder->reveal(), $builder);
     }
 }

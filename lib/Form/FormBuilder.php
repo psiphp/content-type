@@ -25,9 +25,9 @@ class FormBuilder
         $this->fieldRegistry = $fieldRegistry;
     }
 
-    public function buildFormForContent($contentType, $content = null)
+    public function buildFormForContent($content)
     {
-        $metadata = $this->metadataFactory->getMetadataForClass($contentType);
+        $metadata = $this->metadataFactory->getMetadataForClass(get_class($content));
 
         if ($metadata instanceof NullMetadata) {
             throw new \RuntimeException(sprintf(
@@ -47,10 +47,6 @@ class FormBuilder
                 $field->getFormType(),
                 $formOptions
             );
-
-            // configure the default options on the form, the options havn't
-            // been resolved yet.
-            $field->buildOptions($formField->getOptionsResolver());
 
             // for now always serialize "compound" types.
             if ($formField->getCompound()) {
