@@ -8,6 +8,8 @@ interface FieldInterface
 
     public function getFormType();
 
+    public function getOptions();
+
     public function getDefaultFormOptions();
 
     public function getDefaultViewOptions();

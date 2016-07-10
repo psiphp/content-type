@@ -2,6 +2,8 @@
 
 namespace Symfony\Cmf\Component\ContentType\Field;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class TextField implements FieldInterface
 {
     public function getViewType()
@@ -14,13 +16,7 @@ class TextField implements FieldInterface
         return TextType::class;
     }
 
-    public function getDefaultFormConfig()
+    public function buildOptions(OptionsResolver $resolver)
     {
-        return [];
-    }
-
-    public function getDefaultViewConfig()
-    {
-        return [];
     }
 }

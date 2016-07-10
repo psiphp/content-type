@@ -7,21 +7,21 @@ use Metadata\PropertyMetadata as BasePropertyMetadata;
 class PropertyMetadata extends BasePropertyMetadata
 {
     private $type;
-    private $viewOptions = [];
+    private $options = [];
     private $formOptions = [];
 
     public function __construct(
         $class,
         $name,
         $type,
-        array $viewOptions,
+        array $options,
         array $formOptions
     )
     {
         parent::__construct($class, $name);
 
         $this->type = $type;
-        $this->viewOptions = $viewOptions;
+        $this->options = $options;
         $this->formOptions = $formOptions;
     }
 
@@ -35,9 +35,9 @@ class PropertyMetadata extends BasePropertyMetadata
         return $this->type;
     }
 
-    public function getViewOptions() 
+    public function getOptions() 
     {
-        return $this->viewOptions;
+        return $this->options;
     }
 
     public function getFormOptions() 

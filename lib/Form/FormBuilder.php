@@ -6,6 +6,7 @@ use Metadata\MetadataFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 use Metadata\NullMetadata;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
+use Symfony\Cmf\Component\ContentType\Form\Transformer\SerializeTransformer;
 
 class FormBuilder
 {
@@ -24,9 +25,9 @@ class FormBuilder
         $this->fieldRegistry = $fieldRegistry;
     }
 
-    public function buildFormForContent($content)
+    public function buildFormForContent($contentType, $content = null)
     {
-        $metadata = $this->metadataFactory->getMetadataForClass(get_class($content));
+        $metadata = $this->metadataFactory->getMetadataForClass($contentType);
 
         if ($metadata instanceof NullMetadata) {
             throw new \RuntimeException(sprintf(
@@ -39,11 +40,24 @@ class FormBuilder
 
         foreach ($metadata->getPropertyMetadata() as $propertyMetadata) {
             $field = $this->fieldRegistry->get($propertyMetadata->getType());
-            $builder->add(
+            $formOptions = $propertyMetadata->getFormOptions();
+
+            $formField = $builder->add(
                 $propertyMetadata->getName(),
                 $field->getFormType(),
-                $propertyMetadata->getFormOptions()
+                $formOptions
             );
+
+            // configure the default options on the form, the options havn't
+            // been resolved yet.
+            $field->buildOptions($formField->getOptionsResolver());
+
+            // for now always serialize "compound" types.
+            if ($formField->getCompound()) {
+                $formField->addModelTransformer(new SerializeTransformer());
+            }
         }
+
+        return $builder;
     }
 }
