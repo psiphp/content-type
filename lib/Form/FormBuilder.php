@@ -3,10 +3,10 @@
 namespace Symfony\Cmf\Component\ContentType\Form;
 
 use Metadata\MetadataFactory;
-use Symfony\Component\Form\FormFactoryInterface;
 use Metadata\NullMetadata;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Form\Transformer\SerializeTransformer;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class FormBuilder
 {
@@ -18,8 +18,7 @@ class FormBuilder
         MetadataFactory $metadataFactory,
         FormFactoryInterface $formFactory,
         FieldRegistry $fieldRegistry
-    )
-    {
+    ) {
         $this->metadataFactory = $metadataFactory;
         $this->formFactory = $formFactory;
         $this->fieldRegistry = $fieldRegistry;
@@ -27,12 +26,13 @@ class FormBuilder
 
     public function buildFormForContent($content)
     {
-        $metadata = $this->metadataFactory->getMetadataForClass(get_class($content));
+        $classFqn = get_class($content);
+        $metadata = $this->metadataFactory->getMetadataForClass($classFqn);
 
         if ($metadata instanceof NullMetadata) {
             throw new \RuntimeException(sprintf(
                 'Class "%s" is not mapped',
-                $metadata->name
+                $classFqn
             ));
         }
 

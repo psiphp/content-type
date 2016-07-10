@@ -2,9 +2,6 @@
 
 namespace Symfony\Cmf\Component\ContentType;
 
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\ViewRegistry;
-use Symfony\Cmf\Component\ContentType\ContentView;
 use Metadata\MetadataFactory;
 use Metadata\NullMetadata;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,8 +16,7 @@ class ContentViewBuilder
         MetadataFactory $metadataFactory,
         FieldRegistry $fieldRegistry,
         ViewRegistry $viewRegistry
-    )
-    {
+    ) {
         $this->metadataFactory = $metadataFactory;
         $this->fieldRegistry = $fieldRegistry;
         $this->viewRegistry = $viewRegistry;

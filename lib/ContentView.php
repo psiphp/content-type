@@ -9,6 +9,13 @@ class ContentView implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function offsetGet($name)
     {
+        if (!isset($this->values[$name])) {
+            throw new \InvalidArgumentException(sprintf(
+                'View value "%s" has not been set, available values: "%s"',
+                $name, implode('", "', array_keys($this->values))
+            ));
+        }
+
         return $this->values[$name];
     }
 

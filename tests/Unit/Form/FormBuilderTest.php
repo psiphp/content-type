@@ -3,14 +3,14 @@
 namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Form;
 
 use Metadata\MetadataFactory;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Metadata\NullMetadata;
+use Symfony\Cmf\Component\ContentType\FieldInterface;
+use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Form\FormBuilder;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Cmf\Component\ContentType\FieldInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class FormBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,7 +47,7 @@ class FormBuilderTest extends \PHPUnit_Framework_TestCase
             new NullMetadata('stdClass')
         );
 
-        $this->builder->buildFormForContent(new \stdClass);
+        $this->builder->buildFormForContent(new \stdClass());
     }
 
     /**
@@ -64,7 +64,7 @@ class FormBuilderTest extends \PHPUnit_Framework_TestCase
             $this->classMetadata->reveal()
         );
         $this->classMetadata->getPropertyMetadata()->willReturn([
-            $this->propertyMetadata1->reveal()
+            $this->propertyMetadata1->reveal(),
         ]);
         $this->propertyMetadata1->getType()->willReturn('foobar');
         $this->fieldRegistry->get('foobar')->willReturn($this->field1->reveal());

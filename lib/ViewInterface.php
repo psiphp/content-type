@@ -6,7 +6,7 @@ interface ViewInterface
 {
     /**
      * Build the view for the field type.
-     * 
+     *
      * This method is passed the builder instance followed by the content view,
      * the data and then the options as defined by the field type.
      *

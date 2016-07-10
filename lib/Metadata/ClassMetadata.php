@@ -2,7 +2,6 @@
 
 namespace Symfony\Cmf\Component\ContentType\Metadata;
 
-use Symfony\Cmf\Component\ContentType\Metadata\FieldMetadata;
 use Metadata\ClassMetadata as BaseClassMetadata;
 
 class ClassMetadata extends BaseClassMetadata
@@ -12,13 +11,12 @@ class ClassMetadata extends BaseClassMetadata
     public function __construct(
         $name,
         $driver
-    )
-    {
+    ) {
         parent::__construct($name);
         $this->driver = $driver;
     }
 
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }
@@ -28,9 +26,8 @@ class ClassMetadata extends BaseClassMetadata
         return $this->driver;
     }
 
-    public function getPropertyMetadata() 
+    public function getPropertyMetadata()
     {
         return $this->propertyMetadata;
     }
-    
 }

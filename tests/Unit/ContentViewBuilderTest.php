@@ -2,18 +2,18 @@
 
 namespace Symfony\Cmf\Component\ContentType\Tests\Unit;
 
-use Symfony\Cmf\Component\ContentType\ViewRegistry;
-use Metadata\NullMetadata;
-use Symfony\Cmf\Component\ContentType\ContentViewBuilder;
 use Metadata\MetadataFactory;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Metadata\NullMetadata;
 use Prophecy\Argument;
+use Symfony\Cmf\Component\ContentType\ContentView;
+use Symfony\Cmf\Component\ContentType\ContentViewBuilder;
+use Symfony\Cmf\Component\ContentType\FieldInterface;
+use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
-use Symfony\Cmf\Component\ContentType\FieldInterface;
 use Symfony\Cmf\Component\ContentType\ViewInterface;
-use Symfony\Cmf\Component\ContentType\ContentView;
+use Symfony\Cmf\Component\ContentType\ViewRegistry;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContentViewBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,7 +52,7 @@ class ContentViewBuilderTest extends \PHPUnit_Framework_TestCase
             new NullMetadata('stdClass')
         );
 
-        $this->builder->build(new \stdClass);
+        $this->builder->build(new \stdClass());
     }
 
     /**
@@ -67,7 +67,7 @@ class ContentViewBuilderTest extends \PHPUnit_Framework_TestCase
             $this->classMetadata->reveal()
         );
         $this->classMetadata->getPropertyMetadata()->willReturn([
-            $this->propertyMetadata1->reveal()
+            $this->propertyMetadata1->reveal(),
         ]);
 
         $this->fieldRegistry->get('foobar')->willReturn($this->field1->reveal());
@@ -79,12 +79,12 @@ class ContentViewBuilderTest extends \PHPUnit_Framework_TestCase
         $this->field1->configureOptions(Argument::type(OptionsResolver::class))->will(function ($args) {
             $resolver = $args[0];
             $resolver->setDefault('foo', 'bar');
-        });;
+        });
 
-        $this->propertyMetadata1->getOptions()->willReturn([ 'foo' => 'baz' ]);
+        $this->propertyMetadata1->getOptions()->willReturn(['foo' => 'baz']);
         $this->propertyMetadata1->getValue($content)->willReturn('value');
 
-        $this->viewType->buildView($this->builder, Argument::type(ContentView::class), $value, [ 'foo' => 'baz' ])->will(function ($args) {
+        $this->viewType->buildView($this->builder, Argument::type(ContentView::class), $value, ['foo' => 'baz'])->will(function ($args) {
             $view = $args[1];
             $view->setValue('Hello World');
             $view['paginator'] = 'I paginator';

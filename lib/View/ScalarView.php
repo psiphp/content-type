@@ -2,10 +2,8 @@
 
 namespace Symfony\Cmf\Component\ContentType\View;
 
-use Symfony\Cmf\Component\ContentType\ViewInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
 use Symfony\Cmf\Component\ContentType\ContentView;
+use Symfony\Cmf\Component\ContentType\ViewInterface;
 
 class ScalarView implements ViewInterface
 {

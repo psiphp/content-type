@@ -2,9 +2,8 @@
 
 namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Metadata\Driver;
 
-use Symfony\Cmf\Component\ContentType\Metadata\Driver\ArrayDriver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
+use Symfony\Cmf\Component\ContentType\Metadata\Driver\ArrayDriver;
 
 class ArrayDriverTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +28,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
         $driver = $this->createDriver([
             TestContent::class => [
                 'driver' => 'doctrine_orm',
-                'fields'=> [
+                'fields' => [
                     'title' => [
                         'type' => 'Class\Fqn\TextField',
                         'options' => [
@@ -57,8 +56,8 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
 
         $property1 = current($properties);
         $this->assertEquals('Class\Fqn\TextField', $property1->getType());
-        $this->assertEquals([ 'option_1' => 100 ], $property1->getOptions());
-        $this->assertEquals([ 'length' => 100, 'required' => true ], $property1->getFormOptions());
+        $this->assertEquals(['option_1' => 100], $property1->getOptions());
+        $this->assertEquals(['length' => 100, 'required' => true], $property1->getFormOptions());
 
         $property2 = next($properties);
         $this->assertEquals('Class\Fqn\ImageField', $property2->getType());

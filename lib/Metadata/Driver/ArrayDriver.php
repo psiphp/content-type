@@ -29,7 +29,7 @@ class ArrayDriver implements DriverInterface
     public function loadMetadataForClass(\ReflectionClass $class)
     {
         if (!isset($this->config[$class->getName()])) {
-            return null;
+            return;
         }
 
         $config = array_merge([
