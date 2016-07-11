@@ -11,6 +11,4 @@ interface FieldInterface
     public function getFormType();
 
     public function configureOptions(OptionsResolver $options);
-
-    public function getDefaultViewOptions();
 }
