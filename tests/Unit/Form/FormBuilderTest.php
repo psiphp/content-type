@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Form;
 
 use Metadata\MetadataFactory;
@@ -9,6 +18,7 @@ use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Form\FormBuilder;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -56,7 +66,7 @@ class FormBuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuildForm()
     {
         $content = new \stdClass();
-        $this->formFactory->create('content', $content)->willReturn(
+        $this->formFactory->createBuilder(FormType::class, $content)->willReturn(
             $this->formBuilder->reveal()
         );
 

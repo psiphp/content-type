@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType;
 
 use Metadata\MetadataFactory;
@@ -22,9 +31,9 @@ class ContentViewBuilder
         $this->viewRegistry = $viewRegistry;
     }
 
-    public function build($data)
+    public function build($content)
     {
-        $classFqn = get_class($data);
+        $classFqn = get_class($content);
         $metadata = $this->metadataFactory->getMetadataForClass($classFqn);
 
         if ($metadata instanceof NullMetadata) {
@@ -44,7 +53,7 @@ class ContentViewBuilder
             $resolver = new OptionsResolver();
             $field->configureOptions($resolver);
             $options = $resolver->resolve($propertyMetadata->getOptions());
-            $value = $propertyMetadata->getValue($data);
+            $value = $propertyMetadata->getValue($content);
             $view->buildView($this, $subView, $value, $options);
             $contentView[$propertyMetadata->getName()] = $subView;
         }

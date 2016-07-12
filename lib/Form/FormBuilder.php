@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType\Form;
 
 use Metadata\MetadataFactory;
 use Metadata\NullMetadata;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Form\Transformer\SerializeTransformer;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class FormBuilder
@@ -36,22 +45,17 @@ class FormBuilder
             ));
         }
 
-        $builder = $this->formFactory->create('content', $content);
+        $builder = $this->formFactory->createBuilder(FormType::class, $content);
 
         foreach ($metadata->getPropertyMetadata() as $propertyMetadata) {
             $field = $this->fieldRegistry->get($propertyMetadata->getType());
             $formOptions = $propertyMetadata->getFormOptions();
 
-            $formField = $builder->add(
+            $builder->add(
                 $propertyMetadata->getName(),
                 $field->getFormType(),
                 $formOptions
             );
-
-            // for now always serialize "compound" types.
-            if ($formField->getCompound()) {
-                $formField->addModelTransformer(new SerializeTransformer());
-            }
         }
 
         return $builder;
