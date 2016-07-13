@@ -12,6 +12,7 @@
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional;
 
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Model\Article;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class FormBuilderTest extends BaseTestCase
 {
@@ -77,6 +78,5 @@ class FormBuilderTest extends BaseTestCase
         $this->assertTrue($form->isValid());
 
         $this->assertEquals('Hello', $article->title);
-        $this->assertEquals($imageData, unserialize($article->image));
     }
 }

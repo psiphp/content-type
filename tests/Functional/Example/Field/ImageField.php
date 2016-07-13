@@ -16,17 +16,26 @@ use Symfony\Cmf\Component\ContentType\View\ScalarView;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
 
 class ImageField implements FieldInterface
 {
     public function getViewType()
     {
-        return 'image';
+        return ImageView::class;
     }
 
     public function getFormType()
     {
         return ImageType::class;
+    }
+
+    public function getMapping(Mapper $mapper)
+    {
+        $mapper->map('path', 'string', [ 'length' => 255 ]);
+        $mapper->map('width', 'integer');
+        $mapper->map('height', 'integer');
+        $mapper->map('mimetype', 'string');
     }
 
     public function configureOptions(OptionsResolver $options)

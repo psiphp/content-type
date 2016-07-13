@@ -55,6 +55,7 @@ class ContentViewBuilder
             $options = $resolver->resolve($propertyMetadata->getOptions());
             $value = $propertyMetadata->getValue($content);
             $view->buildView($this, $subView, $value, $options);
+
             $contentView[$propertyMetadata->getName()] = $subView;
         }
 

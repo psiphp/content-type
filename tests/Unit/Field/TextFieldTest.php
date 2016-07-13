@@ -13,6 +13,7 @@ namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Field;
 
 use Symfony\Cmf\Component\ContentType\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Cmf\Component\ContentType\View\ScalarView;
 
 class TextFieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,6 +33,6 @@ class TextFieldTest extends \PHPUnit_Framework_TestCase
     public function testGetViewType()
     {
         $viewType = $this->field->getViewType();
-        $this->assertEquals('scalar', $viewType);
+        $this->assertEquals(ScalarView::class, $viewType);
     }
 }

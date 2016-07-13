@@ -12,10 +12,11 @@
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional;
 
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Model\Article;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class ContentViewBuilderTest extends BaseTestCase
 {
-    public function testFormBuilder()
+    public function testContentView()
     {
         $builder = $this->getContainer([
             'mapping' => [
@@ -24,6 +25,9 @@ class ContentViewBuilderTest extends BaseTestCase
                         'title' => [
                             'type' => 'text',
                         ],
+                        'image' => [
+                            'type' => 'image'
+                        ],
                     ],
                 ],
             ],
@@ -31,8 +35,12 @@ class ContentViewBuilderTest extends BaseTestCase
 
         $article = new Article();
         $article->title = 'Hello';
+        $article->image = new Image('/path/to/image.jpg', 100, 100, 'image/jpeg');
         $view = $builder->build($article);
 
         $this->assertEquals('Hello', $view['title']);
+        $this->assertEquals(100, $view['image']['width']);
+        $this->assertEquals(100, $view['image']['height']);
+        $this->assertEquals('/path/to/image.jpg', $view['image']['path']);
     }
 }

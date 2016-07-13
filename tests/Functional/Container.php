@@ -22,6 +22,7 @@ use Symfony\Cmf\Component\ContentType\View\ScalarView;
 use Symfony\Cmf\Component\ContentType\ViewRegistry;
 use Symfony\Component\Form\Forms;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field\ImageField;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
 
 class Container extends PimpleContainer
 {
@@ -62,7 +63,8 @@ class Container extends PimpleContainer
 
         $this['cmf_content_type.registry.view'] = function ($container) {
             $registry = new ViewRegistry();
-            $registry->register('scalar', new ScalarView());
+            $registry->register(ScalarView::class, new ScalarView());
+            $registry->register(ImageView::class, new ImageView());
 
             return $registry;
         };
