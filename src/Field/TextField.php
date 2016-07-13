@@ -28,6 +28,11 @@ class TextField implements FieldInterface
         return TextType::class;
     }
 
+    public function getMapping(MapBuilder $builder)
+    {
+        return $builder->single('string');
+    }
+
     public function configureOptions(OptionsResolver $options)
     {
     }

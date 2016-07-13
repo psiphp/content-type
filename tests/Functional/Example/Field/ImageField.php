@@ -30,12 +30,14 @@ class ImageField implements FieldInterface
         return ImageType::class;
     }
 
-    public function getMapping(Mapper $mapper)
+    public function getMap(MapBuilder $builder)
     {
-        $mapper->map('path', 'string', [ 'length' => 255 ]);
-        $mapper->map('width', 'integer');
-        $mapper->map('height', 'integer');
-        $mapper->map('mimetype', 'string');
+        $builder->map('path', 'string', [ 'length' => 255 ]);
+        $builder->map('width', 'integer');
+        $builder->map('height', 'integer');
+        $builder->map('mimetype', 'string');
+
+        return $mapper->getMap();
     }
 
     public function configureOptions(OptionsResolver $options)

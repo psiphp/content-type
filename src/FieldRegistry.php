@@ -13,6 +13,9 @@ namespace Symfony\Cmf\Component\ContentType;
 
 use Sylius\Component\Registry\ServiceRegistry;
 
+/**
+ * Registry for all field types.
+ */
 class FieldRegistry extends ServiceRegistry
 {
     public function __construct()
