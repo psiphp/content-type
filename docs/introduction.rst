@@ -8,9 +8,52 @@ CMF Content Type Component
 What is it?
 -----------
 
-The ContentType component provides a way to group together fields in a
-semantic way, making available a form for the administration of the data and
-rendering a view for the presentation of the data on the frontend website.
+The ContentType component provides a way of mapping content to entities /
+documents and providing the infrastructure to display the content in the
+frontend and manage the content in the backend.
+
+For example, a geolocation field will require at least 3 properties to be
+mapped (long, lat, zoom), and we can imagine that it requires some javascript
+to show the map in the frontend and also in the backend.
+
+This package handles all of these concerns, namely: (Symfony) Form generation,
+Asset depenecies, rendering the frontend content and storage.
+
+In brief this will allow you to define something like:
+
+.. code-block:: yaml
+
+    cmf_content_type:
+        mapping:
+            Fqn\To\My\Entity\Page:
+                title:
+                    type: text
+                    role: title
+                body:
+                    type: markdown
+                    height: 500px
+                    role: teaser
+                image:
+                    type: image
+                    role: thumbnail
+                location:
+                    type: geolocation
+                news_list:
+                    type: filtered_list
+                    repository: my_repository_service
+                    repository_method: myMethod
+                    limit: 5
+
+And then have at your disposal:
+
+- A symfony form for this type: including complex/compound fields (geolocation
+  / news list).
+- A view object: being able to render the content and / or provide access to
+  services such as pagination.
+- Access to asset dependencies: A list of asset dependencies (CSS / JS) can be
+  generated and either mapped locally or managed by a JS package manager.
+- Property role mapping: An abiltiy to retrieve specific fields for any type of content via. a
+  "role" - e.g. get the title, image, or teaser for any type of content.
 
 Getting Started
 ---------------
@@ -73,7 +116,6 @@ Now you want to add a form to your backoffice, this as simple asking the
 .. code-block:: php
 
     <?php
-
 
     // create the content object (this is just a plain PHP object)
     // TODO: What about value objects?

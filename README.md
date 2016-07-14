@@ -6,7 +6,9 @@
 [![Latest Stable Version](https://poser.pugx.org/symfony-cmf/content-type/version.png)](https://packagist.org/packages/symfony-cmf/content-type)
 [![Total Downloads](https://poser.pugx.org/symfony-cmf/content-type/d/total.png)](https://packagist.org/packages/symfony-cmf/content-type)
 
-**WARNING**: This is an experimental package.
+**WARNING**: This is an experimental package: see the
+[introduction](https://github.com/symfony-cmf/content-type/blob/master/docs/introduction.rst)
+for more information.
 
 This component is part of the [Symfony Content Management Framework (CMF)](http://cmf.symfony.com/)
 and licensed under the [MIT License](LICENSE).
