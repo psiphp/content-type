@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\ContentType\\": "lib/"
+            "Symfony\\Cmf\\Component\\ContentType\\": "src/"
         }
     },
     "autoload-dev": {
