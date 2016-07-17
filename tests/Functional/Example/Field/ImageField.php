@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class ImageField implements FieldInterface
 {
@@ -30,18 +31,18 @@ class ImageField implements FieldInterface
         return ImageType::class;
     }
 
-    public function getMap(MapBuilder $builder)
+    public function getMap(MappingBuilder $builder)
     {
-        $builder->map('path', 'string', [ 'length' => 255 ]);
-        $builder->map('width', 'integer');
-        $builder->map('height', 'integer');
-        $builder->map('mimetype', 'string');
-
-        return $mapper->getMap();
+        return $builder->compound(Image::class)
+          ->map('path', 'string', [ 'length' => 255 ])
+          ->map('width', 'integer')
+          ->map('height', 'integer')
+          ->map('mimetype', 'string');
     }
 
     public function configureOptions(OptionsResolver $options)
     {
-        $options->setDefault('reosurce_path', '/');
+        $options->setDefault('repository', 'default');
+        $options->setDefault('path', '/');
     }
 }

@@ -3,6 +3,7 @@
 namespace Symfony\Cmf\Component\ContentType;
 
 use Symfony\Cmf\Component\ContentType\CompoundMapping;
+use Symfony\Cmf\Component\ContentType\MappingBuilderCompound;
 
 /**
  * Builder for mappings.
@@ -17,7 +18,6 @@ use Symfony\Cmf\Component\ContentType\CompoundMapping;
 class MappingBuilder
 {
     private $registry;
-    private $mappings;
 
     public function __construct(MappingRegistry $registry)
     {
@@ -29,24 +29,8 @@ class MappingBuilder
         return $this->registry->get($mappingName);
     }
 
-    public function map($propertyName, $mappingName)
+    public function compound($classFqn)
     {
-        $mapping = $this->registry->get($mappingName);
-
-        if (isset($this->mappings[$propertyName])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Property "%s" is already mapped',
-                $propertyName
-            ));
-        }
-
-        $this->mappings[$propertyName] = $mapping;
-
-        return $this;
-    }
-
-    public function getCompound()
-    {
-        return new CompoundMapping($this->mappings);
+        return new MappingBuilderCompound($this->registry, $classFqn);
     }
 }

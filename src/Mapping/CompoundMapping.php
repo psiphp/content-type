@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Cmf\Component\ContentType;
+namespace Symfony\Cmf\Component\ContentType\Mapping;
 
 use Symfony\Cmf\Component\ContentType\MappingInterface;
 
@@ -21,11 +21,18 @@ use Symfony\Cmf\Component\ContentType\MappingInterface;
  */
 class CompoundMapping implements \IteratorAggregate, MappingInterface
 {
+    private $classFqn;
     private $mappings;
 
-    public function __construct(array $mappings = [])
+    public function __construct($classFqn, array $mappings = [])
     {
         $this->mappings = $mappings;
+        $this->classFqn = $classFqn;
+    }
+
+    public function getClass()
+    {
+        return $this->classFqn;
     }
 
     public function getIterator()
