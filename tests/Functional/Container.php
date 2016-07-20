@@ -23,6 +23,16 @@ use Symfony\Cmf\Component\ContentType\ViewRegistry;
 use Symfony\Component\Form\Forms;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field\ImageField;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
+use Doctrine\DBAL\DriverManager;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
+use Doctrine\ODM\PHPCR\Configuration;
+use PHPCR\SimpleCredentials;
+use Jackalope\RepositoryFactoryDoctrineDBAL;
+use Jackalope\Transport\DoctrineDBAL\RepositorySchema;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use Symfony\Cmf\Component\ContentType\MappingRegistry;
+use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
+use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
 
 class Container extends PimpleContainer
 {
@@ -30,10 +40,13 @@ class Container extends PimpleContainer
     {
         $this['config'] = array_merge([
             'mapping' => [],
+            'db_path' => __DIR__ . '/../../cache/test.sqlite',
         ], $config);
 
         $this->loadCmfContentType();
         $this->loadSymfonyForm();
+        $this->loadDoctrineDbal();
+        $this->loadPhpcrOdm();
     }
 
     public function get($serviceId)
@@ -69,6 +82,14 @@ class Container extends PimpleContainer
             return $registry;
         };
 
+        $this['cmf_content_type.registry.mapping'] = function ($container) {
+            $registry = new MappingRegistry();
+            $registry->register('string', new StringMapping());
+            $registry->register('integer', new IntegerMapping());
+
+            return $registry;
+        };
+
         $this['cmf_content_type.form_builder'] = function ($container) {
             return new FormBuilder(
                 $container['cmf_content_type.metadata.factory'],
@@ -88,9 +109,52 @@ class Container extends PimpleContainer
 
     private function loadSymfonyForm()
     {
-        $this['symfony.form_factory'] = function ($container) {
+        $this['symfony.form_factory'] = function () {
             return Forms::createFormFactoryBuilder()
                 ->getFormFactory();
+        };
+    }
+
+    private function loadDoctrineDbal()
+    {
+        $this['dbal.connection'] = function () {
+            return DriverManager::getConnection([
+                'driver'    => 'pdo_sqlite',
+                'path' => $this['config']['db_path']
+            ]);
+        };
+    }
+
+    private function loadPhpcrOdm()
+    {
+        $this['doctrine_phpcr.document_manager'] = function ($container) {
+
+            // automatically setup the schema if the db doesn't exist yet.
+            if (!file_exists($container['config']['db_path'])) {
+                $connection = $container['dbal.connection'];
+
+                $schema = new RepositorySchema();
+                foreach ($schema->toSql($connection->getDatabasePlatform()) as $sql) {
+                    $connection->exec($sql);
+                }
+            }
+
+
+            $factory = new RepositoryFactoryDoctrineDBAL();
+            $repository = $factory->getRepository([
+                'jackalope.doctrine_dbal_connection' => $container['dbal.connection']
+            ]);
+            $session = $repository->login(new SimpleCredentials(null, null), 'default');
+
+            $driver = new ContentTypeDriver(
+                $container['cmf_content_type.registry.field'],
+                $container['cmf_content_type.registry.mapping']
+            );
+
+            $config = new Configuration();
+            $config->setMetadataDriverImpl($driver);
+
+            return DocumentManager::create($session, $config);;
         };
     }
 }

@@ -15,6 +15,7 @@ use Symfony\Cmf\Component\ContentType\FieldInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Cmf\Component\ContentType\View\ScalarView;
+use Symfony\Cmf\Component\ContentType\MappingBuilder;
 
 class TextField implements FieldInterface
 {
@@ -28,7 +29,7 @@ class TextField implements FieldInterface
         return TextType::class;
     }
 
-    public function getMapping(MapBuilder $builder)
+    public function getMapping(MappingBuilder $builder)
     {
         return $builder->single('string');
     }

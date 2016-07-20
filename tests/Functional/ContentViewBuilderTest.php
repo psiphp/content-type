@@ -11,7 +11,7 @@
 
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional;
 
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Model\Article;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Article;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class ContentViewBuilderTest extends BaseTestCase

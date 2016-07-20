@@ -18,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Symfony\Cmf\Component\ContentType\MappingBuilder;
 
 class ImageField implements FieldInterface
 {
@@ -31,7 +32,7 @@ class ImageField implements FieldInterface
         return ImageType::class;
     }
 
-    public function getMap(MappingBuilder $builder)
+    public function getMapping(MappingBuilder $builder)
     {
         return $builder->compound(Image::class)
           ->map('path', 'string', [ 'length' => 255 ])

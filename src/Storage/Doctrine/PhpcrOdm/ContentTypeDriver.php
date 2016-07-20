@@ -7,16 +7,22 @@ use Symfony\Cmf\Component\ContentType\MappingBuilderCompound;
 use Symfony\Cmf\Component\ContentType\MappingInterface;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Symfony\Cmf\Component\ContentType\MappingRegistry;
+use Symfony\Cmf\Component\ContentType\MappingBuilder;
+use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
 
 class ContentTypeDriver implements MappingDriver
 {
     private $registry;
     private $mappings;
     private $initialized = false;
+    private $mappingRegistry;
 
-    public function __construct(FieldRegistry $registry)
+    public function __construct(FieldRegistry $registry, MappingRegistry $mappingRegistry)
     {
         $this->registry = $registry;
+        $this->mappingRegistry = $mappingRegistry;
     }
 
     private function init()
@@ -26,14 +32,18 @@ class ContentTypeDriver implements MappingDriver
         }
 
         foreach ($this->registry->all() as $fieldName => $field) {
-            $mapping = $field->getMapping();
+            $mappingBuilder = new MappingBuilder($this->mappingRegistry);
+            $mapping = $field->getMapping($mappingBuilder);
+
+
             // do not map scalar fields.
             if ($mapping instanceof MappingInterface) {
                 continue;
             }
 
             if ($mapping instanceof MappingBuilderCompound) {
-                $this->mappings[$mapping->getClass()] = $mapping->getCompound();
+                $compound = $mapping->getCompound();
+                $this->mappings[$compound->getClass()] = $compound;
                 continue;
             }
 
@@ -64,11 +74,21 @@ class ContentTypeDriver implements MappingDriver
 
         $mapping = $this->mappings[$className];
 
+        $metadata->mapIde
+
         foreach ($mapping as $fieldName => $fieldMapping) {
             if ($fieldMapping instanceof StringMapping) {
                 $metadata->mapField([
                     'fieldName' => $fieldName,
                     'type' => 'string',
+                ]);
+                continue;
+            }
+
+            if ($fieldMapping instanceof IntegerMapping) {
+                $metadata->mapField([
+                    'fieldName' => $fieldName,
+                    'type' => 'integer',
                 ]);
                 continue;
             }
