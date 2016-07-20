@@ -4,6 +4,7 @@ namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model;
 
 class Image
 {
+    public $id;
     public $path;
     public $height;
     public $width;

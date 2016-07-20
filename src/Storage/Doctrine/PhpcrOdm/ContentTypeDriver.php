@@ -74,7 +74,13 @@ class ContentTypeDriver implements MappingDriver
 
         $mapping = $this->mappings[$className];
 
-        $metadata->mapIde
+        // assume there is an ID field.
+        // TODO: we should implement an interface if we want this to be a
+        //       prerequisite.
+        $metadata->mapId([
+            'fieldName' => 'id',
+            'id' => true,
+        ]);
 
         foreach ($mapping as $fieldName => $fieldMapping) {
             if ($fieldMapping instanceof StringMapping) {
@@ -88,7 +94,7 @@ class ContentTypeDriver implements MappingDriver
             if ($fieldMapping instanceof IntegerMapping) {
                 $metadata->mapField([
                     'fieldName' => $fieldName,
-                    'type' => 'integer',
+                    'type' => 'long',
                 ]);
                 continue;
             }

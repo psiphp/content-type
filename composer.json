@@ -16,8 +16,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5.3",
-        "pimple/pimple": "^3.0",
-        "doctrine/phpcr-odm": "^1.3"
+        "doctrine/phpcr-odm": "dev-register_system_node_types",
+        "pimple/pimple": "^3.0"
     },
     "autoload": {
         "psr-4": {

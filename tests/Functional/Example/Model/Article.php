@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Model;
+namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model;
 
 class Article
 {

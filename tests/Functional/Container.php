@@ -33,6 +33,10 @@ use Doctrine\ODM\PHPCR\DocumentManager;
 use Symfony\Cmf\Component\ContentType\MappingRegistry;
 use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
 use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ODM\PHPCR\Mapping\Driver\AnnotationDriver;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
+use Doctrine\ODM\PHPCR\NodeTypeRegistrator;
 
 class Container extends PimpleContainer
 {
@@ -129,6 +133,8 @@ class Container extends PimpleContainer
     {
         $this['doctrine_phpcr.document_manager'] = function ($container) {
 
+            $registerNodeTypes = false;
+
             // automatically setup the schema if the db doesn't exist yet.
             if (!file_exists($container['config']['db_path'])) {
                 $connection = $container['dbal.connection'];
@@ -137,22 +143,40 @@ class Container extends PimpleContainer
                 foreach ($schema->toSql($connection->getDatabasePlatform()) as $sql) {
                     $connection->exec($sql);
                 }
+
+                $registerNodeTypes = true;
             }
 
-
+            // register the phpcr session
             $factory = new RepositoryFactoryDoctrineDBAL();
             $repository = $factory->getRepository([
                 'jackalope.doctrine_dbal_connection' => $container['dbal.connection']
             ]);
             $session = $repository->login(new SimpleCredentials(null, null), 'default');
 
-            $driver = new ContentTypeDriver(
+            if ($registerNodeTypes) {
+                $typeRegistrator = new NodeTypeRegistrator();
+                $typeRegistrator->registerNodeTypes($session);
+            }
+
+            // content type driver
+            $contentTypeDriver = new ContentTypeDriver(
                 $container['cmf_content_type.registry.field'],
                 $container['cmf_content_type.registry.mapping']
             );
 
+            // annotation driver
+            $reader = new AnnotationReader();
+            $annotationDriver = new AnnotationDriver($reader, [
+                __DIR__ . '/../../vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Document',
+            ]);
+            $chain = new MappingDriverChain();
+            $chain->addDriver($contentTypeDriver, 'Symfony');
+            $chain->addDriver($annotationDriver, 'Doctrine');
+
+
             $config = new Configuration();
-            $config->setMetadataDriverImpl($driver);
+            $config->setMetadataDriverImpl($chain);
 
             return DocumentManager::create($session, $config);;
         };
