@@ -23,17 +23,14 @@ class ContentTypeDriver implements MappingDriver
     private $fieldMappings = [];
     private $initialized = false;
     private $mappingRegistry;
-    private $metadataFactory;
 
     public function __construct(
         FieldRegistry $registry,
-        MappingRegistry $mappingRegistry,
-        MetadataFactory $metadataFactory
+        MappingRegistry $mappingRegistry
     )
     {
         $this->registry = $registry;
         $this->mappingRegistry = $mappingRegistry;
-        $this->metadataFactory = $metadataFactory;
     }
 
     private function init()
