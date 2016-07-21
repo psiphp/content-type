@@ -4,6 +4,7 @@ namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Storage\Doctrine\Ph
 
 use Symfony\Cmf\Component\ContentType\Tests\Functional\BaseTestCase;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
 
 class ContentTypeDriverTest extends PhpcrOdmTestCase
 {
@@ -13,6 +14,16 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
     {
         $container = $this->getContainer([
             'mapping' => [
+                Article::class => [
+                    'properties' => [
+                        'title' => [
+                            'type' => 'text',
+                        ],
+                        'image' => [
+                            'type' => 'image',
+                        ],
+                    ],
+                ]
             ]
         ]);
         $this->documentManager = $container->get('doctrine_phpcr.document_manager');
@@ -22,7 +33,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
     /**
      * It should persist a mapped content type document.
      */
-    public function testMapping()
+    public function testFieldMapping()
     {
         $image = new Image();
         $image->id = '/test/image';
@@ -32,6 +43,24 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $image->mimetype = 'image/jpeg';
 
         $this->documentManager->persist($image);
+        $this->documentManager->flush();
+    }
+
+    /**
+     * The user document should be persisted with the content-type data.
+     */
+    public function testUserMapping()
+    {
+        $article = new Article();
+        $article->id = '/test/article';
+        $article->title = 'Hello';
+        $article->image = new Image();
+        $article->image->path = '/path/to/image';
+        $article->image->width = 100;
+        $article->image->height = 200;
+        $article->image->mimeType = 'image/jpeg';
+
+        $this->documentManager->persist($article);
         $this->documentManager->flush();
     }
 }

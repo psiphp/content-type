@@ -14,8 +14,9 @@ namespace Symfony\Cmf\Component\ContentType\Metadata\Driver;
 use Metadata\Driver\DriverInterface;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
+use Metadata\Driver\AdvancedDriverInterface;
 
-class ArrayDriver implements DriverInterface
+class ArrayDriver implements AdvancedDriverInterface
 {
     /**
      * @var array
@@ -31,9 +32,7 @@ class ArrayDriver implements DriverInterface
     }
 
     /**
-     * @param \ReflectionClass $class
-     *
-     * @return \Metadata\ClassMetadata
+     * {@inheritdoc}
      */
     public function loadMetadataForClass(\ReflectionClass $class)
     {
@@ -66,5 +65,13 @@ class ArrayDriver implements DriverInterface
         }
 
         return $classMetadata;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllClassNames()
+    {
+        return array_keys($this->config);
     }
 }

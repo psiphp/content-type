@@ -11,18 +11,29 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\MappingRegistry;
 use Symfony\Cmf\Component\ContentType\MappingBuilder;
 use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
+use Metadata\MetadataFactory;
+use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
 
 class ContentTypeDriver implements MappingDriver
 {
+    const CONTENTTYPE_PREFIX = 'cmfct';
+
     private $registry;
-    private $mappings;
+    private $userMappings = [];
+    private $fieldMappings = [];
     private $initialized = false;
     private $mappingRegistry;
+    private $metadataFactory;
 
-    public function __construct(FieldRegistry $registry, MappingRegistry $mappingRegistry)
+    public function __construct(
+        FieldRegistry $registry,
+        MappingRegistry $mappingRegistry,
+        MetadataFactory $metadataFactory
+    )
     {
         $this->registry = $registry;
         $this->mappingRegistry = $mappingRegistry;
+        $this->metadataFactory = $metadataFactory;
     }
 
     private function init()
@@ -31,6 +42,17 @@ class ContentTypeDriver implements MappingDriver
             return;
         }
 
+        $this->initFieldModels();
+        $this->initUserModels();
+
+        $this->initialized = true;
+    }
+
+    /**
+     * Initialize mappings for the field models.
+     */
+    private function initFieldModels()
+    {
         foreach ($this->registry->all() as $fieldName => $field) {
             $mappingBuilder = new MappingBuilder($this->mappingRegistry);
             $mapping = $field->getMapping($mappingBuilder);
@@ -43,7 +65,7 @@ class ContentTypeDriver implements MappingDriver
 
             if ($mapping instanceof MappingBuilderCompound) {
                 $compound = $mapping->getCompound();
-                $this->mappings[$compound->getClass()] = $compound;
+                $this->fieldMappings[$compound->getClass()] = $compound;
                 continue;
             }
 
@@ -52,8 +74,13 @@ class ContentTypeDriver implements MappingDriver
                 $fieldName, is_object($field) ? get_class($field) : gettype($field)
             ));
         }
+    }
 
-        $this->initialized = true;
+    private function initUserModels()
+    {
+        foreach ($this->metadataFactory->getAllClassNames() as $className) {
+            $this->userMappings[$className] = $this->metadataFactory->getMetadataForClass($className);
+        }
     }
 
     /**
@@ -68,11 +95,25 @@ class ContentTypeDriver implements MappingDriver
     {
         $this->init();
 
-        if (!isset($this->mappings[$className])) {
+        if (isset($this->fieldMappings[$className])) {
+            $this->mapFieldModel($metadata);
             return;
         }
 
-        $mapping = $this->mappings[$className];
+        if (isset($this->userMappings[$className])) {
+            $this->mapUserModel($metadata);
+            return;
+        }
+    }
+
+    /**
+     * Map metadata for a content type model (e.g. Image).
+     *
+     * @param ClassMetadata $metadata
+     */
+    private function mapFieldModel(ClassMetadata $metadata)
+    {
+        $mapping = $this->fieldMappings[$metadata->getName()];
 
         // assume there is an ID field.
         // TODO: we should implement an interface if we want this to be a
@@ -83,27 +124,61 @@ class ContentTypeDriver implements MappingDriver
         ]);
 
         foreach ($mapping as $fieldName => $fieldMapping) {
-            if ($fieldMapping instanceof StringMapping) {
-                $metadata->mapField([
-                    'fieldName' => $fieldName,
-                    'type' => 'string',
-                ]);
-                continue;
-            }
-
-            if ($fieldMapping instanceof IntegerMapping) {
-                $metadata->mapField([
-                    'fieldName' => $fieldName,
-                    'type' => 'long',
-                ]);
-                continue;
-            }
-
-            throw new \RuntimeException(sprintf(
-                'Do not know how to map field of type "%s"',
-                get_class($fieldMapping)
-            ));
+            $this->applyMapping($fieldName, $fieldMapping, $metadata);
         }
+    }
+
+    /**
+     * Map metadata for a user defined model which has content-type mappings.
+     *
+     * @param ClassMetadata $metadata
+     */
+    private function mapUserModel(ClassMetadata $metadata)
+    {
+        $ctMetadata = $this->userMappings[$metadata->getName()];
+
+        foreach ($ctMetadata->getProperties() as $propertyMetadata) {
+            $field = $this->fieldRegistry->get($propertyMetadata->getType());
+            $mapping = $this->mappingRegistry->get($field->getMapping());
+            $this->applyMapping($propertyMetadata->getName(), $mapping, $metadata);
+        }
+    }
+
+    private function applyMapping($fieldName, $fieldMapping, $metadata)
+    {
+        if ($fieldMapping instanceof CompoundMapping) {
+            $metadata->mapChild([
+                'fieldName' => $fieldName,
+                'nodeName' => sprintf(
+                    '%s:%s',
+                    self::CONTENTTYPE_PREFIX,
+                    $fieldName
+                )
+            ]);
+        }
+
+        if ($fieldMapping instanceof StringMapping) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'string',
+            ]);
+
+            return;
+        }
+
+        if ($fieldMapping instanceof IntegerMapping) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'long',
+            ]);
+
+            return;
+        }
+
+        throw new \RuntimeException(sprintf(
+            'Do not know how to map field of type "%s"',
+            get_class($fieldMapping)
+        ));
     }
 
     /**
@@ -114,6 +189,7 @@ class ContentTypeDriver implements MappingDriver
     public function getAllClassNames()
     {
         $this->init();
+
         return array_keys($this->mappings);
     }
 
@@ -128,6 +204,7 @@ class ContentTypeDriver implements MappingDriver
     public function isTransient($className)
     {
         $this->init();
+
         return isset($this->mappings[$className]);
     }
 }

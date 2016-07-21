@@ -162,15 +162,18 @@ class Container extends PimpleContainer
             // content type driver
             $contentTypeDriver = new ContentTypeDriver(
                 $container['cmf_content_type.registry.field'],
-                $container['cmf_content_type.registry.mapping']
+                $container['cmf_content_type.registry.mapping'],
+                $container['cmf_content_type.metadata.factory']
             );
 
             // annotation driver
             $reader = new AnnotationReader();
             $annotationDriver = new AnnotationDriver($reader, [
                 __DIR__ . '/../../vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Document',
+                __DIR__ . '/Example/Storage/Doctrine/PhpcrOdm',
             ]);
             $chain = new MappingDriverChain();
+            $chain->addDriver($annotationDriver, 'Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm');
             $chain->addDriver($contentTypeDriver, 'Symfony');
             $chain->addDriver($annotationDriver, 'Doctrine');
 
