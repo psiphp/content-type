@@ -36,7 +36,10 @@ use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\PHPCR\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\MetadataSubscriber;
+use Symfony\Cmf\Component\ContentType\MappingResolver;
 use Doctrine\ODM\PHPCR\NodeTypeRegistrator;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
 
 class Container extends PimpleContainer
 {
@@ -109,6 +112,12 @@ class Container extends PimpleContainer
                 $container['cmf_content_type.registry.view']
             );
         };
+
+        $this['cmf_content_type.mapping_resolver'] = function ($container) {
+            return new MappingResolver(
+                $container['cmf_content_type.registry.mapping']
+            );
+        };
     }
 
     private function loadSymfonyForm()
@@ -157,13 +166,15 @@ class Container extends PimpleContainer
             if ($registerNodeTypes) {
                 $typeRegistrator = new NodeTypeRegistrator();
                 $typeRegistrator->registerNodeTypes($session);
+                $ctTypeRegistrator = new CtNodeTypeRegistrator();
+                $ctTypeRegistrator->registerNodeTypes($session);
             }
 
             // content type driver
             $contentTypeDriver = new ContentTypeDriver(
                 $container['cmf_content_type.registry.field'],
                 $container['cmf_content_type.registry.mapping'],
-                $container['cmf_content_type.metadata.factory']
+                $container['cmf_content_type.mapping_resolver']
             );
 
             // annotation driver
@@ -181,7 +192,14 @@ class Container extends PimpleContainer
             $config = new Configuration();
             $config->setMetadataDriverImpl($chain);
 
-            return DocumentManager::create($session, $config);;
+            $manager = DocumentManager::create($session, $config);;
+            $manager->getEventManager()->addEventSubscriber(new MetadataSubscriber(
+                $container['cmf_content_type.metadata.factory'],
+                $container['cmf_content_type.registry.field'],
+                $container['cmf_content_type.mapping_resolver']
+            ));
+
+            return $manager;
         };
     }
 }

@@ -54,13 +54,24 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $article = new Article();
         $article->id = '/test/article';
         $article->title = 'Hello';
+
         $article->image = new Image();
         $article->image->path = '/path/to/image';
         $article->image->width = 100;
         $article->image->height = 200;
-        $article->image->mimeType = 'image/jpeg';
+        $article->image->mimetype = 'image/jpeg';
 
         $this->documentManager->persist($article);
         $this->documentManager->flush();
+
+        $this->documentManager->clear();
+
+        $article = $this->documentManager->find(null, '/test/article');
+
+        $this->assertInstanceOf(Article::class, $article);
+        $this->assertEquals('Hello', $article->title);
+        $this->assertInstanceOf(Image::class, $article->image);
+        $this->assertEquals(100, $article->image->width);
+        $this->assertEquals('image/jpeg', $article->image->mimetype);
     }
 }

@@ -11,26 +11,29 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\MappingRegistry;
 use Symfony\Cmf\Component\ContentType\MappingBuilder;
 use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
-use Metadata\MetadataFactory;
 use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
+use Symfony\Cmf\Component\ContentType\MappingResolver;
 
 class ContentTypeDriver implements MappingDriver
 {
-    const CONTENTTYPE_PREFIX = 'cmfct';
-
     private $registry;
-    private $userMappings = [];
     private $fieldMappings = [];
     private $initialized = false;
     private $mappingRegistry;
+    private $mappingResolver;
+    private $mapper;
 
     public function __construct(
         FieldRegistry $registry,
-        MappingRegistry $mappingRegistry
+        MappingRegistry $mappingRegistry,
+        MappingResolver $resolver
     )
     {
         $this->registry = $registry;
         $this->mappingRegistry = $mappingRegistry;
+        $this->mapper = new FieldMapper();
+        $this->mappingResolver = $resolver;
     }
 
     private function init()
@@ -39,45 +42,26 @@ class ContentTypeDriver implements MappingDriver
             return;
         }
 
-        $this->initFieldModels();
-        $this->initUserModels();
+        foreach ($this->registry->all() as $fieldName => $field) {
+
+            try {
+                $mapping = $this->mappingResolver->resolveMapping($field);
+            } catch (\Exception $e) {
+                throw new \RuntimeException(sprintf(
+                    'Could not map field type "%s"',
+                    $fieldName
+                ), null, $e);
+            }
+
+            // scalar fields will be mapped by the metadata subscriber.
+            if (!$mapping instanceof CompoundMapping) {
+                continue;
+            }
+
+            $this->fieldMappings[$mapping->getClass()] = $mapping;
+        }
 
         $this->initialized = true;
-    }
-
-    /**
-     * Initialize mappings for the field models.
-     */
-    private function initFieldModels()
-    {
-        foreach ($this->registry->all() as $fieldName => $field) {
-            $mappingBuilder = new MappingBuilder($this->mappingRegistry);
-            $mapping = $field->getMapping($mappingBuilder);
-
-
-            // do not map scalar fields.
-            if ($mapping instanceof MappingInterface) {
-                continue;
-            }
-
-            if ($mapping instanceof MappingBuilderCompound) {
-                $compound = $mapping->getCompound();
-                $this->fieldMappings[$compound->getClass()] = $compound;
-                continue;
-            }
-
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid mapping for field "%s", must be a MappingInterface or a MappingBuilderCompound, got "%s"',
-                $fieldName, is_object($field) ? get_class($field) : gettype($field)
-            ));
-        }
-    }
-
-    private function initUserModels()
-    {
-        foreach ($this->metadataFactory->getAllClassNames() as $className) {
-            $this->userMappings[$className] = $this->metadataFactory->getMetadataForClass($className);
-        }
     }
 
     /**
@@ -92,24 +76,10 @@ class ContentTypeDriver implements MappingDriver
     {
         $this->init();
 
-        if (isset($this->fieldMappings[$className])) {
-            $this->mapFieldModel($metadata);
+        if (!isset($this->fieldMappings[$className])) {
             return;
         }
 
-        if (isset($this->userMappings[$className])) {
-            $this->mapUserModel($metadata);
-            return;
-        }
-    }
-
-    /**
-     * Map metadata for a content type model (e.g. Image).
-     *
-     * @param ClassMetadata $metadata
-     */
-    private function mapFieldModel(ClassMetadata $metadata)
-    {
         $mapping = $this->fieldMappings[$metadata->getName()];
 
         // assume there is an ID field.
@@ -121,61 +91,8 @@ class ContentTypeDriver implements MappingDriver
         ]);
 
         foreach ($mapping as $fieldName => $fieldMapping) {
-            $this->applyMapping($fieldName, $fieldMapping, $metadata);
+            $this->mapper->__invoke($fieldName, $fieldMapping, $metadata);
         }
-    }
-
-    /**
-     * Map metadata for a user defined model which has content-type mappings.
-     *
-     * @param ClassMetadata $metadata
-     */
-    private function mapUserModel(ClassMetadata $metadata)
-    {
-        $ctMetadata = $this->userMappings[$metadata->getName()];
-
-        foreach ($ctMetadata->getProperties() as $propertyMetadata) {
-            $field = $this->fieldRegistry->get($propertyMetadata->getType());
-            $mapping = $this->mappingRegistry->get($field->getMapping());
-            $this->applyMapping($propertyMetadata->getName(), $mapping, $metadata);
-        }
-    }
-
-    private function applyMapping($fieldName, $fieldMapping, $metadata)
-    {
-        if ($fieldMapping instanceof CompoundMapping) {
-            $metadata->mapChild([
-                'fieldName' => $fieldName,
-                'nodeName' => sprintf(
-                    '%s:%s',
-                    self::CONTENTTYPE_PREFIX,
-                    $fieldName
-                )
-            ]);
-        }
-
-        if ($fieldMapping instanceof StringMapping) {
-            $metadata->mapField([
-                'fieldName' => $fieldName,
-                'type' => 'string',
-            ]);
-
-            return;
-        }
-
-        if ($fieldMapping instanceof IntegerMapping) {
-            $metadata->mapField([
-                'fieldName' => $fieldName,
-                'type' => 'long',
-            ]);
-
-            return;
-        }
-
-        throw new \RuntimeException(sprintf(
-            'Do not know how to map field of type "%s"',
-            get_class($fieldMapping)
-        ));
     }
 
     /**

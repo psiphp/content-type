@@ -2,8 +2,14 @@
 
 namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
+use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
+use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
+use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
+
 class FieldMapper
 {
+    const CONTENTTYPE_PREFIX = 'cmfct';
+
     public function __invoke($fieldName, $fieldMapping, $metadata)
     {
         if ($fieldMapping instanceof CompoundMapping) {
@@ -15,6 +21,7 @@ class FieldMapper
                     $fieldName
                 )
             ]);
+            return;
         }
 
         if ($fieldMapping instanceof StringMapping) {
