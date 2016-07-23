@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType\Tests\Unit;
 
-use Symfony\Cmf\Component\ContentType\MappingRegistry;
-use Symfony\Cmf\Component\ContentType\MappingInterface;
 use Symfony\Cmf\Component\ContentType\MappingBuilder;
 use Symfony\Cmf\Component\ContentType\MappingBuilderCompound;
+use Symfony\Cmf\Component\ContentType\MappingInterface;
+use Symfony\Cmf\Component\ContentType\MappingRegistry;
 
 class MappingBuilderTest extends \PHPUnit_Framework_TestCase
 {

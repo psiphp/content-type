@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ODM\PHPCR\Event;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Metadata\MetadataFactory;
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
+use Doctrine\ODM\PHPCR\Event;
+use Metadata\MetadataFactory;
+use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\MappingResolver;
 
 class MetadataSubscriber implements EventSubscriber
@@ -19,8 +28,7 @@ class MetadataSubscriber implements EventSubscriber
         MetadataFactory $metadataFactory,
         FieldRegistry $fieldRegistry,
         MappingResolver $mappingResolver
-    )
-    {
+    ) {
         $this->metadataFactory = $metadataFactory;
         $this->fieldRegistry = $fieldRegistry;
         $this->mappingResolver = $mappingResolver;
@@ -29,7 +37,7 @@ class MetadataSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            Event::loadClassMetadata
+            Event::loadClassMetadata,
         ];
     }
 

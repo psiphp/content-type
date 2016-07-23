@@ -12,10 +12,10 @@
 namespace Symfony\Cmf\Component\ContentType\Field;
 
 use Symfony\Cmf\Component\ContentType\FieldInterface;
+use Symfony\Cmf\Component\ContentType\MappingBuilder;
+use Symfony\Cmf\Component\ContentType\View\ScalarView;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Cmf\Component\ContentType\View\ScalarView;
-use Symfony\Cmf\Component\ContentType\MappingBuilder;
 
 class TextField implements FieldInterface
 {

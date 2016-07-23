@@ -11,35 +11,35 @@
 
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ODM\PHPCR\Configuration;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\ODM\PHPCR\Mapping\Driver\AnnotationDriver;
+use Doctrine\ODM\PHPCR\NodeTypeRegistrator;
+use Jackalope\RepositoryFactoryDoctrineDBAL;
+use Jackalope\Transport\DoctrineDBAL\RepositorySchema;
 use Metadata\MetadataFactory;
+use PHPCR\SimpleCredentials;
 use Pimple\Container as PimpleContainer;
 use Symfony\Cmf\Component\ContentType\ContentViewBuilder;
 use Symfony\Cmf\Component\ContentType\Field\TextField;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Form\FormBuilder;
+use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
+use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
+use Symfony\Cmf\Component\ContentType\MappingRegistry;
+use Symfony\Cmf\Component\ContentType\MappingResolver;
 use Symfony\Cmf\Component\ContentType\Metadata\Driver\ArrayDriver;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\MetadataSubscriber;
+use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field\ImageField;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Symfony\Cmf\Component\ContentType\View\ScalarView;
 use Symfony\Cmf\Component\ContentType\ViewRegistry;
 use Symfony\Component\Form\Forms;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field\ImageField;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Doctrine\DBAL\DriverManager;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
-use Doctrine\ODM\PHPCR\Configuration;
-use PHPCR\SimpleCredentials;
-use Jackalope\RepositoryFactoryDoctrineDBAL;
-use Jackalope\Transport\DoctrineDBAL\RepositorySchema;
-use Doctrine\ODM\PHPCR\DocumentManager;
-use Symfony\Cmf\Component\ContentType\MappingRegistry;
-use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
-use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\ODM\PHPCR\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\MetadataSubscriber;
-use Symfony\Cmf\Component\ContentType\MappingResolver;
-use Doctrine\ODM\PHPCR\NodeTypeRegistrator;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
 
 class Container extends PimpleContainer
 {
@@ -133,7 +133,7 @@ class Container extends PimpleContainer
         $this['dbal.connection'] = function () {
             return DriverManager::getConnection([
                 'driver'    => 'pdo_sqlite',
-                'path' => $this['config']['db_path']
+                'path' => $this['config']['db_path'],
             ]);
         };
     }
@@ -141,11 +141,14 @@ class Container extends PimpleContainer
     private function loadPhpcrOdm()
     {
         $this['doctrine_phpcr.document_manager'] = function ($container) {
-
             $registerNodeTypes = false;
 
             // automatically setup the schema if the db doesn't exist yet.
             if (!file_exists($container['config']['db_path'])) {
+                if (!file_exists($dir = dirname($container['config']['db_path']))) {
+                    mkdir($dir);
+                }
+
                 $connection = $container['dbal.connection'];
 
                 $schema = new RepositorySchema();
@@ -159,7 +162,7 @@ class Container extends PimpleContainer
             // register the phpcr session
             $factory = new RepositoryFactoryDoctrineDBAL();
             $repository = $factory->getRepository([
-                'jackalope.doctrine_dbal_connection' => $container['dbal.connection']
+                'jackalope.doctrine_dbal_connection' => $container['dbal.connection'],
             ]);
             $session = $repository->login(new SimpleCredentials(null, null), 'default');
 
@@ -192,7 +195,7 @@ class Container extends PimpleContainer
             $config = new Configuration();
             $config->setMetadataDriverImpl($chain);
 
-            $manager = DocumentManager::create($session, $config);;
+            $manager = DocumentManager::create($session, $config);
             $manager->getEventManager()->addEventSubscriber(new MetadataSubscriber(
                 $container['cmf_content_type.metadata.factory'],
                 $container['cmf_content_type.registry.field'],

@@ -26,7 +26,7 @@ class ContentViewBuilderTest extends BaseTestCase
                             'type' => 'text',
                         ],
                         'image' => [
-                            'type' => 'image'
+                            'type' => 'image',
                         ],
                     ],
                 ],

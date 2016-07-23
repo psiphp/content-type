@@ -12,9 +12,6 @@
 namespace Symfony\Cmf\Component\ContentType;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Cmf\Component\ContentType\MapBuilder;
-use Symfony\Cmf\Component\ContentType\ViewInterface;
-use Symfony\Cmf\Component\ContentType\MappingBuilder;
 
 /**
  * Field type.

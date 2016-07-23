@@ -1,8 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
-use Symfony\Cmf\Component\ContentType\Tests\Functional\BaseTestCase;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
 
@@ -23,8 +31,8 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
                             'type' => 'image',
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
         $this->documentManager = $container->get('doctrine_phpcr.document_manager');
         $this->initPhpcr($this->documentManager);

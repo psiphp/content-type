@@ -12,13 +12,11 @@
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field;
 
 use Symfony\Cmf\Component\ContentType\FieldInterface;
-use Symfony\Cmf\Component\ContentType\View\ScalarView;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Symfony\Cmf\Component\ContentType\MappingBuilder;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageField implements FieldInterface
 {
@@ -35,7 +33,7 @@ class ImageField implements FieldInterface
     public function getMapping(MappingBuilder $builder)
     {
         return $builder->compound(Image::class)
-          ->map('path', 'string', [ 'length' => 255 ])
+          ->map('path', 'string', ['length' => 255])
           ->map('width', 'integer')
           ->map('height', 'integer')
           ->map('mimetype', 'string');

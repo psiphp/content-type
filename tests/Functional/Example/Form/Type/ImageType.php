@@ -1,23 +1,22 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of the Symfony CMF package.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * (c) 2011-2016 Symfony CMF
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+
 namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type;
 
+use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class ImageType extends AbstractType
 {

@@ -16,7 +16,6 @@ use Metadata\NullMetadata;
 use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\CallbackTransformer;
 
 class FormBuilder
 {

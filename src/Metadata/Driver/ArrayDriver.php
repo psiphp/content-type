@@ -11,10 +11,9 @@
 
 namespace Symfony\Cmf\Component\ContentType\Metadata\Driver;
 
-use Metadata\Driver\DriverInterface;
+use Metadata\Driver\AdvancedDriverInterface;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
-use Metadata\Driver\AdvancedDriverInterface;
 
 class ArrayDriver implements AdvancedDriverInterface
 {

@@ -1,18 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Symfony\Cmf\Component\ContentType\MappingBuilderCompound;
-use Symfony\Cmf\Component\ContentType\MappingInterface;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\MappingRegistry;
-use Symfony\Cmf\Component\ContentType\MappingBuilder;
-use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Symfony\Cmf\Component\ContentType\FieldRegistry;
 use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
+use Symfony\Cmf\Component\ContentType\MappingRegistry;
 use Symfony\Cmf\Component\ContentType\MappingResolver;
 
 class ContentTypeDriver implements MappingDriver
@@ -28,8 +31,7 @@ class ContentTypeDriver implements MappingDriver
         FieldRegistry $registry,
         MappingRegistry $mappingRegistry,
         MappingResolver $resolver
-    )
-    {
+    ) {
         $this->registry = $registry;
         $this->mappingRegistry = $mappingRegistry;
         $this->mapper = new FieldMapper();
@@ -43,7 +45,6 @@ class ContentTypeDriver implements MappingDriver
         }
 
         foreach ($this->registry->all() as $fieldName => $field) {
-
             try {
                 $mapping = $this->mappingResolver->resolveMapping($field);
             } catch (\Exception $e) {
@@ -113,7 +114,7 @@ class ContentTypeDriver implements MappingDriver
      *
      * @param string $className
      *
-     * @return boolean
+     * @return bool
      */
     public function isTransient($className)
     {
