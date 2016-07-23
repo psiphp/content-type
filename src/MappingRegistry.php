@@ -14,15 +14,15 @@ namespace Symfony\Cmf\Component\ContentType;
 use Sylius\Component\Registry\ServiceRegistry;
 
 /**
- * Registry for all field types.
+ * Registry for mapping objects.
  */
-class FieldRegistry extends ServiceRegistry
+class MappingRegistry extends ServiceRegistry
 {
     public function __construct()
     {
         parent::__construct(
-            FieldInterface::class,
-            'content field'
+            MappingInterface::class,
+            'mapping'
         );
     }
 }
