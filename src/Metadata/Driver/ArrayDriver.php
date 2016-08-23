@@ -40,11 +40,10 @@ class ArrayDriver implements AdvancedDriverInterface
         }
 
         $config = array_merge([
-            'driver' => null,
             'fields' => [],
         ], $this->config[$class->getName()]);
 
-        $classMetadata = new ClassMetadata($class->getName(), $config['driver']);
+        $classMetadata = new ClassMetadata($class->getName());
 
         foreach ($config['properties'] as $fieldName => $fieldConfig) {
             $fieldConfig = array_merge([

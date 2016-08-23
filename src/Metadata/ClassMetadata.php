@@ -15,24 +15,15 @@ use Metadata\MergeableClassMetadata;
 
 class ClassMetadata extends MergeableClassMetadata
 {
-    private $driver;
-
     public function __construct(
-        $name,
-        $driver
+        $name
     ) {
         parent::__construct($name);
-        $this->driver = $driver;
     }
 
     public function getName()
     {
         return $this->name;
-    }
-
-    public function getDriver()
-    {
-        return $this->driver;
     }
 
     public function getPropertyMetadata()

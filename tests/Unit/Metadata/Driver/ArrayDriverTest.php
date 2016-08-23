@@ -36,7 +36,6 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
         $reflection = new \ReflectionClass(TestContent::class);
         $driver = $this->createDriver([
             TestContent::class => [
-                'driver' => 'doctrine_orm',
                 'properties' => [
                     'title' => [
                         'type' => 'Class\Fqn\TextField',
@@ -54,7 +53,6 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
         $classMetadata = $driver->loadMetadataForClass($reflection);
         $this->assertInstanceOf(ClassMetadata::class, $classMetadata);
         $this->assertEquals(TestContent::class, $classMetadata->getName());
-        $this->assertEquals('doctrine_orm', $classMetadata->getDriver());
 
         $properties = $classMetadata->getPropertyMetadata();
         $this->assertCount(2, $properties);

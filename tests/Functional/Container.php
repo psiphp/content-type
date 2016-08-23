@@ -20,6 +20,7 @@ use Doctrine\ODM\PHPCR\Mapping\Driver\AnnotationDriver;
 use Doctrine\ODM\PHPCR\NodeTypeRegistrator;
 use Jackalope\RepositoryFactoryDoctrineDBAL;
 use Jackalope\Transport\DoctrineDBAL\RepositorySchema;
+use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
 use PHPCR\SimpleCredentials;
 use Pimple\Container as PimpleContainer;
@@ -32,6 +33,7 @@ use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
 use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
 use Symfony\Cmf\Component\ContentType\MappingRegistry;
 use Symfony\Cmf\Component\ContentType\MappingResolver;
+use Symfony\Cmf\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Symfony\Cmf\Component\ContentType\Metadata\Driver\ArrayDriver;
 use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
 use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
@@ -54,6 +56,7 @@ class Container extends PimpleContainer
             'db_path' => __DIR__ . '/../../cache/test.sqlite',
         ], $config);
 
+        $this->loadGeneral();
         $this->loadCmfContentType();
         $this->loadSymfonyForm();
         $this->loadDoctrineDbal();
@@ -65,15 +68,31 @@ class Container extends PimpleContainer
         return $this[$serviceId];
     }
 
+    private function loadGeneral()
+    {
+        $this['annotation_reader'] = function () {
+            return new AnnotationReader();
+        };
+    }
+
     private function loadCmfContentType()
     {
         $this['cmf_content_type.metadata.driver.array'] = function ($container) {
             return new ArrayDriver($container['config']['mapping']);
         };
+        $this['cmf_content_type.metadata.driver.annotation'] = function ($container) {
+            return new CTAnnotationDriver($container['annotation_reader']);
+        };
+        $this['cmf_content_type.metadata.driver.chain'] = function ($container) {
+            return new DriverChain([
+                $container['cmf_content_type.metadata.driver.array'],
+                $container['cmf_content_type.metadata.driver.annotation'],
+            ]);
+        };
 
         $this['cmf_content_type.metadata.factory'] = function ($container) {
             return new MetadataFactory(
-                $container['cmf_content_type.metadata.driver.array']
+                $container['cmf_content_type.metadata.driver.chain']
             );
         };
 
@@ -193,8 +212,7 @@ class Container extends PimpleContainer
             );
 
             // annotation driver
-            $reader = new AnnotationReader();
-            $annotationDriver = new AnnotationDriver($reader, [
+            $annotationDriver = new AnnotationDriver($container['annotation_reader'], [
                 __DIR__ . '/../../vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Document',
                 __DIR__ . '/Example/Storage/Doctrine/PhpcrOdm',
             ]);
