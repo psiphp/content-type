@@ -1,0 +1,66 @@
+<?php
+
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2016 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Cmf\Component\ContentType\Metadata\Driver;
+
+use Doctrine\Common\Annotations\AnnotationReader;
+use Metadata\Driver\DriverInterface;
+use Symfony\Cmf\Component\ContentType\Metadata\Annotations;
+use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
+use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
+
+class AnnotationDriver implements DriverInterface
+{
+    /**
+     * @var AnnotationReader
+     */
+    private $reader;
+
+    public function __construct(AnnotationReader $reader)
+    {
+        $this->reader = $reader;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadMetadataForClass(\ReflectionClass $class)
+    {
+        $metadata = new ClassMetadata($class->getName());
+        $propertyMetadata = [];
+
+        foreach ($class->getProperties() as $reflProperty) {
+            $annotations = $this->reader->getPropertyAnnotations($reflProperty);
+
+            foreach ($annotations as $annotation) {
+                if ($annotation instanceof Annotations\Property) {
+                    $propertyMetadata = new PropertyMetadata(
+                        $class->getName(),
+                        $reflProperty->getName(),
+                        $annotation->type,
+                        $annotation->options
+                    );
+                    $propertyMetadatas[] = $propertyMetadata;
+                }
+            }
+        }
+
+        if (empty($propertyMetadatas)) {
+            return;
+        }
+
+        foreach ($propertyMetadatas as $propertyMetadata) {
+            $metadata->addPropertyMetadata($propertyMetadata);
+        }
+
+        return $metadata;
+    }
+}

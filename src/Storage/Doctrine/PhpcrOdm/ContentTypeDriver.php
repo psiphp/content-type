@@ -18,6 +18,12 @@ use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
 use Symfony\Cmf\Component\ContentType\MappingRegistry;
 use Symfony\Cmf\Component\ContentType\MappingResolver;
 
+/**
+ * The content type driver will take care of automatically mapping objects that
+ * are required by content type fields (a CT field might use an Image model, or
+ * a FormConfig object for example). This driver will automatically handle the
+ * mapping for these fields.
+ */
 class ContentTypeDriver implements MappingDriver
 {
     private $registry;
@@ -60,6 +66,8 @@ class ContentTypeDriver implements MappingDriver
                 continue;
             }
 
+            // otherwise the field maps to its own object, so this driver will
+            // take care of mapping that.
             $this->fieldMappings[$mapping->getClass()] = $mapping;
         }
 
