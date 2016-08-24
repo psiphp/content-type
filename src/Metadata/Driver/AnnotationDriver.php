@@ -11,20 +11,20 @@
 
 namespace Symfony\Cmf\Component\ContentType\Metadata\Driver;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\Driver\DriverInterface;
 use Symfony\Cmf\Component\ContentType\Metadata\Annotations;
 use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
 use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
+use Doctrine\Common\Annotations\Reader;
 
 class AnnotationDriver implements DriverInterface
 {
     /**
-     * @var AnnotationReader
+     * @var Reader
      */
     private $reader;
 
-    public function __construct(AnnotationReader $reader)
+    public function __construct(Reader $reader)
     {
         $this->reader = $reader;
     }
