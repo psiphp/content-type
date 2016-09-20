@@ -1,5 +1,5 @@
 {
-    "name": "symfony-cmf/content-type",
+    "name": "psiphp/content-type",
     "description": "Extends form framework to allow front-end content types",
     "license": "MIT",
     "authors": [
@@ -10,6 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "php": "^7.0",
         "symfony/form": "^3.0@stable",
         "jms/metadata": "^1.5",
         "symfony/options-resolver": "^3.0",
