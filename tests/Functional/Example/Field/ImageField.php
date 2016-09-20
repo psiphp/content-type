@@ -8,20 +8,23 @@ use Psi\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Psi\Component\ContentType\ViewInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Psi\Component\ContentType\MappingInterface;
 
 class ImageField implements FieldInterface
 {
-    public function getViewType()
+    public function getViewType(): ViewInterface
     {
         return ImageView::class;
     }
 
-    public function getFormType()
+    public function getFormType(): FormTypeInterface
     {
         return ImageType::class;
     }
 
-    public function getMapping(MappingBuilder $builder)
+    public function getMapping(MappingBuilder $builder): MappingInterface
     {
         return $builder->compound(Image::class)
           ->map('path', 'string', ['length' => 255])

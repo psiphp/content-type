@@ -3,6 +3,9 @@
 namespace Psi\Component\ContentType;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Psi\Component\ContentType\MappingInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Psi\Component\ContentType\ViewInterface;
 
 /**
  * Field type.
@@ -14,29 +17,21 @@ interface FieldInterface
 {
     /**
      * Return the view type.
-     *
-     * @return ViewInterface
      */
-    public function getViewType();
+    public function getViewType(): ViewInterface;
 
     /**
      * Return the form type.
-     *
-     * @return FormType
      */
-    public function getFormType();
+    public function getFormType(): FormTypeInterface;
 
     /**
      * Return the field mapping.
-     *
-     * @return MappingInterface
      */
-    public function getMapping(MappingBuilder $builder);
+    public function getMapping(MappingBuilder $builder): MappingInterface;
 
     /**
      * Configure general options for this content field.
-     *
-     * @param OptionsResolver
      */
     public function configureOptions(OptionsResolver $options);
 }
