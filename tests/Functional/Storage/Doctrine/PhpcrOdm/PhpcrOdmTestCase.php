@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\BaseTestCase;
+use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
 
 class PhpcrOdmTestCase extends BaseTestCase
 {

@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\ContentType\\": "src/"
+            "Psi\\Component\\ContentType\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\ContentType\\Tests\\": "tests/"
+            "Psi\\Component\\ContentType\\Tests\\": "tests/"
         }
     },
     "extra": {

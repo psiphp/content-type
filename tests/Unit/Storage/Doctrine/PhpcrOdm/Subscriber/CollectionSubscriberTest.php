@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Storage\Doctrine\PhpcrOdm\Subscriber;
+namespace Psi\Component\ContentType\Tests\Unit\Storage\Doctrine\PhpcrOdm\Subscriber;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
@@ -17,11 +17,11 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata as OdmClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory;
 use Metadata\MetadataFactoryInterface;
 use Prophecy\Argument;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\PropertyMetadata;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
 
 class CollectionSubscriberTest extends \PHPUnit_Framework_TestCase
 {

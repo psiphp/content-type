@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Field;
+namespace Psi\Component\ContentType\Tests\Unit\Field;
 
-use Symfony\Cmf\Component\ContentType\Field\TextField;
-use Symfony\Cmf\Component\ContentType\View\ScalarView;
+use Psi\Component\ContentType\Field\TextField;
+use Psi\Component\ContentType\View\ScalarView;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TextFieldTest extends \PHPUnit_Framework_TestCase

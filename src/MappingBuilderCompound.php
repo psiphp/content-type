@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType;
+namespace Psi\Component\ContentType;
 
-use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
+use Psi\Component\ContentType\Mapping\CompoundMapping;
 
 /**
  * Builder for compound mappings.

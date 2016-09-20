@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Metadata\Annotations;
+namespace Psi\Component\ContentType\Metadata\Annotations;
 
 /**
  * @Annotation

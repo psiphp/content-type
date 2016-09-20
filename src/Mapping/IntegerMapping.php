@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Mapping;
+namespace Psi\Component\ContentType\Mapping;
 
-use Symfony\Cmf\Component\ContentType\MappingInterface;
+use Psi\Component\ContentType\MappingInterface;
 
 class IntegerMapping implements MappingInterface
 {

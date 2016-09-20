@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit;
+namespace Psi\Component\ContentType\Tests\Unit;
 
-use Symfony\Cmf\Component\ContentType\ContentView;
+use Psi\Component\ContentType\ContentView;
 
 class ContentViewTest extends \PHPUnit_Framework_TestCase
 {

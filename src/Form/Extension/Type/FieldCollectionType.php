@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Form\Extension\Type;
+namespace Psi\Component\ContentType\Form\Extension\Type;
 
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\FieldRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\Options;

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 /**
  * Responsible for encoding PHPCR property names which are managed by the

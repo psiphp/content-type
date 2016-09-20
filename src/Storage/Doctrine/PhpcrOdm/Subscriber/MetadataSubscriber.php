@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber;
+namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\ODM\PHPCR\Event;
 use Metadata\MetadataFactory;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\MappingResolver;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\MappingResolver;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
 
 class MetadataSubscriber implements EventSubscriber
 {

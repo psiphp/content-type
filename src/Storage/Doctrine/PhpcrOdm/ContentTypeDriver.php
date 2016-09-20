@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
-use Symfony\Cmf\Component\ContentType\MappingRegistry;
-use Symfony\Cmf\Component\ContentType\MappingResolver;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Mapping\CompoundMapping;
+use Psi\Component\ContentType\MappingRegistry;
+use Psi\Component\ContentType\MappingResolver;
 
 /**
  * The content type driver will take care of automatically mapping objects that

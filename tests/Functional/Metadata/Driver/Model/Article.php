@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Metadata\Driver\Model;
+namespace Psi\Component\ContentType\Tests\Functional\Metadata\Driver\Model;
 
-use Symfony\Cmf\Component\ContentType\Metadata\Annotations as CMFCT;
+use Psi\Component\ContentType\Metadata\Annotations as CMFCT;
 
 class Article
 {

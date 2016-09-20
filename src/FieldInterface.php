@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType;
+namespace Psi\Component\ContentType;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

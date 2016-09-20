@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional;
+namespace Psi\Component\ContentType\Tests\Functional;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
@@ -24,27 +24,27 @@ use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
 use PHPCR\SimpleCredentials;
 use Pimple\Container as PimpleContainer;
-use Symfony\Cmf\Component\ContentType\ContentViewBuilder;
-use Symfony\Cmf\Component\ContentType\Field\CollectionField;
-use Symfony\Cmf\Component\ContentType\Field\TextField;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Form\Extension\FieldExtension;
-use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
-use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
-use Symfony\Cmf\Component\ContentType\MappingRegistry;
-use Symfony\Cmf\Component\ContentType\MappingResolver;
-use Symfony\Cmf\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
-use Symfony\Cmf\Component\ContentType\Metadata\Driver\ArrayDriver;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\MetadataSubscriber;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field\ImageField;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Symfony\Cmf\Component\ContentType\View\ScalarView;
-use Symfony\Cmf\Component\ContentType\ViewRegistry;
+use Psi\Component\ContentType\ContentViewBuilder;
+use Psi\Component\ContentType\Field\CollectionField;
+use Psi\Component\ContentType\Field\TextField;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Form\Extension\FieldExtension;
+use Psi\Component\ContentType\Mapping\IntegerMapping;
+use Psi\Component\ContentType\Mapping\StringMapping;
+use Psi\Component\ContentType\MappingRegistry;
+use Psi\Component\ContentType\MappingResolver;
+use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
+use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\MetadataSubscriber;
+use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
+use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
+use Psi\Component\ContentType\View\ScalarView;
+use Psi\Component\ContentType\ViewRegistry;
 use Symfony\Component\Form\Forms;
 
 class Container extends PimpleContainer
@@ -57,7 +57,7 @@ class Container extends PimpleContainer
         ], $config);
 
         $this->loadGeneral();
-        $this->loadCmfContentType();
+        $this->loadPsiContentType();
         $this->loadSymfonyForm();
         $this->loadDoctrineDbal();
         $this->loadPhpcrOdm();
@@ -75,7 +75,7 @@ class Container extends PimpleContainer
         };
     }
 
-    private function loadCmfContentType()
+    private function loadPsiContentType()
     {
         $this['cmf_content_type.metadata.driver.array'] = function ($container) {
             return new ArrayDriver($container['config']['mapping']);
@@ -217,8 +217,8 @@ class Container extends PimpleContainer
                 __DIR__ . '/Example/Storage/Doctrine/PhpcrOdm',
             ]);
             $chain = new MappingDriverChain();
-            $chain->addDriver($annotationDriver, 'Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm');
-            $chain->addDriver($contentTypeDriver, 'Symfony');
+            $chain->addDriver($annotationDriver, 'Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm');
+            $chain->addDriver($contentTypeDriver, 'Psi');
             $chain->addDriver($annotationDriver, 'Doctrine');
 
 

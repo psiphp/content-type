@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Metadata\Driver;
+namespace Psi\Component\ContentType\Tests\Unit\Metadata\Driver;
 
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Metadata\Driver\ArrayDriver;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
 
 class ArrayDriverTest extends \PHPUnit_Framework_TestCase
 {

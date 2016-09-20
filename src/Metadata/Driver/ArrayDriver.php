@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Metadata\Driver;
+namespace Psi\Component\ContentType\Metadata\Driver;
 
 use Metadata\Driver\AdvancedDriverInterface;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\PropertyMetadata;
 
 class ArrayDriver implements AdvancedDriverInterface
 {

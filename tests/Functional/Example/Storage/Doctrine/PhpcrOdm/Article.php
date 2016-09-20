@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 

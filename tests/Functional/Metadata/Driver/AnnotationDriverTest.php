@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Metadata\Driver;
+namespace Psi\Component\ContentType\Tests\Functional\Metadata\Driver;
 
-use Symfony\Cmf\Component\ContentType\Tests\Functional\BaseTestCase;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Metadata\Driver\Model\Article;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Metadata\Driver\Model\ArticleNoMapping;
+use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
+use Psi\Component\ContentType\Tests\Functional\Metadata\Driver\Model\Article;
+use Psi\Component\ContentType\Tests\Functional\Metadata\Driver\Model\ArticleNoMapping;
 
 class AnnotationDriverTest extends BaseTestCase
 {

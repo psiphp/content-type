@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View;
+namespace Psi\Component\ContentType\Tests\Functional\Example\View;
 
-use Symfony\Cmf\Component\ContentType\ContentView;
-use Symfony\Cmf\Component\ContentType\ContentViewBuilder;
-use Symfony\Cmf\Component\ContentType\ViewInterface;
+use Psi\Component\ContentType\ContentView;
+use Psi\Component\ContentType\ContentViewBuilder;
+use Psi\Component\ContentType\ViewInterface;
 
 class ImageView implements ViewInterface
 {

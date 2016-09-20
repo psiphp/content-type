@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Field;
+namespace Psi\Component\ContentType\Field;
 
-use Symfony\Cmf\Component\ContentType\FieldInterface;
-use Symfony\Cmf\Component\ContentType\Form\Extension\Type\FieldCollectionType;
-use Symfony\Cmf\Component\ContentType\MappingBuilder;
+use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\Form\Extension\Type\FieldCollectionType;
+use Psi\Component\ContentType\MappingBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CollectionField implements FieldInterface

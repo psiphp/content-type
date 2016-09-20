@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Tests\Unit\Storage\Doctrine\PhpcrOdm;
 
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 
 class PropertyEncoderTest extends \PHPUnit_Framework_TestCase
 {

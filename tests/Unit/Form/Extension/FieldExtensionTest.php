@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Form\Extension;
+namespace Psi\Component\ContentType\Tests\Unit\Form\Extension;
 
 use Metadata\MetadataFactoryInterface;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Form\Extension\FieldExtension;
-use Symfony\Cmf\Component\ContentType\Form\Extension\Type\FieldCollectionType;
-use Symfony\Cmf\Component\ContentType\Form\Extension\Type\SurrogateType;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Form\Extension\FieldExtension;
+use Psi\Component\ContentType\Form\Extension\Type\FieldCollectionType;
+use Psi\Component\ContentType\Form\Extension\Type\SurrogateType;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
 
 class FieldExtensionTest extends \PHPUnit_Framework_TestCase
 {

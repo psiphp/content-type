@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Form\Extension\Type;
+namespace Psi\Component\ContentType\Form\Extension\Type;
 
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\OptionsResolver\FieldOptionsResolver;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

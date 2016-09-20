@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Metadata\Driver;
+namespace Psi\Component\ContentType\Metadata\Driver;
 
 use Metadata\Driver\DriverInterface;
-use Symfony\Cmf\Component\ContentType\Metadata\Annotations;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
+use Psi\Component\ContentType\Metadata\Annotations;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\PropertyMetadata;
 use Doctrine\Common\Annotations\Reader;
 
 class AnnotationDriver implements DriverInterface

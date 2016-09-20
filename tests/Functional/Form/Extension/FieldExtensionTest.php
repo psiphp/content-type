@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Form\Extension;
+namespace Psi\Component\ContentType\Tests\Functional\Form\Extension;
 
-use Symfony\Cmf\Component\ContentType\Tests\Functional\BaseTestCase;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Article;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class FieldExtensionTest extends BaseTestCase
 {

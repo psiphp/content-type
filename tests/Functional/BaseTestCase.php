@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional;
+namespace Psi\Component\ContentType\Tests\Functional;
 
 class BaseTestCase extends \PHPUnit_Framework_TestCase
 {

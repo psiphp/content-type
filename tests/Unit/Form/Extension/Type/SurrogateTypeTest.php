@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit\Form\Extension\Type;
+namespace Psi\Component\ContentType\Tests\Unit\Form\Extension\Type;
 
 use Prophecy\Argument;
-use Symfony\Cmf\Component\ContentType\FieldInterface;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Form\Extension\Type\SurrogateType;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
-use Symfony\Cmf\Component\ContentType\OptionsResolver\FieldOptionsResolver;
+use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Form\Extension\Type\SurrogateType;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\PropertyMetadata;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SurrogateTypeTest extends \PHPUnit_Framework_TestCase

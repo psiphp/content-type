@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType;
+namespace Psi\Component\ContentType;
 
-use Symfony\Cmf\Component\ContentType\Mapping\CollectionMapping;
+use Psi\Component\ContentType\Mapping\CollectionMapping;
 
 /**
  * Builder for mappings.

@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit;
+namespace Psi\Component\ContentType\Tests\Unit;
 
-use Symfony\Cmf\Component\ContentType\MappingBuilder;
-use Symfony\Cmf\Component\ContentType\MappingBuilderCompound;
-use Symfony\Cmf\Component\ContentType\MappingInterface;
-use Symfony\Cmf\Component\ContentType\MappingRegistry;
+use Psi\Component\ContentType\MappingBuilder;
+use Psi\Component\ContentType\MappingBuilderCompound;
+use Psi\Component\ContentType\MappingInterface;
+use Psi\Component\ContentType\MappingRegistry;
 
 class MappingBuilderTest extends \PHPUnit_Framework_TestCase
 {

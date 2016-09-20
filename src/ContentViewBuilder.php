@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType;
+namespace Psi\Component\ContentType;
 
 use Metadata\MetadataFactory;
 use Metadata\NullMetadata;
-use Symfony\Cmf\Component\ContentType\OptionsResolver\FieldOptionsResolver;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class ContentViewBuilder
 {

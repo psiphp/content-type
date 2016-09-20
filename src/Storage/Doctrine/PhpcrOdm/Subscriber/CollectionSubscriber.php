@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber;
+namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
@@ -17,8 +17,8 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ODM\PHPCR\Event;
 use Metadata\MetadataFactory;
 use Metadata\MetadataFactoryInterface;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 
 class CollectionSubscriber implements EventSubscriber
 {

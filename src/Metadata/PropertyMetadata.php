@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Metadata;
+namespace Psi\Component\ContentType\Metadata;
 
 use Metadata\PropertyMetadata as BasePropertyMetadata;
 

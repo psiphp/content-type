@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Form\Extension;
+namespace Psi\Component\ContentType\Form\Extension;
 
 use Metadata\MetadataFactoryInterface;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Form\Extension\Type\FieldCollectionType;
-use Symfony\Cmf\Component\ContentType\Form\Extension\Type\SurrogateType;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Form\Extension\Type\FieldCollectionType;
+use Psi\Component\ContentType\Form\Extension\Type\SurrogateType;
 use Symfony\Component\Form\AbstractExtension;
 
 /**

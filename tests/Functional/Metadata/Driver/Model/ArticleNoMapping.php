@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Metadata\Driver\Model;
+namespace Psi\Component\ContentType\Tests\Functional\Metadata\Driver\Model;
 
 class ArticleNoMapping
 {

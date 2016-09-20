@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Mapping\CollectionMapping;
-use Symfony\Cmf\Component\ContentType\Mapping\CompoundMapping;
-use Symfony\Cmf\Component\ContentType\Mapping\IntegerMapping;
-use Symfony\Cmf\Component\ContentType\Mapping\StringMapping;
-use Symfony\Cmf\Component\ContentType\MappingInterface;
+use Psi\Component\ContentType\Mapping\CollectionMapping;
+use Psi\Component\ContentType\Mapping\CompoundMapping;
+use Psi\Component\ContentType\Mapping\IntegerMapping;
+use Psi\Component\ContentType\Mapping\StringMapping;
+use Psi\Component\ContentType\MappingInterface;
 
 /**
  * The FieldMapper maps the metadata for PHPCR-ODM fields for

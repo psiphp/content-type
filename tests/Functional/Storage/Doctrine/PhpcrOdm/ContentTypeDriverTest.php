@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
+namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\ChildrenCollection;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
 
 class ContentTypeDriverTest extends PhpcrOdmTestCase
 {

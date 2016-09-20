@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Unit;
+namespace Psi\Component\ContentType\Tests\Unit;
 
 use Metadata\MetadataFactory;
 use Metadata\NullMetadata;
 use Prophecy\Argument;
-use Symfony\Cmf\Component\ContentType\ContentView;
-use Symfony\Cmf\Component\ContentType\ContentViewBuilder;
-use Symfony\Cmf\Component\ContentType\FieldInterface;
-use Symfony\Cmf\Component\ContentType\FieldRegistry;
-use Symfony\Cmf\Component\ContentType\Metadata\ClassMetadata;
-use Symfony\Cmf\Component\ContentType\Metadata\PropertyMetadata;
-use Symfony\Cmf\Component\ContentType\ViewInterface;
-use Symfony\Cmf\Component\ContentType\ViewRegistry;
+use Psi\Component\ContentType\ContentView;
+use Psi\Component\ContentType\ContentViewBuilder;
+use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\FieldRegistry;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\PropertyMetadata;
+use Psi\Component\ContentType\ViewInterface;
+use Psi\Component\ContentType\ViewRegistry;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContentViewBuilderTest extends \PHPUnit_Framework_TestCase

@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Field;
+namespace Psi\Component\ContentType\Tests\Functional\Example\Field;
 
-use Symfony\Cmf\Component\ContentType\FieldInterface;
-use Symfony\Cmf\Component\ContentType\MappingBuilder;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\View\ImageView;
+use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\MappingBuilder;
+use Psi\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageField implements FieldInterface

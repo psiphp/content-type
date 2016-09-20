@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType;
+namespace Psi\Component\ContentType;
 
 /**
  * Currently a marker interface for mappings.

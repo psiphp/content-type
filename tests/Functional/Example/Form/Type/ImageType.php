@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Form\Type;
+namespace Psi\Component\ContentType\Tests\Functional\Example\Form\Type;
 
-use Symfony\Cmf\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
