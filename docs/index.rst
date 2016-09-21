@@ -14,6 +14,8 @@ It provides:
 - **Storage**: How the content type is stored.
 - **View**: How the content type is rendered.
 
+.. image:: images/overview.png
+
 For example, a geolocation field will require at least 3 properties to be
 mapped (long, lat, zoom), and we can imagine that it requires some javascript
 to show the map in the frontend and also in the backend.
