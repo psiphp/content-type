@@ -25,6 +25,9 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
                         'slideshow' => [
                             'type' => 'collection',
                         ],
+                        'date' => [
+                            'type' => 'datetime',
+                        ],
                     ],
                 ],
             ],
@@ -57,6 +60,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $article = new Article();
         $article->id = '/test/article';
         $article->title = 'Hello';
+        $article->date = new \DateTime('2016-01-01 00:00:00');
 
         $article->image = $this->createImage(
             '/path/to/image', 100, 200, 'image/jpeg'
@@ -74,6 +78,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $this->assertInstanceOf(Image::class, $article->image);
         $this->assertEquals(100, $article->image->width);
         $this->assertEquals('image/jpeg', $article->image->mimetype);
+        $this->assertEquals(new \DateTime('2016-01-01 00:00:00'), $article->date);
     }
 
     /**
@@ -133,6 +138,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $article = new Article();
         $article->id = '/test/article';
         $article->title = 'Foo';
+        $article->date = new \DateTime();
 
         $image0 = $this->createImage('/path/to/image1', 100, 200, 'image/jpeg');
         $image1 = $this->createImage('/path/to/image2', 100, 200, 'image/jpeg');
@@ -169,6 +175,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $article = new Article();
         $article->id = '/test/article';
         $article->title = 'Hello';
+        $article->date = new \DateTime();
         $article->image = $this->createImage(
             '/path/to/image', 100, 200, 'image/jpeg'
         );

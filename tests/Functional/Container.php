@@ -17,9 +17,11 @@ use PHPCR\SimpleCredentials;
 use Pimple\Container as PimpleContainer;
 use Psi\Component\ContentType\ContentViewBuilder;
 use Psi\Component\ContentType\Field\CollectionField;
+use Psi\Component\ContentType\Field\DateTimeField;
 use Psi\Component\ContentType\Field\TextField;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
+use Psi\Component\ContentType\Mapping\DateTimeMapping;
 use Psi\Component\ContentType\Mapping\IntegerMapping;
 use Psi\Component\ContentType\Mapping\StringMapping;
 use Psi\Component\ContentType\MappingRegistry;
@@ -90,6 +92,7 @@ class Container extends PimpleContainer
         $this['cmf_content_type.registry.field'] = function ($container) {
             $registry = new FieldRegistry();
             $registry->register('text', new TextField());
+            $registry->register('datetime', new DateTimeField());
             $registry->register('image', new ImageField());
             $registry->register('collection', new CollectionField());
 
@@ -108,6 +111,7 @@ class Container extends PimpleContainer
             $registry = new MappingRegistry();
             $registry->register('string', new StringMapping());
             $registry->register('integer', new IntegerMapping());
+            $registry->register('datetime', new DateTimeMapping());
 
             return $registry;
         };
