@@ -18,4 +18,5 @@ class Article
     public $title;
     public $image;
     public $slideshow;
+    public $date;
 }

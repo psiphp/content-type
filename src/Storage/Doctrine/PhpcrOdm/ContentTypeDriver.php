@@ -106,7 +106,7 @@ class ContentTypeDriver implements MappingDriver
     {
         $this->init();
 
-        return array_keys($this->mappings);
+        return array_keys($this->fieldMappings);
     }
 
     /**
@@ -121,6 +121,6 @@ class ContentTypeDriver implements MappingDriver
     {
         $this->init();
 
-        return isset($this->mappings[$className]);
+        return isset($this->fieldMappings[$className]);
     }
 }
