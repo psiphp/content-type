@@ -30,6 +30,9 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
                         'date' => [
                             'type' => 'datetime',
                         ],
+                        'referencedImage' => [
+                            'type' => 'image_reference',
+                        ],
                     ],
                 ],
             ],
@@ -159,6 +162,28 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
 
         $this->assertNotNull($image0);
         $this->assertNotNull($image1);
+    }
+
+    /**
+     * It should map a reference.
+     */
+    public function testMapReference()
+    {
+        $image = $this->createImage('/path/to/image1', 100, 200, 'image/jpeg');
+        $image->id = '/test/image';
+        $article = new Article();
+        $article->id = '/test/article';
+        $article->title = 'Foo';
+        $article->date = new \DateTime();
+        $article->referencedImage = $image;
+
+        $this->documentManager->persist($article);
+        $this->documentManager->flush();
+        $this->documentManager->clear();
+
+        $article = $this->documentManager->find(null, '/test/article');
+        $image = $article->referencedImage;
+        $this->assertInstanceOf(Image::class, $image);
     }
 
     private function createImage($path, $width, $height, $mimeType)

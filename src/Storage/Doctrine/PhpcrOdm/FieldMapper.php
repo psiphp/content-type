@@ -7,6 +7,7 @@ use Psi\Component\ContentType\Mapping\CollectionMapping;
 use Psi\Component\ContentType\Mapping\CompoundMapping;
 use Psi\Component\ContentType\Mapping\DateTimeMapping;
 use Psi\Component\ContentType\Mapping\IntegerMapping;
+use Psi\Component\ContentType\Mapping\ReferenceMapping;
 use Psi\Component\ContentType\Mapping\StringMapping;
 use Psi\Component\ContentType\MappingInterface;
 
@@ -37,6 +38,7 @@ class FieldMapper
             $metadata->mapChild([
                 'fieldName' => $fieldName,
                 'nodeName' => $this->encoder->encode($fieldName),
+                'nullable' => true,
             ]);
 
             return;
@@ -48,6 +50,7 @@ class FieldMapper
                 'fetchDepth' => 1,
                 'filter' => $this->encoder->encode($fieldName) . '-*',
                 'cascade' => ClassMetadata::CASCADE_ALL,
+                'nullable' => true,
             ]);
 
             return;
@@ -57,6 +60,7 @@ class FieldMapper
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'string',
+                'nullable' => true,
             ]);
 
             return;
@@ -66,6 +70,7 @@ class FieldMapper
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'long',
+                'nullable' => true,
             ]);
 
             return;
@@ -75,6 +80,19 @@ class FieldMapper
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'date',
+                'nullable' => true,
+            ]);
+
+            return;
+        }
+
+        if ($fieldMapping instanceof ReferenceMapping) {
+            $metadata->mapManyToOne([
+                'fieldName' => $fieldName,
+                'strategy' => 'hard',
+
+                'nullable' => true,
+                'cascade' => ClassMetadata::CASCADE_ALL,
             ]);
 
             return;
