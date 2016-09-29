@@ -37,6 +37,7 @@ class AnnotationDriver implements DriverInterface
                         $class->getName(),
                         $reflProperty->getName(),
                         $annotation->type,
+                        $annotation->role,
                         $annotation->options
                     );
                     $propertyMetadatas[] = $propertyMetadata;

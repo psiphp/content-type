@@ -10,4 +10,5 @@ class Property
 {
     public $type;
     public $options = [];
+    public $role;
 }
