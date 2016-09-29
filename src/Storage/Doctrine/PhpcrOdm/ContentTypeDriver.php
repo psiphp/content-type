@@ -91,6 +91,7 @@ class ContentTypeDriver implements MappingDriver
             'id' => true,
             'strategy' => 'assigned',
         ]);
+        $metadata->setReferenceable(true);
 
         foreach ($mapping as $fieldName => $fieldMapping) {
             $this->mapper->__invoke($fieldName, $fieldMapping, $metadata);

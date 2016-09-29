@@ -23,6 +23,7 @@ use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
 use Psi\Component\ContentType\Mapping\DateTimeMapping;
 use Psi\Component\ContentType\Mapping\IntegerMapping;
+use Psi\Component\ContentType\Mapping\ReferenceMapping;
 use Psi\Component\ContentType\Mapping\StringMapping;
 use Psi\Component\ContentType\MappingRegistry;
 use Psi\Component\ContentType\MappingResolver;
@@ -35,6 +36,7 @@ use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\MetadataSubscriber;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
+use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageReferenceField;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Psi\Component\ContentType\View\ScalarView;
 use Psi\Component\ContentType\ViewRegistry;
@@ -94,6 +96,7 @@ class Container extends PimpleContainer
             $registry->register('text', new TextField());
             $registry->register('datetime', new DateTimeField());
             $registry->register('image', new ImageField());
+            $registry->register('image_reference', new ImageReferenceField());
             $registry->register('collection', new CollectionField());
 
             return $registry;
@@ -112,6 +115,7 @@ class Container extends PimpleContainer
             $registry->register('string', new StringMapping());
             $registry->register('integer', new IntegerMapping());
             $registry->register('datetime', new DateTimeMapping());
+            $registry->register('reference', new ReferenceMapping());
 
             return $registry;
         };
