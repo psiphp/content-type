@@ -18,9 +18,11 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
                     'properties' => [
                         'title' => [
                             'type' => 'text',
+                            'role' => 'title',
                         ],
                         'image' => [
                             'type' => 'image',
+                            'role' => 'image',
                         ],
                         'slideshow' => [
                             'type' => 'collection',
