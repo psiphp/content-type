@@ -10,7 +10,7 @@ use Psi\Component\ContentType\Mapping\CompoundMapping;
 class MappingBuilderCompound
 {
     private $registry;
-    private $mappings;
+    private $mappings = [];
     private $classFqn;
 
     public function __construct(MappingRegistry $registry, $classFqn)
