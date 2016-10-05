@@ -10,6 +10,7 @@ use Psi\Component\ContentType\Mapping\IntegerMapping;
 use Psi\Component\ContentType\Mapping\ReferenceMapping;
 use Psi\Component\ContentType\Mapping\StringMapping;
 use Psi\Component\ContentType\MappingInterface;
+use Psi\Component\ContentType\ConfiguredMapping;
 
 /**
  * The FieldMapper maps the metadata for PHPCR-ODM fields for
@@ -32,8 +33,10 @@ class FieldMapper
      * @param MappingInterface $fieldMapping
      * @param ClassMetadata $metadata
      */
-    public function __invoke($fieldName, MappingInterface $fieldMapping, ClassMetadata $metadata)
+    public function __invoke($fieldName, ConfiguredMapping $configuredMapping, ClassMetadata $metadata)
     {
+        $fieldMapping = $configuredMapping->getMapping();
+
         if ($fieldMapping instanceof CompoundMapping) {
             $metadata->mapChild([
                 'fieldName' => $fieldName,

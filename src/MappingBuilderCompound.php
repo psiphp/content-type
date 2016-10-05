@@ -3,6 +3,7 @@
 namespace Psi\Component\ContentType;
 
 use Psi\Component\ContentType\Mapping\CompoundMapping;
+use Psi\Component\ContentType\Util\OptionsUtil;
 
 /**
  * Builder for compound mappings.
@@ -19,9 +20,10 @@ class MappingBuilderCompound
         $this->registry = $registry;
     }
 
-    public function map($propertyName, $mappingName)
+    public function map($propertyName, $mappingName, array $options = [])
     {
         $mapping = $this->registry->get($mappingName);
+        $options = OptionsUtil::resolve($mapping->getDefaultOptions(), $options);
 
         if (isset($this->mappings[$propertyName])) {
             throw new \InvalidArgumentException(sprintf(
@@ -30,7 +32,7 @@ class MappingBuilderCompound
             ));
         }
 
-        $this->mappings[$propertyName] = $mapping;
+        $this->mappings[$propertyName] = new ConfiguredMapping($mapping, $options);
 
         return $this;
     }

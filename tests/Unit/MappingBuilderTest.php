@@ -18,6 +18,9 @@ class MappingBuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder = new MappingBuilder($this->registry->reveal());
 
         $this->mapping1 = $this->prophesize(MappingInterface::class);
+        $this->mapping1->getDefaultOptions()->willReturn([
+            'foobar' => 'booboo',
+        ]);
     }
 
     /**
@@ -28,7 +31,19 @@ class MappingBuilderTest extends \PHPUnit_Framework_TestCase
         $this->registry->get('string')->willReturn($this->mapping1->reveal());
         $mapping = $this->builder->single('string');
 
-        $this->assertSame($this->mapping1->reveal(), $mapping);
+        $this->assertSame($this->mapping1->reveal(), $mapping->getMapping());
+    }
+
+    /**
+     * It should throw an exception if an unknown option is passed to the scalar mapping.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unknown option(s) "bar", available options: "foobar"
+     */
+    public function testSingleScalarUnkownOption()
+    {
+        $this->registry->get('string')->willReturn($this->mapping1->reveal());
+        $this->builder->single('string', [ 'bar' => 'bar' ]);
     }
 
     /**
@@ -40,7 +55,7 @@ class MappingBuilderTest extends \PHPUnit_Framework_TestCase
         $this->registry->get('string')->willReturn($this->mapping1->reveal());
 
         $mapping = $this->builder->compound($classFqn)
-            ->map('foobar', 'string')
+            ->map('foobar', 'string', [ 'foobar' => 'barfoo' ])
             ->map('foobar_barfoo', 'string');
 
         $this->assertInstanceOf(MappingBuilderCompound::class, $mapping);
@@ -50,6 +65,22 @@ class MappingBuilderTest extends \PHPUnit_Framework_TestCase
         $mapping = iterator_to_array($compound);
 
         $this->assertCount(2, $mapping);
-        $this->assertSame($this->mapping1->reveal(), $mapping['foobar']);
+        $this->assertSame($this->mapping1->reveal(), $mapping['foobar']->getMapping());
+        $this->assertEquals('barfoo', $mapping['foobar']->getOption('foobar'));
+    }
+
+    /**
+     * It should throw an exception if the compound map is passed an unknown option.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unknown option(s) "bar", available options: "foobar"
+     */
+    public function testCompoundMapUnknownOption()
+    {
+        $classFqn = 'My\Compound\DataTransferObject';
+        $this->registry->get('string')->willReturn($this->mapping1->reveal());
+
+        $this->builder->compound($classFqn)
+            ->map('foobar', 'string', [ 'bar' => 'barfoo' ]);
     }
 }

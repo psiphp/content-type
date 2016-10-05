@@ -3,6 +3,9 @@
 namespace Psi\Component\ContentType;
 
 use Psi\Component\ContentType\Mapping\CollectionMapping;
+use Psi\Component\ContentType\ConfiguredMapping;
+use Psi\Component\ContentType\MappingBuilderCompound;
+use Psi\Component\ContentType\Util\OptionsUtil;
 
 /**
  * Builder for mappings.
@@ -23,17 +26,20 @@ class MappingBuilder
         $this->registry = $registry;
     }
 
-    public function single($mappingName)
+    public function single($mappingName, array $options = []): ConfiguredMapping
     {
-        return $this->registry->get($mappingName);
+        $mapping = $this->registry->get($mappingName);
+        OptionsUtil::resolve($mapping->getDefaultOptions(), $options);
+
+        return new ConfiguredMapping($mapping, $options);
     }
 
-    public function compound($classFqn)
+    public function compound($classFqn): MappingBuilderCompound
     {
         return new MappingBuilderCompound($this->registry, $classFqn);
     }
 
-    public function collection()
+    public function collection(): CollectionMapping
     {
         return new CollectionMapping();
     }
