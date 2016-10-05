@@ -3,6 +3,7 @@
 namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
+use Psi\Component\ContentType\ConfiguredMapping;
 use Psi\Component\ContentType\Mapping\CollectionMapping;
 use Psi\Component\ContentType\Mapping\CompoundMapping;
 use Psi\Component\ContentType\Mapping\DateTimeMapping;
@@ -10,7 +11,6 @@ use Psi\Component\ContentType\Mapping\IntegerMapping;
 use Psi\Component\ContentType\Mapping\ReferenceMapping;
 use Psi\Component\ContentType\Mapping\StringMapping;
 use Psi\Component\ContentType\MappingInterface;
-use Psi\Component\ContentType\ConfiguredMapping;
 
 /**
  * The FieldMapper maps the metadata for PHPCR-ODM fields for

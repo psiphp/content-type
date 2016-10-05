@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Psi\Component\ContentType;
 
-use Psi\Component\ContentType\MappingInterface;
-use Psi\Component\ContentType\ConfiguredMapping;
-
 class MappingResolver
 {
     /**

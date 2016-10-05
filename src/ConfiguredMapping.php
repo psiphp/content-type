@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType;
 
+/**
+ * Wrapper for mappings, containing options.
+ */
 class ConfiguredMapping
 {
     private $mapping;
@@ -13,12 +18,20 @@ class ConfiguredMapping
         $this->options = $options;
     }
 
-    public function getMapping() 
+    /**
+     * Return the wrapped mapping.
+     */
+    public function getMapping(): MappingInterface
     {
         return $this->mapping;
     }
 
-    public function getOption($name) 
+    /**
+     * Return the named option.
+     *
+     * @return mixed
+     */
+    public function getOption($name)
     {
         if (!isset($this->options[$name])) {
             throw new \InvalidArgumentException(sprintf(
