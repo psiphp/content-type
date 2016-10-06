@@ -8,10 +8,10 @@ use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\View\ScalarView;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TextField implements FieldInterface
+class IntegerField implements FieldInterface
 {
     public function getViewType(): string
     {
@@ -20,12 +20,12 @@ class TextField implements FieldInterface
 
     public function getFormType(): string
     {
-        return TextType::class;
+        return IntegerType::class;
     }
 
     public function getStorageType(TypeFactory $factory): ConfiguredType
     {
-        return $factory->create('string');
+        return $factory->create('integer');
     }
 
     public function configureOptions(OptionsResolver $options)

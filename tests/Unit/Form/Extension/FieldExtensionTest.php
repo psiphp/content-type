@@ -5,7 +5,6 @@ namespace Psi\Component\ContentType\Tests\Unit\Form\Extension;
 use Metadata\MetadataFactoryInterface;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
-use Psi\Component\ContentType\Form\Extension\Type\FieldCollectionType;
 use Psi\Component\ContentType\Form\Extension\Type\SurrogateType;
 use Psi\Component\ContentType\Metadata\ClassMetadata;
 
@@ -42,16 +41,6 @@ class FieldExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should return true if a built-in type is given to hasType.
-     */
-    public function testHasBuiltInType()
-    {
-        $result = $this->extension->hasType(FieldCollectionType::class);
-
-        $this->assertTrue($result);
-    }
-
-    /**
      * hasType should return false if an there is no metadata nor built-in type.
      */
     public function testHasNoType()
@@ -59,16 +48,6 @@ class FieldExtensionTest extends \PHPUnit_Framework_TestCase
         $result = $this->extension->hasType('foobar');
 
         $this->assertFalse($result);
-    }
-
-    /**
-     * It should getType for built-in types.
-     */
-    public function testGetTypeBuiltIn()
-    {
-        $type = $this->extension->getType(FieldCollectionType::class);
-
-        $this->assertInstanceOf(FieldCollectionType::class, $type);
     }
 
     /**

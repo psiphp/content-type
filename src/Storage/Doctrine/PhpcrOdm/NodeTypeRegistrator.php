@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 use PHPCR\SessionInterface;
@@ -18,8 +20,6 @@ final class NodeTypeRegistrator
 
     /**
      * Register the content-type node types with the given PHPCR session.
-     *
-     * @param SessionInterface
      */
     public function registerNodeTypes(SessionInterface $session)
     {

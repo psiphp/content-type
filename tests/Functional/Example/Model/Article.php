@@ -10,4 +10,5 @@ class Article
     public $seo;
     public $image;
     public $slideshow;
+    public $paragraphs;
 }

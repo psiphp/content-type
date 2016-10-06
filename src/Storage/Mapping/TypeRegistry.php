@@ -1,19 +1,19 @@
 <?php
 
-namespace Psi\Component\ContentType;
+namespace Psi\Component\ContentType\Storage\Mapping;
 
 use Sylius\Component\Registry\ServiceRegistry;
 
 /**
  * Registry for mapping objects.
  */
-class MappingRegistry extends ServiceRegistry
+class TypeRegistry extends ServiceRegistry
 {
     public function __construct()
     {
         parent::__construct(
-            MappingInterface::class,
-            'mapping'
+            TypeInterface::class,
+            'storage type'
         );
     }
 }

@@ -1,17 +1,27 @@
 <?php
 
-namespace Psi\Component\ContentType\Tests\Functional;
+namespace Psi\Component\ContentType\Benchmark;
 
+use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
 
-class ContentViewBuilderTest extends BaseTestCase
+/**
+ * @BeforeMethods({"setUp"})
+ * @Revs(500)
+ * @Iterations(10)
+ * @OutputTimeUnit("milliseconds", precision=2)
+ */
+class ViewBench extends BaseTestCase
 {
-    public function testContentView()
+    private $viewBuilder;
+
+    public function setUp()
     {
-        $builder = $this->getContainer([
+        $this->viewBuilder = $this->getContainer([
             'mapping' => [
                 Article::class => [
+                    'alias' => 'article',
                     'properties' => [
                         'title' => [
                             'type' => 'text',
@@ -23,15 +33,16 @@ class ContentViewBuilderTest extends BaseTestCase
                 ],
             ],
         ])->get('psi_content_type.view_builder');
+    }
 
+    /**
+     * @Subject()
+     */
+    public function create_view_build()
+    {
         $article = new Article();
         $article->title = 'Hello';
         $article->image = new Image('/path/to/image.jpg', 100, 100, 'image/jpeg');
-        $view = $builder->build($article);
-
-        $this->assertEquals('Hello', $view['title']);
-        $this->assertEquals(100, $view['image']['width']);
-        $this->assertEquals(100, $view['image']['height']);
-        $this->assertEquals('/path/to/image.jpg', $view['image']['path']);
+        $this->viewBuilder->build($article);
     }
 }

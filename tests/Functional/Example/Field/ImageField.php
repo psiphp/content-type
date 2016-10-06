@@ -3,31 +3,27 @@
 namespace Psi\Component\ContentType\Tests\Functional\Example\Field;
 
 use Psi\Component\ContentType\FieldInterface;
-use Psi\Component\ContentType\MappingBuilder;
+use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
+use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
-use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageField implements FieldInterface
 {
-    public function getViewType()
+    public function getViewType(): string
     {
         return ImageView::class;
     }
 
-    public function getFormType()
+    public function getFormType(): string
     {
         return ImageType::class;
     }
 
-    public function getMapping(MappingBuilder $builder)
+    public function getStorageType(TypeFactory $factory): ConfiguredType
     {
-        return $builder->compound(Image::class)
-          ->map('path', 'string', ['length' => 255])
-          ->map('width', 'integer')
-          ->map('height', 'integer')
-          ->map('mimetype', 'string');
+        return $factory->create('object');
     }
 
     public function configureOptions(OptionsResolver $options)
@@ -35,6 +31,11 @@ class ImageField implements FieldInterface
         $options->setDefault('repository', 'default');
         $options->setDefault('path', '/');
 
-        $options->setViewOptions(['repository', 'path']);
+        $options->setViewMapper(function (array $options) {
+            return [
+                'repository' => $options['repository'],
+                'path' => $options['path'],
+            ];
+        });
     }
 }

@@ -18,23 +18,26 @@ use Pimple\Container as PimpleContainer;
 use Psi\Component\ContentType\ContentViewBuilder;
 use Psi\Component\ContentType\Field\CollectionField;
 use Psi\Component\ContentType\Field\DateTimeField;
+use Psi\Component\ContentType\Field\IntegerField;
 use Psi\Component\ContentType\Field\TextField;
+use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
-use Psi\Component\ContentType\Mapping\DateTimeMapping;
-use Psi\Component\ContentType\Mapping\IntegerMapping;
-use Psi\Component\ContentType\Mapping\ReferenceMapping;
-use Psi\Component\ContentType\Mapping\StringMapping;
-use Psi\Component\ContentType\MappingRegistry;
-use Psi\Component\ContentType\MappingResolver;
 use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\ContentTypeDriver;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\MetadataSubscriber;
+use Psi\Component\ContentType\Storage\Mapping\Type\CollectionType;
+use Psi\Component\ContentType\Storage\Mapping\Type\DateTimeType;
+use Psi\Component\ContentType\Storage\Mapping\Type\IntegerType;
+use Psi\Component\ContentType\Storage\Mapping\Type\ObjectType;
+use Psi\Component\ContentType\Storage\Mapping\Type\ReferenceType;
+use Psi\Component\ContentType\Storage\Mapping\Type\StringType;
+use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
+use Psi\Component\ContentType\Storage\Mapping\TypeRegistry;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageReferenceField;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
@@ -72,37 +75,38 @@ class Container extends PimpleContainer
 
     private function loadPsiContentType()
     {
-        $this['cmf_content_type.metadata.driver.array'] = function ($container) {
+        $this['psi_content_type.metadata.driver.array'] = function ($container) {
             return new ArrayDriver($container['config']['mapping']);
         };
-        $this['cmf_content_type.metadata.driver.annotation'] = function ($container) {
+        $this['psi_content_type.metadata.driver.annotation'] = function ($container) {
             return new CTAnnotationDriver($container['annotation_reader']);
         };
-        $this['cmf_content_type.metadata.driver.chain'] = function ($container) {
+        $this['psi_content_type.metadata.driver.chain'] = function ($container) {
             return new DriverChain([
-                $container['cmf_content_type.metadata.driver.array'],
-                $container['cmf_content_type.metadata.driver.annotation'],
+                $container['psi_content_type.metadata.driver.array'],
+                $container['psi_content_type.metadata.driver.annotation'],
             ]);
         };
 
-        $this['cmf_content_type.metadata.factory'] = function ($container) {
+        $this['psi_content_type.metadata.factory'] = function ($container) {
             return new MetadataFactory(
-                $container['cmf_content_type.metadata.driver.chain']
+                $container['psi_content_type.metadata.driver.chain']
             );
         };
 
-        $this['cmf_content_type.registry.field'] = function ($container) {
+        $this['psi_content_type.registry.field'] = function ($container) {
             $registry = new FieldRegistry();
             $registry->register('text', new TextField());
+            $registry->register('integer', new IntegerField());
             $registry->register('datetime', new DateTimeField());
             $registry->register('image', new ImageField());
             $registry->register('image_reference', new ImageReferenceField());
-            $registry->register('collection', new CollectionField());
+            $registry->register('collection', new CollectionField($registry));
 
             return $registry;
         };
 
-        $this['cmf_content_type.registry.view'] = function ($container) {
+        $this['psi_content_type.registry.view'] = function ($container) {
             $registry = new ViewRegistry();
             $registry->register(ScalarView::class, new ScalarView());
             $registry->register(ImageView::class, new ImageView());
@@ -110,27 +114,34 @@ class Container extends PimpleContainer
             return $registry;
         };
 
-        $this['cmf_content_type.registry.mapping'] = function ($container) {
-            $registry = new MappingRegistry();
-            $registry->register('string', new StringMapping());
-            $registry->register('integer', new IntegerMapping());
-            $registry->register('datetime', new DateTimeMapping());
-            $registry->register('reference', new ReferenceMapping());
+        $this['psi_content_type.registry.type'] = function ($container) {
+            $registry = new TypeRegistry();
+            $registry->register('string', new StringType());
+            $registry->register('integer', new IntegerType());
+            $registry->register('datetime', new DateTimeType());
+            $registry->register('reference', new ReferenceType());
+            $registry->register('object', new ObjectType());
+            $registry->register('collection', new CollectionType());
 
             return $registry;
         };
 
-        $this['cmf_content_type.view_builder'] = function ($container) {
-            return new ContentViewBuilder(
-                $container['cmf_content_type.metadata.factory'],
-                $container['cmf_content_type.registry.field'],
-                $container['cmf_content_type.registry.view']
+        $this['psi_content_type.field_loader'] = function ($container) {
+            return new FieldLoader(
+                $container->get('psi_content_type.storage.type_factory'),
+                $container->get('psi_content_type.registry.field')
             );
         };
 
-        $this['cmf_content_type.mapping_resolver'] = function ($container) {
-            return new MappingResolver(
-                $container['cmf_content_type.registry.mapping']
+        $this['psi_content_type.storage.type_factory'] = function ($container) {
+            return new TypeFactory($container->get('psi_content_type.registry.type'));
+        };
+
+        $this['psi_content_type.view_builder'] = function ($container) {
+            return new ContentViewBuilder(
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.registry.field'],
+                $container['psi_content_type.registry.view']
             );
         };
     }
@@ -140,8 +151,8 @@ class Container extends PimpleContainer
         $this['symfony.form_factory'] = function ($container) {
             return Forms::createFormFactoryBuilder()
                 ->addExtension(new FieldExtension(
-                    $container['cmf_content_type.metadata.factory'],
-                    $container['cmf_content_type.registry.field']
+                    $container['psi_content_type.metadata.factory'],
+                    $container['psi_content_type.registry.field']
                 ))
                 ->getFormFactory();
         };
@@ -159,12 +170,15 @@ class Container extends PimpleContainer
 
     private function loadPhpcrOdm()
     {
-        $this['cmf_content_type.storage.doctrine.phpcr_odm.property_encoder'] = function ($container) {
+        $this['psi_content_type.storage.doctrine.phpcr_odm.property_encoder'] = function ($container) {
             return new PropertyEncoder('cmfct', 'https://github.com/symfony-cmf/content-type');
         };
 
-        $this['cmf_content_type.storage.doctrine.phpcr_odm.field_mapper'] = function ($container) {
-            return new FieldMapper($container['cmf_content_type.storage.doctrine.phpcr_odm.property_encoder']);
+        $this['psi_content_type.storage.doctrine.phpcr_odm.field_mapper'] = function ($container) {
+            return new FieldMapper(
+                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder'],
+                $container['psi_content_type.field_loader']
+            );
         };
 
         $this['doctrine_phpcr.document_manager'] = function ($container) {
@@ -197,18 +211,10 @@ class Container extends PimpleContainer
                 $typeRegistrator = new NodeTypeRegistrator();
                 $typeRegistrator->registerNodeTypes($session);
                 $ctTypeRegistrator = new CtNodeTypeRegistrator(
-                    $container['cmf_content_type.storage.doctrine.phpcr_odm.property_encoder']
+                    $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
                 );
                 $ctTypeRegistrator->registerNodeTypes($session);
             }
-
-            // content type driver
-            $contentTypeDriver = new ContentTypeDriver(
-                $container['cmf_content_type.registry.field'],
-                $container['cmf_content_type.registry.mapping'],
-                $container['cmf_content_type.mapping_resolver'],
-                $container['cmf_content_type.storage.doctrine.phpcr_odm.field_mapper']
-            );
 
             // annotation driver
             $annotationDriver = new AnnotationDriver($container['annotation_reader'], [
@@ -217,24 +223,20 @@ class Container extends PimpleContainer
             ]);
             $chain = new MappingDriverChain();
             $chain->addDriver($annotationDriver, 'Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm');
-            $chain->addDriver($contentTypeDriver, 'Psi');
             $chain->addDriver($annotationDriver, 'Doctrine');
-
 
             $config = new Configuration();
             $config->setMetadataDriverImpl($chain);
 
             $manager = DocumentManager::create($session, $config);
             $manager->getEventManager()->addEventSubscriber(new MetadataSubscriber(
-                $container['cmf_content_type.metadata.factory'],
-                $container['cmf_content_type.registry.field'],
-                $container['cmf_content_type.mapping_resolver'],
-                $container['cmf_content_type.storage.doctrine.phpcr_odm.field_mapper']
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.field_loader'],
+                $container['psi_content_type.storage.doctrine.phpcr_odm.field_mapper']
             ));
             $manager->getEventManager()->addEventSubscriber(new CollectionSubscriber(
-                $container['cmf_content_type.metadata.factory'],
-                $container['cmf_content_type.registry.field'],
-                $container['cmf_content_type.storage.doctrine.phpcr_odm.property_encoder']
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
             ));
 
             return $manager;

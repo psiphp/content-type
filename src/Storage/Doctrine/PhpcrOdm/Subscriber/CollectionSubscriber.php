@@ -8,22 +8,18 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ODM\PHPCR\Event;
 use Metadata\MetadataFactory;
 use Metadata\MetadataFactoryInterface;
-use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 
 class CollectionSubscriber implements EventSubscriber
 {
     private $metadataFactory;
-    private $fieldRegistry;
     private $encoder;
 
     public function __construct(
         MetadataFactoryInterface $metadataFactory,
-        FieldRegistry $fieldRegistry,
         PropertyEncoder $encoder
     ) {
         $this->metadataFactory = $metadataFactory;
-        $this->fieldRegistry = $fieldRegistry;
         $this->encoder = $encoder;
     }
 

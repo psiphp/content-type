@@ -79,6 +79,9 @@ class ContentViewBuilderTest extends \PHPUnit_Framework_TestCase
         $this->field1->configureOptions(Argument::type(OptionsResolver::class))->will(function ($args) {
             $resolver = $args[0];
             $resolver->setDefault('foo', 'bar');
+            $resolver->setViewMapper(function ($options) {
+                return $options;
+            });
         });
 
         $this->propertyMetadata1->getOptions()->willReturn(['foo' => 'baz']);

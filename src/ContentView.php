@@ -16,6 +16,7 @@ class ContentView implements \ArrayAccess, \IteratorAggregate, \Countable
             ));
         }
 
+
         return $this->values[$name];
     }
 

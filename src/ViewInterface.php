@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType;
 
 interface ViewInterface
@@ -15,11 +17,6 @@ interface ViewInterface
      *
      * The builder instance is given for the case where nested views are required
      * (for example in a repeater field, image list, etc).
-     *
-     * @param ContentViewBuilder $builder
-     * @param ContentView $view
-     * @param object $data
-     * @param array $options
      */
     public function buildView(ContentViewBuilder $builder, ContentView $view, $data, array $options);
 }
