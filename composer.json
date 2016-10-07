@@ -21,7 +21,8 @@
         "phpunit/phpunit": "^5.3",
         "doctrine/phpcr-odm": "^1.4",
         "pimple/pimple": "^3.0",
-        "jackalope/jackalope-doctrine-dbal": "^1.2"
+        "jackalope/jackalope-doctrine-dbal": "^1.2",
+        "phpbench/phpbench": "^0.12.1"
     },
     "autoload": {
         "psr-4": {
@@ -30,7 +31,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Psi\\Component\\ContentType\\Tests\\": "tests/"
+            "Psi\\Component\\ContentType\\Tests\\": "tests/",
+            "Psi\\Component\\ContentType\\Benchmark\\": "benchmark/"
         }
     },
     "extra": {

@@ -1,0 +1,5 @@
+{
+    "bootstrap": "tests/bootstrap.php",
+    "path": "benchmark",
+    "progress": "blinken"
+}

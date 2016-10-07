@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
 /**
@@ -8,11 +10,7 @@ namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
  */
 class PropertyEncoder
 {
-    /**
-     * @param string $prefix
-     * @param string $uri
-     */
-    public function __construct($prefix, $uri)
+    public function __construct(string $prefix, string $uri)
     {
         $this->prefix = $prefix;
         $this->uri = $uri;
@@ -22,13 +20,8 @@ class PropertyEncoder
      * Encode a field name. If the field reprents a compound type then $key
      * should be passed to represent the key for the value of the compound
      * field.
-     *
-     * @param string $fieldName
-     * @param string $suffix
-     *
-     * @return string
      */
-    public function encode($fieldName, $key = null)
+    public function encode(string $fieldName, string $key = null): string
     {
         $propertyName = sprintf(
             '%s:%s',
@@ -46,20 +39,16 @@ class PropertyEncoder
 
     /**
      * Return the PHPCR namespace prefix (alias).
-     *
-     * @return string
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
 
     /**
      * Return the namespace URI.
-     *
-     * @return string
      */
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uri;
     }

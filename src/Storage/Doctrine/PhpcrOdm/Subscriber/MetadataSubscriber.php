@@ -6,26 +6,22 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\ODM\PHPCR\Event;
 use Metadata\MetadataFactory;
-use Psi\Component\ContentType\FieldRegistry;
-use Psi\Component\ContentType\MappingResolver;
+use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
 
 class MetadataSubscriber implements EventSubscriber
 {
     private $metadataFactory;
-    private $fieldRegistry;
-    private $mappingResolver;
+    private $fieldLoader;
     private $mapper;
 
     public function __construct(
         MetadataFactory $metadataFactory,
-        FieldRegistry $fieldRegistry,
-        MappingResolver $mappingResolver,
+        FieldLoader $fieldLoader,
         FieldMapper $mapper
     ) {
         $this->metadataFactory = $metadataFactory;
-        $this->fieldRegistry = $fieldRegistry;
-        $this->mappingResolver = $mappingResolver;
+        $this->fieldLoader = $fieldLoader;
         $this->mapper = $mapper;
     }
 
@@ -39,7 +35,6 @@ class MetadataSubscriber implements EventSubscriber
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         $metadata = $args->getClassMetadata();
-        $fieldMapper = $this->mapper;
 
         if (null === $metadata = $this->metadataFactory->getMetadataForClass($metadata->getName())) {
             return;
@@ -48,9 +43,8 @@ class MetadataSubscriber implements EventSubscriber
         $odmMetadata = $args->getClassMetadata();
 
         foreach ($metadata->getPropertyMetadata() as $property) {
-            $field = $this->fieldRegistry->get($property->getType());
-            $mapping = $this->mappingResolver->resolveMapping($field);
-            $fieldMapper($property->getName(), $mapping, $odmMetadata);
+            $field = $this->fieldLoader->loadForProperty($property);
+            $this->mapper->__invoke($property->getName(), $field, $odmMetadata);
         }
     }
 }

@@ -56,6 +56,9 @@ class SurrogateTypeTest extends \PHPUnit_Framework_TestCase
         $this->field->configureOptions(Argument::type(FieldOptionsResolver::class))->will(function ($args) {
             $args[0]->setDefault('foo', 'bar');
             $args[0]->setDefault('option', 'eulav');
+            $args[0]->setFormMapper(function ($options) {
+                return $options;
+            });
         });
         $this->formBuilder->add(
             $propertyName,

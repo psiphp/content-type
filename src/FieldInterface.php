@@ -1,42 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType;
 
+use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
+use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Field type.
- *
- * Field types encapsulate both backend and frontend behaviors of a type of
- * content, for example some text, an image, a geolocation, etc.
+ * Field types encompases storage and backend/frontend of a content field. For
+ * example some text, an image, a geolocation, etc.
  */
 interface FieldInterface
 {
     /**
      * Return the view type.
-     *
-     * @return ViewInterface
      */
-    public function getViewType();
+    public function getViewType(): string;
 
     /**
      * Return the form type.
-     *
-     * @return FormType
      */
-    public function getFormType();
+    public function getFormType(): string;
 
     /**
-     * Return the field mapping.
+     * Return the storage type.
      *
-     * @return MappingInterface
+     * @return ConfiguredType
      */
-    public function getMapping(MappingBuilder $builder);
+    public function getStorageType(TypeFactory $factory): ConfiguredType;
 
     /**
      * Configure general options for this content field.
-     *
-     * @param OptionsResolver
      */
     public function configureOptions(OptionsResolver $options);
 }

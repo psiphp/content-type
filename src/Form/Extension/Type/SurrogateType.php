@@ -51,9 +51,16 @@ class SurrogateType extends AbstractType
             $field = $this->fieldRegistry->get($propertyMetadata->getType());
             $formOptions = $propertyMetadata->getOptions();
 
-            $resolver = new FieldOptionsResolver();
-            $field->configureOptions($resolver);
-            $formOptions = $resolver->resolveFormOptions($formOptions);
+            try {
+                $resolver = new FieldOptionsResolver();
+                $field->configureOptions($resolver);
+                $formOptions = $resolver->resolveFormOptions($formOptions);
+            } catch (\Exception $e) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Could not resolve options for property "%s#%s" (type "%s")',
+                    $propertyMetadata->getClass(), $propertyMetadata->getName(), $propertyMetadata->getType()
+                ), null, $e);
+            }
 
             $builder->add(
                 $propertyMetadata->getName(),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType\View;
 
 use Psi\Component\ContentType\ContentView;

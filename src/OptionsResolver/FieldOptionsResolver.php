@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\ContentType\OptionsResolver;
 
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -12,27 +15,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FieldOptionsResolver extends OptionsResolver
 {
-    private $formOptions = [];
-    private $viewOptions = [];
+    private $formMapper;
+    private $viewMapper;
 
     /**
-     * Set which options should be passed only to the form.
-     *
-     * @param array $formOptions
+     * Set closure which will map the resolved field options to form options.
      */
-    public function setFormOptions(array $formOptions)
+    public function setFormMapper(\Closure $optionMapper)
     {
-        $this->formOptions = $formOptions;
+        $this->formMapper = $optionMapper;
     }
 
     /**
-     * Set which options should be passed only to the view.
-     *
-     * @param array $viewOptions
+     * Set closure which will map the resolved field options to view options.
      */
-    public function setViewOptions(array $viewOptions)
+    public function setViewMapper(\Closure $optionMapper)
     {
-        $this->viewOptions = $viewOptions;
+        $this->viewMapper = $optionMapper;
     }
 
     /**
@@ -40,15 +39,17 @@ class FieldOptionsResolver extends OptionsResolver
      *
      * @param array $options
      */
-    public function resolveFormOptions(array $options = [])
+    public function resolveFormOptions(array $options = []): array
     {
         $options = $this->resolve($options);
 
-        foreach ($this->viewOptions as $optionName) {
-            unset($options[$optionName]);
+        if (!$this->formMapper) {
+            return [];
         }
 
-        return $options;
+        $mapper = $this->formMapper;
+
+        return $mapper($options);
     }
 
     /**
@@ -56,14 +57,16 @@ class FieldOptionsResolver extends OptionsResolver
      *
      * @param array $options
      */
-    public function resolveViewOptions(array $options = [])
+    public function resolveViewOptions(array $options = []): array
     {
         $options = $this->resolve($options);
 
-        foreach ($this->formOptions as $optionName) {
-            unset($options[$optionName]);
+        if (!$this->viewMapper) {
+            return [];
         }
 
-        return $options;
+        $mapper = $this->viewMapper;
+
+        return $mapper->call($this, $options);
     }
 }

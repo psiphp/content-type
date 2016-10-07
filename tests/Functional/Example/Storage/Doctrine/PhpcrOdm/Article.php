@@ -20,4 +20,6 @@ class Article
     public $slideshow;
     public $date;
     public $referencedImage;
+    public $numbers;
+    public $paragraphs = [];
 }

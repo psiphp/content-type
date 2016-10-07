@@ -43,4 +43,9 @@ class PropertyMetadata extends BasePropertyMetadata
     {
         return $this->role;
     }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
 }

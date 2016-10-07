@@ -3,26 +3,27 @@
 namespace Psi\Component\ContentType\Tests\Functional\Example\Field;
 
 use Psi\Component\ContentType\FieldInterface;
-use Psi\Component\ContentType\MappingBuilder;
+use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
+use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\View\ScalarView;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageReferenceField implements FieldInterface
 {
-    public function getViewType()
+    public function getViewType(): string
     {
         return ScalarView::class;
     }
 
-    public function getFormType()
+    public function getFormType(): string
     {
         return TextType::class;
     }
 
-    public function getMapping(MappingBuilder $builder)
+    public function getStorageType(TypeFactory $factory): ConfiguredType
     {
-        return $builder->single('reference');
+        return $factory->create('reference');
     }
 
     public function configureOptions(OptionsResolver $options)

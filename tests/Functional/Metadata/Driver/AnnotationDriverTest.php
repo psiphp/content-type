@@ -13,7 +13,7 @@ class AnnotationDriverTest extends BaseTestCase
      */
     public function testLoadMetadata()
     {
-        $driver = $this->getContainer()->get('cmf_content_type.metadata.driver.annotation');
+        $driver = $this->getContainer()->get('psi_content_type.metadata.driver.annotation');
         $reflection = new \ReflectionClass(Article::class);
         $metadata = $driver->loadMetadataForClass($reflection);
 
@@ -34,7 +34,7 @@ class AnnotationDriverTest extends BaseTestCase
      */
     public function testLoadMetadataNoMappings()
     {
-        $driver = $this->getContainer()->get('cmf_content_type.metadata.driver.annotation');
+        $driver = $this->getContainer()->get('psi_content_type.metadata.driver.annotation');
         $reflection = new \ReflectionClass(ArticleNoMapping::class);
         $metadata = $driver->loadMetadataForClass($reflection);
 

@@ -8,7 +8,6 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata as OdmClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory;
 use Metadata\MetadataFactoryInterface;
 use Prophecy\Argument;
-use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Metadata\ClassMetadata;
 use Psi\Component\ContentType\Metadata\PropertyMetadata;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
@@ -17,7 +16,6 @@ use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSub
 class CollectionSubscriberTest extends \PHPUnit_Framework_TestCase
 {
     private $metadataFactory;
-    private $fieldRegistry;
     private $propertyEncoder;
     private $subscriber;
     private $object;
@@ -26,12 +24,10 @@ class CollectionSubscriberTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->metadataFactory = $this->prophesize(MetadataFactoryInterface::class);
-        $this->fieldRegistry = $this->prophesize(FieldRegistry::class);
         $this->propertyEncoder = $this->prophesize(PropertyEncoder::class);
 
         $this->subscriber = new CollectionSubscriber(
             $this->metadataFactory->reveal(),
-            $this->fieldRegistry->reveal(),
             $this->propertyEncoder->reveal()
         );
 

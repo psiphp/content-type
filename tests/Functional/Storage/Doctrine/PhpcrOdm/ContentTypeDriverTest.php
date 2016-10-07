@@ -3,8 +3,8 @@
 namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\ChildrenCollection;
-use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
 
 class ContentTypeDriverTest extends PhpcrOdmTestCase
 {
@@ -26,12 +26,28 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
                         ],
                         'slideshow' => [
                             'type' => 'collection',
+                            'options' => [
+                                'field' => 'image',
+                            ],
                         ],
                         'date' => [
                             'type' => 'datetime',
                         ],
                         'referencedImage' => [
                             'type' => 'image_reference',
+                        ],
+                        'paragraphs' => [
+                            'type' => 'collection',
+                            'options' => [
+                                'field' => 'text',
+                                'field_options' => [],
+                            ],
+                        ],
+                        'numbers' => [
+                            'type' => 'collection',
+                            'options' => [
+                                'field' => 'integer',
+                            ],
                         ],
                     ],
                 ],
@@ -42,25 +58,9 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
     }
 
     /**
-     * It should persist a mapped content type document.
-     */
-    public function testFieldMapping()
-    {
-        $image = new Image();
-        $image->id = '/test/image';
-        $image->path = '/path/to/image';
-        $image->width = 100;
-        $image->height = 200;
-        $image->mimetype = 'image/jpeg';
-
-        $this->documentManager->persist($image);
-        $this->documentManager->flush();
-    }
-
-    /**
      * The user document should be persisted with the content-type data.
      */
-    public function testUserMapping()
+    public function testMapping()
     {
         $article = new Article();
         $article->id = '/test/article';
@@ -87,7 +87,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
     }
 
     /**
-     * It should persist colletion types.
+     * It should persist object colletions.
      */
     public function testCollectionType()
     {
@@ -162,6 +162,36 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
 
         $this->assertNotNull($image0);
         $this->assertNotNull($image1);
+    }
+
+    public function testStringCollection()
+    {
+        $article = new Article();
+        $article->id = '/test/article';
+        $article->title = 'Foo';
+        $article->paragraphs = ['one', 'two', 'three'];
+
+        $this->documentManager->persist($article);
+        $this->documentManager->flush();
+        $this->documentManager->clear();
+
+        $article = $this->documentManager->find(null, '/test/article');
+        $this->assertSame(['one', 'two', 'three'], $article->paragraphs);
+    }
+
+    public function testIntegerCollection()
+    {
+        $article = new Article();
+        $article->id = '/test/article';
+        $article->title = 'Foo';
+        $article->numbers = ['12', '13', '14'];
+
+        $this->documentManager->persist($article);
+        $this->documentManager->flush();
+        $this->documentManager->clear();
+
+        $article = $this->documentManager->find(null, '/test/article');
+        $this->assertSame([12, 13, 14], $article->numbers);
     }
 
     /**

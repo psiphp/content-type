@@ -4,7 +4,6 @@ namespace Psi\Component\ContentType\Form\Extension;
 
 use Metadata\MetadataFactoryInterface;
 use Psi\Component\ContentType\FieldRegistry;
-use Psi\Component\ContentType\Form\Extension\Type\FieldCollectionType;
 use Psi\Component\ContentType\Form\Extension\Type\SurrogateType;
 use Symfony\Component\Form\AbstractExtension;
 
@@ -50,7 +49,6 @@ class FieldExtension extends AbstractExtension
     public function loadTypes()
     {
         return [
-            new FieldCollectionType($this->fieldRegistry),
         ];
     }
 
