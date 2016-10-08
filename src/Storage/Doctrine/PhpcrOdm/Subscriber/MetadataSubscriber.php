@@ -43,8 +43,15 @@ class MetadataSubscriber implements EventSubscriber
         $odmMetadata = $args->getClassMetadata();
 
         foreach ($metadata->getPropertyMetadata() as $property) {
-            $field = $this->fieldLoader->loadForProperty($property);
-            $this->mapper->__invoke($property->getName(), $field, $odmMetadata);
+            try {
+                $field = $this->fieldLoader->loadForProperty($property);
+                $this->mapper->__invoke($property->getName(), $field, $odmMetadata);
+            } catch (\Exception $e) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Could not map field type "%s" on property "%s#%s"',
+                    $property->getType(), $property->getClass(), $property->getName()
+                ), null, $e);
+            }
         }
     }
 }

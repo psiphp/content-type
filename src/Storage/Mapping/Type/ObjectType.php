@@ -13,5 +13,6 @@ class ObjectType implements TypeInterface
 {
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefault('class', null);
     }
 }

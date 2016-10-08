@@ -3,11 +3,12 @@
 namespace Psi\Component\ContentType\Tests\Functional\Example\Field;
 
 use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
+use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class ImageField implements FieldInterface
 {
@@ -23,7 +24,9 @@ class ImageField implements FieldInterface
 
     public function getStorageType(TypeFactory $factory): ConfiguredType
     {
-        return $factory->create('object');
+        return $factory->create('object', [
+            'class' => Image::class,
+        ]);
     }
 
     public function configureOptions(FieldOptionsResolver $options)
