@@ -10,7 +10,6 @@ use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CollectionField implements FieldInterface
 {
@@ -36,7 +35,7 @@ class CollectionField implements FieldInterface
         return $factory->create('collection');
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function configureOptions(FieldOptionsResolver $options)
     {
         $options->setRequired([
             'field',

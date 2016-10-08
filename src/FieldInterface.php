@@ -6,7 +6,7 @@ namespace Psi\Component\ContentType;
 
 use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 /**
  * Field types encompases storage and backend/frontend of a content field. For
@@ -34,5 +34,5 @@ interface FieldInterface
     /**
      * Configure general options for this content field.
      */
-    public function configureOptions(OptionsResolver $options);
+    public function configureOptions(FieldOptionsResolver $options);
 }

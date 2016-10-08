@@ -9,7 +9,7 @@ use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\View\ScalarView;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class DateTimeField implements FieldInterface
 {
@@ -28,7 +28,7 @@ class DateTimeField implements FieldInterface
         return $factory->create('datetime');
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function configureOptions(FieldOptionsResolver $options)
     {
     }
 }

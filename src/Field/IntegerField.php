@@ -9,7 +9,7 @@ use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\View\ScalarView;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class IntegerField implements FieldInterface
 {
@@ -28,7 +28,7 @@ class IntegerField implements FieldInterface
         return $factory->create('integer');
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function configureOptions(FieldOptionsResolver $options)
     {
     }
 }

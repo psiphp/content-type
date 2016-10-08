@@ -7,7 +7,7 @@ use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class ImageField implements FieldInterface
 {
@@ -26,7 +26,7 @@ class ImageField implements FieldInterface
         return $factory->create('object');
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function configureOptions(FieldOptionsResolver $options)
     {
         $options->setDefault('repository', 'default');
         $options->setDefault('path', '/');
