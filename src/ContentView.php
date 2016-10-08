@@ -4,7 +4,7 @@ namespace Psi\Component\ContentType;
 
 class ContentView implements \ArrayAccess, \IteratorAggregate, \Countable
 {
-    private $values;
+    private $values = [];
     private $value;
 
     public function offsetGet($name)

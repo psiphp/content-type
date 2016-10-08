@@ -32,7 +32,7 @@ class AnnotationDriver implements DriverInterface
             $annotations = $this->reader->getPropertyAnnotations($reflProperty);
 
             foreach ($annotations as $annotation) {
-                if ($annotation instanceof Annotations\Property) {
+                if ($annotation instanceof Annotations\Field) {
                     $propertyMetadata = new PropertyMetadata(
                         $class->getName(),
                         $reflProperty->getName(),

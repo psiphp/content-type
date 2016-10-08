@@ -171,7 +171,7 @@ class Container extends PimpleContainer
     private function loadPhpcrOdm()
     {
         $this['psi_content_type.storage.doctrine.phpcr_odm.property_encoder'] = function ($container) {
-            return new PropertyEncoder('cmfct', 'https://github.com/symfony-cmf/content-type');
+            return new PropertyEncoder('psict', 'https://github.com/psiphp/content-type');
         };
 
         $this['psi_content_type.storage.doctrine.phpcr_odm.field_mapper'] = function ($container) {

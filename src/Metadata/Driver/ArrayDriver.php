@@ -36,7 +36,7 @@ class ArrayDriver implements AdvancedDriverInterface
 
         $classMetadata = new ClassMetadata($class->getName());
 
-        foreach ($config['properties'] as $fieldName => $fieldConfig) {
+        foreach ($config['fields'] as $fieldName => $fieldConfig) {
             $fieldConfig = array_merge([
                 'type' => null,
                 'role' => null,

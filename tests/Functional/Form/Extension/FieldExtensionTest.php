@@ -16,7 +16,7 @@ class FieldExtensionTest extends BaseTestCase
             'mapping' => [
                 Article::class => [
                     'alias' => 'article',
-                    'properties' => [
+                    'fields' => [
                         'title' => [
                             'type' => 'text',
                         ],

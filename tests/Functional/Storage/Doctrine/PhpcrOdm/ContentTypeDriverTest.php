@@ -16,7 +16,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $container = $this->getContainer([
             'mapping' => [
                 ArticleWithRestrictedChildren::class => [
-                    'properties' => [
+                    'fields' => [
                         'title' => [
                             'type' => 'text',
                             'role' => 'title',
@@ -37,7 +37,7 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
                     ],
                 ],
                 Article::class => [
-                    'properties' => [
+                    'fields' => [
                         'title' => [
                             'type' => 'text',
                             'role' => 'title',
@@ -148,9 +148,9 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $this->documentManager->flush();
         $this->documentManager->clear();
 
-        $image0 = $this->documentManager->find(null, '/test/article/cmfct:slideshow-0');
-        $image1 = $this->documentManager->find(null, '/test/article/cmfct:slideshow-1');
-        $image2 = $this->documentManager->find(null, '/test/article/cmfct:slideshow-2');
+        $image0 = $this->documentManager->find(null, '/test/article/psict:slideshow-0');
+        $image1 = $this->documentManager->find(null, '/test/article/psict:slideshow-1');
+        $image2 = $this->documentManager->find(null, '/test/article/psict:slideshow-2');
 
         $this->assertNull($image0);
         $this->assertNull($image1);
@@ -179,8 +179,8 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $this->documentManager->flush();
         $this->documentManager->clear();
 
-        $image0 = $this->documentManager->find(null, '/test/article/cmfct:slideshow-0');
-        $image1 = $this->documentManager->find(null, '/test/article/cmfct:slideshow-1');
+        $image0 = $this->documentManager->find(null, '/test/article/psict:slideshow-0');
+        $image1 = $this->documentManager->find(null, '/test/article/psict:slideshow-1');
 
         $this->assertNotNull($image0);
         $this->assertNotNull($image1);

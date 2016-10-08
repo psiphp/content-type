@@ -32,4 +32,14 @@ class ContentViewTest extends \PHPUnit_Framework_TestCase
 
         $view['bazbar'];
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage View value "bazbar" has not been set, available values: ""
+     */
+    public function testUnknownKeyEmpty()
+    {
+        $view = new ContentView();
+        $view['bazbar'];
+    }
 }

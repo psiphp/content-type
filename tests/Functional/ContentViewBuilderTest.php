@@ -12,7 +12,7 @@ class ContentViewBuilderTest extends BaseTestCase
         $builder = $this->getContainer([
             'mapping' => [
                 Article::class => [
-                    'properties' => [
+                    'fields' => [
                         'title' => [
                             'type' => 'text',
                         ],

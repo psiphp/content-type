@@ -6,7 +6,7 @@ namespace Psi\Component\ContentType\Metadata\Annotations;
  * @Annotation
  * @Target("PROPERTY")
  */
-class Property
+class Field
 {
     public $type;
     public $options = [];
