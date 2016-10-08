@@ -7,17 +7,17 @@ use Psi\Component\ContentType\Metadata\Annotations as CMFCT;
 class Article
 {
     /**
-     * @CMFCT\Property(type="text", role="title")
+     * @CMFCT\Field(type="text", role="title")
      */
     public $title;
 
     /**
-     * @CMFCT\Property(type="markdown")
+     * @CMFCT\Field(type="markdown")
      */
     public $body;
 
     /**
-     * @CMFCT\Property(type="image-collection", options={ "max" = 10 })
+     * @CMFCT\Field(type="image-collection", options={ "max" = 10 })
      */
     public $slider;
 }

@@ -27,7 +27,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
         $reflection = new \ReflectionClass(TestContent::class);
         $driver = $this->createDriver([
             TestContent::class => [
-                'properties' => [
+                'fields' => [
                     'title' => [
                         'type' => 'Class\Fqn\TextField',
                         'options' => [

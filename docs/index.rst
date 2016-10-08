@@ -31,27 +31,27 @@ In brief this will allow you to define something like:
     class Page
     {
         /**
-         * @PsiCT\Property(type='text')
+         * @PsiCT\Field(type='text')
          */
         private $title;
 
         /**
-         * @PsiCT\Property(type='markdown')
+         * @PsiCT\Field(type='markdown')
          */
         private $body;
 
         /**
-         * @PsiCT\Property(type='image')
+         * @PsiCT\Field(type='image')
          */
         private $image;
 
         /**
-         * @PsiCT\Property(type='geolocation')
+         * @PsiCT\Field(type='geolocation')
          */
         private $location;
 
         /**
-         * @PsiCT\Property(type='list', options={ "repository" = "repository_service" })
+         * @PsiCT\Field(type='list', options={ "repository" = "repository_service" })
          */
         private $news;
 
