@@ -40,6 +40,8 @@ class FieldMapper
         ], $extraOptions);
 
         if ($type instanceof ObjectType) {
+            $options = $loadedField->getStorageType()->getOptions();
+            $this->unrestrictChildClass($options['class'], $metadata);
             $metadata->mapChild([
                 'fieldName' => $fieldName,
                 'nodeName' => $this->encoder->encode($fieldName),
@@ -50,25 +52,9 @@ class FieldMapper
         }
 
         if ($type instanceof CollectionType) {
-            $options = $loadedField->getOptions();
-            $collectionField = $this->fieldLoader->loadByTypeAndOptions($options['field'], $options['field_options']);
-            $collectionStorageType = $collectionField->getStorageType();
+            $this->mapCollectionType($fieldName, $loadedField, $metadata);
 
-            if ($collectionStorageType->getInnerType() instanceof ObjectType) {
-                $metadata->mapChildren([
-                    'fieldName' => $fieldName,
-                    'fetchDepth' => 1,
-                    'filter' => $this->encoder->encode($fieldName) . '-*',
-                    'cascade' => ClassMetadata::CASCADE_ALL,
-                    'nullable' => true,
-                ]);
-
-                return;
-            }
-
-            return $this->__invoke($fieldName, $collectionField, $metadata, [
-                'multivalue' => false,
-            ]);
+            return;
         }
 
         if ($type instanceof StringType) {
@@ -121,5 +107,45 @@ class FieldMapper
             'Do not know how to map field of type "%s"',
             get_class($type)
         ));
+    }
+
+    private function mapCollectionType($fieldName, LoadedField $loadedField, ClassMetadata $metadata)
+    {
+        $options = $loadedField->getOptions();
+        $collectionField = $this->fieldLoader->loadByTypeAndOptions($options['field'], $options['field_options']);
+        $storageType = $collectionField->getStorageType();
+
+        if ($storageType->getInnerType() instanceof ObjectType) {
+            $options = $storageType->getOptions();
+            $this->unrestrictChildClass($options['class'], $metadata);
+
+            $metadata->mapChildren([
+                'fieldName' => $fieldName,
+                'fetchDepth' => 1,
+                'filter' => $this->encoder->encode($fieldName) . '-*',
+                'cascade' => ClassMetadata::CASCADE_ALL,
+                'nullable' => true,
+            ]);
+
+            return;
+        }
+
+        $this->__invoke($fieldName, $collectionField, $metadata, [
+            'multivalue' => false,
+        ]);
+    }
+
+    private function unrestrictChildClass(string $class, ClassMetadata $metadata)
+    {
+        if (!$class) {
+            return;
+        }
+
+        if (!$childClasses = $metadata->getChildClasses()) {
+            return;
+        }
+
+        $childClasses[] = $class;
+        $metadata->setChildClasses($childClasses);
     }
 }

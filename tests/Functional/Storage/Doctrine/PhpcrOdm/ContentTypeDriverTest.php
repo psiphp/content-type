@@ -4,6 +4,7 @@ namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\ArticleWithRestrictedChildren;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
 
 class ContentTypeDriverTest extends PhpcrOdmTestCase
@@ -14,6 +15,27 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
     {
         $container = $this->getContainer([
             'mapping' => [
+                ArticleWithRestrictedChildren::class => [
+                    'properties' => [
+                        'title' => [
+                            'type' => 'text',
+                            'role' => 'title',
+                        ],
+                        'image' => [
+                            'type' => 'image',
+                            'role' => 'image',
+                            'options' => [
+                                'class' => Image::class,
+                            ],
+                        ],
+                        'slideshow' => [
+                            'type' => 'collection',
+                            'options' => [
+                                'field' => 'image',
+                            ],
+                        ],
+                    ],
+                ],
                 Article::class => [
                     'properties' => [
                         'title' => [
@@ -214,6 +236,27 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $article = $this->documentManager->find(null, '/test/article');
         $image = $article->referencedImage;
         $this->assertInstanceOf(Image::class, $image);
+    }
+
+    /**
+     * It should automatically add the child class to the list of valid children when
+     * children are defined.
+     */
+    public function testCollectionAddToValidChildren()
+    {
+        $image = $this->createImage('/path/to/image1', 100, 200, 'image/jpeg');
+        $image->id = '/test/image';
+        $article = new ArticleWithRestrictedChildren();
+        $article->id = '/test/article';
+        $article->title = 'Foo';
+        $article->date = new \DateTime();
+        $article->image = $image;
+
+        $this->documentManager->persist($article);
+        $this->documentManager->flush();
+        $this->documentManager->clear();
+
+        $this->documentManager->find(null, '/test/article');
     }
 
     private function createImage($path, $width, $height, $mimeType)
