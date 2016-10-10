@@ -137,7 +137,7 @@ class FieldMapper
                 'strategy' => 'hard',
 
                 'nullable' => true,
-                'cascade' => ClassMetadata::CASCADE_ALL
+                'cascade' => ClassMetadata::CASCADE_ALL,
             ]);
 
             return;
