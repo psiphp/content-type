@@ -52,6 +52,7 @@ class CollectionField implements FieldInterface
                 'entry_type' => $field->getFormType(),
                 'entry_options' => $options,
                 'allow_add' => true,
+                'allow_delete' => true,
             ];
         });
     }

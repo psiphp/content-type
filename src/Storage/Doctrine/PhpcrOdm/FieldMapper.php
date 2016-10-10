@@ -114,8 +114,9 @@ class FieldMapper
         $options = $loadedField->getOptions();
         $collectionField = $this->fieldLoader->loadByTypeAndOptions($options['field'], $options['field_options']);
         $storageType = $collectionField->getStorageType();
+        $innerType = $storageType->getInnerType();
 
-        if ($storageType->getInnerType() instanceof ObjectType) {
+        if ($innerType instanceof ObjectType) {
             $options = $storageType->getOptions();
             $this->unrestrictChildClass($options['class'], $metadata);
 
@@ -130,8 +131,21 @@ class FieldMapper
             return;
         }
 
+        if ($innerType instanceof ReferenceType) {
+            $metadata->mapManyToMany([
+                'fieldName' => $fieldName,
+                'strategy' => 'hard',
+
+                'nullable' => true,
+                'cascade' => ClassMetadata::CASCADE_ALL
+            ]);
+
+            return;
+        }
+
+        // assume that other types are scalars...
         $this->__invoke($fieldName, $collectionField, $metadata, [
-            'multivalue' => false,
+            'multivalue' => true,
         ]);
     }
 
