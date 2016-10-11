@@ -27,7 +27,7 @@ class GeneralTest extends PhpcrOdmTestCase
                             'type' => 'datetime',
                         ],
                         'referencedImage' => [
-                            'type' => 'image_reference',
+                            'type' => 'object_reference',
                         ],
                     ],
                 ],

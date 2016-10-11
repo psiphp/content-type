@@ -66,7 +66,7 @@ class CollectionSubscriber implements EventSubscriber
                     throw new \InvalidArgumentException(sprintf(
                         'Currently, all documents which belong to a mapped collection must use the ' .
                         'assigned ID generator strategy, "%s" is using "%s".',
-                        $childMetadata->getClass(), $idGenerator
+                        $childMetadata->getName(), $idGenerator
                     ));
                 }
 

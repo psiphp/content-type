@@ -6,6 +6,7 @@ use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\ArticleWithRestrictedChildren;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\ImageNotAssignedGenerator;
 
 class ObjectTest extends PhpcrOdmTestCase
 {
@@ -22,6 +23,12 @@ class ObjectTest extends PhpcrOdmTestCase
                             'type' => 'collection',
                             'options' => [
                                 'field' => 'image',
+                            ],
+                        ],
+                        'objectReferences' => [
+                            'type' => 'collection',
+                            'options' => [
+                                'field' => 'object_reference',
                             ],
                         ],
                     ],
@@ -185,17 +192,48 @@ class ObjectTest extends PhpcrOdmTestCase
 
     /**
      * It should throw an exception when a document in a collection does not have the "ASSIGNED" ID generator.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Currently, all documents which belong to a mapped collection must use the assigned ID generator strategy
      */
     public function testCollectionPersistNoAssignedGenerator()
     {
-        $this->markTestIncomplete('TODO');
+        $image1 = new ImageNotAssignedGenerator();
+        $article = new Article();
+        $article->id = '/test/article';
+        $article->slideshow = [$image1];
+        $this->updater->update($this->documentManager, $article);
+        $this->documentManager->persist($article);
+        $this->documentManager->flush();
     }
+
     /**
      * It should store arrays of references.
      */
     public function testStoreArrayOfReferences()
     {
-        $this->markTestIncomplete('TODO');
+        $article = new Article();
+        $article->id = '/test/article';
+
+        $article1 = new Article();
+        $article1->id = '/test/article1';
+
+        $article2 = new Article();
+        $article2->id = '/test/article2';
+
+        $this->documentManager->persist($article1);
+        $this->documentManager->persist($article2);
+        $this->documentManager->flush();
+
+        $article->objectReferences = [$article1, $article2];
+        $this->documentManager->persist($article);
+        $this->documentManager->flush();
+        $this->documentManager->clear();
+
+        $article = $this->documentManager->find(null, '/test/article');
+        $this->assertCount(2, $article->objectReferences);
+        $this->assertEquals('/test/article1', $article->objectReferences[0]->id);
+        $this->assertEquals('/test/article2', $article->objectReferences[1]->id);
     }
 
     private function createArticleSlideshow()
