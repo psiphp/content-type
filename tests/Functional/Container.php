@@ -44,6 +44,7 @@ use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Psi\Component\ContentType\View\ScalarView;
 use Psi\Component\ContentType\ViewRegistry;
 use Symfony\Component\Form\Forms;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
 
 class Container extends PimpleContainer
 {
@@ -181,6 +182,13 @@ class Container extends PimpleContainer
             );
         };
 
+        $this['psi_content_type.storage.doctrine.phpcr_odm.collection_updater'] = function ($container) {
+            return new CollectionIdentifierUpdater(
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
+            );
+        };
+
         $this['doctrine_phpcr.document_manager'] = function ($container) {
             $registerNodeTypes = false;
 
@@ -233,10 +241,6 @@ class Container extends PimpleContainer
                 $container['psi_content_type.metadata.factory'],
                 $container['psi_content_type.field_loader'],
                 $container['psi_content_type.storage.doctrine.phpcr_odm.field_mapper']
-            ));
-            $manager->getEventManager()->addEventSubscriber(new CollectionSubscriber(
-                $container['psi_content_type.metadata.factory'],
-                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
             ));
 
             return $manager;
