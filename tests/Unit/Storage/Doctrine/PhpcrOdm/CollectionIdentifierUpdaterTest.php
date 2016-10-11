@@ -70,7 +70,7 @@ class CollectionIdentifierUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->ctMetadata->propertyMetadata = [];
 
         $this->updater->update($this->documentManager->reveal(), $this->document);
-        $this->odmMetadata->getIdentifierValue($this->document)->shouldNotHaveBeenCalled();
+        $this->odmMetadata->getFieldValue($this->document, 'some_collection')->shouldNotHaveBeenCalled();
     }
 
     /**

@@ -42,6 +42,8 @@ class CollectionIdentifierUpdater
     {
         $metadataFactory = $documentManager->getMetadataFactory();
         $classFqn = ClassUtils::getRealClass(get_class($document));
+
+        // PHPCR-ODM will throw an exception if the document is not mapped.
         $odmMetadata = $metadataFactory->getMetadataFor($classFqn);
 
         if (null === $ctMetadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
