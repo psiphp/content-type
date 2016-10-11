@@ -242,6 +242,10 @@ class Container extends PimpleContainer
                 $container['psi_content_type.field_loader'],
                 $container['psi_content_type.storage.doctrine.phpcr_odm.field_mapper']
             ));
+            $manager->getEventManager()->addEventSubscriber(new CollectionSubscriber(
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
+            ));
 
             return $manager;
         };

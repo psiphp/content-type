@@ -41,9 +41,10 @@ class CollectionIdentifierUpdater
     public function update(DocumentManagerInterface $documentManager, $document)
     {
         $metadataFactory = $documentManager->getMetadataFactory();
-        $odmMetadata = $metadataFactory->getMetadataFor(ClassUtils::getRealClass(get_class($document)));
+        $classFqn = ClassUtils::getRealClass(get_class($document));
+        $odmMetadata = $metadataFactory->getMetadataFor($classFqn);
 
-        if (null === $ctMetadata = $this->metadataFactory->getMetadataForClass($odmMetadata->getName())) {
+        if (null === $ctMetadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
             return;
         }
 
@@ -58,10 +59,6 @@ class CollectionIdentifierUpdater
             }
 
             $children = $odmMetadata->getFieldValue($document, $childrenField);
-
-            if (!$children) {
-                continue;
-            }
 
             // note that we do not preserve array keys. PHPCR ODM will return a
             // children collection using the PHPCR property names as keys, so

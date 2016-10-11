@@ -171,6 +171,9 @@ class ObjectTest extends PhpcrOdmTestCase
     /**
      * It should throw an exception when persisting a collection and the "updater" has not been invoked on
      * the collection.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage It is currently necessary to envoke the CollectionIdentifierUpdater on all documents (at least those which have collections) before they are persisted.
      */
     public function testCollectionPersistNoUpdater()
     {
@@ -178,6 +181,14 @@ class ObjectTest extends PhpcrOdmTestCase
         $this->documentManager->persist($article);
         $this->documentManager->flush();
         $this->documentManager->clear();
+    }
+
+    /**
+     * It should throw an exception when a document in a collection does not have the "ASSIGNED" ID generator.
+     */
+    public function testCollectionPersistNoAssignedGenerator()
+    {
+        $this->markTestIncomplete();
     }
 
     private function createArticleSlideshow()
