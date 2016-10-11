@@ -259,6 +259,14 @@ class ContentTypeDriverTest extends PhpcrOdmTestCase
         $this->documentManager->find(null, '/test/article');
     }
 
+    /**
+     * It should store arrays of references.
+     */
+    public function testStoreArrayOfReferences()
+    {
+        $this->markTestIncomplete('TODO');
+    }
+
     private function createImage($path, $width, $height, $mimeType)
     {
         $image = new Image();
