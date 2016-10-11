@@ -188,7 +188,14 @@ class ObjectTest extends PhpcrOdmTestCase
      */
     public function testCollectionPersistNoAssignedGenerator()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('TODO');
+    }
+    /**
+     * It should store arrays of references.
+     */
+    public function testStoreArrayOfReferences()
+    {
+        $this->markTestIncomplete('TODO');
     }
 
     private function createArticleSlideshow()
