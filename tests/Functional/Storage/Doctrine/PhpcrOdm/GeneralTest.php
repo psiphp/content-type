@@ -2,9 +2,7 @@
 
 namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
-use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\ArticleWithRestrictedChildren;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
 
 class GeneralTest extends PhpcrOdmTestCase

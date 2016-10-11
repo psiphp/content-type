@@ -2,13 +2,13 @@
 
 namespace Psi\Component\ContentType\Tests\Unit\Storage\Doctrine\PhpcrOdm;
 
-use Metadata\MetadataFactoryInterface;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory;
+use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata as OdmMetadata;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory;
+use Metadata\MetadataFactoryInterface;
 use Psi\Component\ContentType\Metadata\ClassMetadata;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
-use Doctrine\ODM\PHPCR\DocumentManagerInterface;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 
 class CollectionIdentifierUpdaterTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +63,7 @@ class CollectionIdentifierUpdaterTest extends \PHPUnit_Framework_TestCase
 
         $this->odmMetadata->getIdentifierValue($this->document)->willReturn($identifier);
         $this->odmMetadata->childrenMappings = [
-            'some_collection'
+            'some_collection',
         ];
 
         $this->odmMetadata->getFieldValue($this->document, 'some_collection')->shouldNotBeCalled();
@@ -86,7 +86,7 @@ class CollectionIdentifierUpdaterTest extends \PHPUnit_Framework_TestCase
 
         $this->odmMetadata->getIdentifierValue($this->document)->willReturn($identifier);
         $this->odmMetadata->childrenMappings = [
-            'some_collection'
+            'some_collection',
         ];
         $this->ctMetadata->propertyMetadata = [
             'some_collection' => 'something',

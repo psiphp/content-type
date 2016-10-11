@@ -2,14 +2,11 @@
 
 namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Doctrine\ODM\PHPCR\Event;
 use Metadata\MetadataFactory;
 use Metadata\MetadataFactoryInterface;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
-use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 
 /**
  * The collection identifier updater updates the IDs (paths) of any documents
@@ -79,4 +76,3 @@ class CollectionIdentifierUpdater
         }
     }
 }
-

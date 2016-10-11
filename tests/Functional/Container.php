@@ -25,6 +25,7 @@ use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
 use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
@@ -44,7 +45,6 @@ use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Psi\Component\ContentType\View\ScalarView;
 use Psi\Component\ContentType\ViewRegistry;
 use Symfony\Component\Form\Forms;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
 
 class Container extends PimpleContainer
 {

@@ -209,4 +209,3 @@ class ObjectTest extends PhpcrOdmTestCase
         return $article;
     }
 }
-

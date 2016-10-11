@@ -2,10 +2,7 @@
 
 namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
-use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\ArticleWithRestrictedChildren;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
 
 class ScalarTest extends PhpcrOdmTestCase
 {
@@ -66,4 +63,3 @@ class ScalarTest extends PhpcrOdmTestCase
         $this->assertSame([12, 13, 14], $article->numbers);
     }
 }
-

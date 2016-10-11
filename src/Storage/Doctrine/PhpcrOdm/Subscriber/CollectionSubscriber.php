@@ -4,14 +4,14 @@ namespace Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Common\Persistence\Event\ManagerEventArgs;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ODM\PHPCR\Event;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Metadata\MetadataFactory;
 use Metadata\MetadataFactoryInterface;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\Event\ManagerEventArgs;
 use PHPCR\Util\PathHelper;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
 
 /**
  * This class provides exception messages for cases when the collection
@@ -37,7 +37,7 @@ class CollectionSubscriber implements EventSubscriber
     {
         return [
             Event::prePersist,
-            Event::preFlush
+            Event::preFlush,
         ];
     }
 
@@ -101,7 +101,7 @@ class CollectionSubscriber implements EventSubscriber
             if (!isset($ctMetadata->propertyMetadata[$childrenField])) {
                 continue;
             }
-            
+
             $childCtMetadata = $ctMetadata->propertyMetadata[$childrenField];
             $children = $odmMetadata->getFieldValue($document, $childrenField);
 
@@ -112,7 +112,7 @@ class CollectionSubscriber implements EventSubscriber
             $this->stack[] = [
                 'children' => $children,
                 'ct_metadata' => $childCtMetadata,
-                'field' => $childrenField
+                'field' => $childrenField,
             ];
         }
     }

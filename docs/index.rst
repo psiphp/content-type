@@ -89,3 +89,11 @@ Storage
 -------
 
 ...
+
+Persistence
+~~~~~~~~~~~
+
+.. note:: 
+
+    Describe special actions required with PHPCR-ODM when persisting documents
+    with collection mappings.

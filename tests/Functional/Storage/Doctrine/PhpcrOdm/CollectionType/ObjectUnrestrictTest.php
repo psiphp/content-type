@@ -2,7 +2,6 @@
 
 namespace Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm;
 
-use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\ArticleWithRestrictedChildren;
 use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
@@ -15,12 +14,13 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
     public function init(array $mapping)
     {
         $container = $this->getContainer([
-            'mapping' => $mapping
+            'mapping' => $mapping,
         ]);
         $this->documentManager = $container->get('doctrine_phpcr.document_manager');
         $this->initPhpcr($this->documentManager);
         $this->updater = $container->get('psi_content_type.storage.doctrine.phpcr_odm.collection_updater');
     }
+
     /**
      * It should automatically allow mapped content objects as children.
      */
@@ -90,7 +90,7 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
         $article->id = '/test/article';
         $article->title = 'Foo';
         $article->date = new \DateTime();
-        $article->slideshow = [ $image1, $image2, $image3 ];
+        $article->slideshow = [$image1, $image2, $image3];
 
         $this->documentManager->persist($article);
         $this->updater->update($this->documentManager, $article);
@@ -99,7 +99,6 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
 
         $this->documentManager->find(null, '/test/article');
     }
-
 
     private function createArticleSlideshow()
     {
@@ -119,4 +118,3 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
         return $article;
     }
 }
-
