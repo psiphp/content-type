@@ -5,7 +5,7 @@ namespace Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\Ph
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 
 /**
- * @PHPCR\Document()
+ * @PHPCR\Document(referenceable=true)
  */
 class Article
 {
@@ -22,4 +22,5 @@ class Article
     public $referencedImage;
     public $numbers;
     public $paragraphs = [];
+    public $objectReferences;
 }

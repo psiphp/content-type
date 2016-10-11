@@ -25,6 +25,7 @@ use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
 use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
+use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
 use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
@@ -39,7 +40,7 @@ use Psi\Component\ContentType\Storage\Mapping\Type\StringType;
 use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
 use Psi\Component\ContentType\Storage\Mapping\TypeRegistry;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
-use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageReferenceField;
+use Psi\Component\ContentType\Tests\Functional\Example\Field\ObjectReferenceField;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 use Psi\Component\ContentType\View\ScalarView;
 use Psi\Component\ContentType\ViewRegistry;
@@ -100,7 +101,7 @@ class Container extends PimpleContainer
             $registry->register('integer', new IntegerField());
             $registry->register('datetime', new DateTimeField());
             $registry->register('image', new ImageField());
-            $registry->register('image_reference', new ImageReferenceField());
+            $registry->register('object_reference', new ObjectReferenceField());
             $registry->register('collection', new CollectionField($registry));
 
             return $registry;
@@ -178,6 +179,13 @@ class Container extends PimpleContainer
             return new FieldMapper(
                 $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder'],
                 $container['psi_content_type.field_loader']
+            );
+        };
+
+        $this['psi_content_type.storage.doctrine.phpcr_odm.collection_updater'] = function ($container) {
+            return new CollectionIdentifierUpdater(
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
             );
         };
 
