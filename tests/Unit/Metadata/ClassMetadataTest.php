@@ -26,6 +26,7 @@ class ClassMetadataTest extends \PHPUnit_Framework_TestCase
             'test',
             'foo_type',
             'title',
+            null,
             []
         );
         $this->metadata->addPropertyMetadata($property);
@@ -57,6 +58,7 @@ class ClassMetadataTest extends \PHPUnit_Framework_TestCase
             'test',
             'foo_type',
             'title',
+            null,
             []
         );
         $this->metadata->addPropertyMetadata($property);
@@ -65,6 +67,7 @@ class ClassMetadataTest extends \PHPUnit_Framework_TestCase
             'tset',
             'foo_type',
             'title',
+            null,
             []
         );
         $this->metadata->addPropertyMetadata($property);

@@ -9,12 +9,14 @@ class PropertyMetadata extends BasePropertyMetadata
     private $type;
     private $options = [];
     private $role;
+    private $group;
 
     public function __construct(
         $class,
         $name,
         $type,
         $role,
+        $group,
         array $options
     ) {
         parent::__construct($class, $name);
@@ -22,6 +24,7 @@ class PropertyMetadata extends BasePropertyMetadata
         $this->type = $type;
         $this->options = $options;
         $this->role = $role;
+        $this->group = $group;
     }
 
     public function getName()
@@ -47,5 +50,10 @@ class PropertyMetadata extends BasePropertyMetadata
     public function getClass()
     {
         return $this->class;
+    }
+
+    public function getGroup()
+    {
+        return $this->group;
     }
 }

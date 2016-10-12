@@ -30,6 +30,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
                 'fields' => [
                     'title' => [
                         'type' => 'Class\Fqn\TextField',
+                        'group' => 'foobar',
                         'options' => [
                             'option_1' => 100,
                         ],
@@ -51,6 +52,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
         $property1 = current($properties);
         $this->assertEquals('Class\Fqn\TextField', $property1->getType());
         $this->assertEquals(['option_1' => 100], $property1->getOptions());
+        $this->assertEquals('foobar', $property1->getGroup());
 
         $property2 = next($properties);
         $this->assertEquals('Class\Fqn\ImageField', $property2->getType());

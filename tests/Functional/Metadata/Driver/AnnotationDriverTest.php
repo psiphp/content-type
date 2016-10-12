@@ -24,6 +24,7 @@ class AnnotationDriverTest extends BaseTestCase
         $this->assertCount(3, $properties);
         $this->assertEquals('text', $properties['title']->getType());
         $this->assertEquals('title', $properties['title']->getRole());
+        $this->assertEquals('foobar', $properties['title']->getGroup());
         $this->assertEquals('markdown', $properties['body']->getType());
         $this->assertEquals('image-collection', $properties['slider']->getType());
         $this->assertEquals(['max' => 10], $properties['slider']->getOptions());
