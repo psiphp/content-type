@@ -66,6 +66,35 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete('TODO');
     }
 
+    /**
+     * It should throw an exception if invalid field configuration keys are given.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid configuration key(s) "bar", "foo" for field "title" on class "Psi\Component\ContentType\Tests\Unit\Metadata\Driver\TestContent", valid keys: "type", "role", "group", "options"
+     */
+    public function testInvalidKeys()
+    {
+        $reflection = new \ReflectionClass(TestContent::class);
+        $driver = $this->createDriver([
+            TestContent::class => [
+                'fields' => [
+                    'title' => [
+                        'bar' => 'boo',
+                        'foo' => 'baa',
+                        'type' => 'Class\Fqn\TextField',
+                        'options' => [
+                            'option_1' => 100,
+                        ],
+                    ],
+                    'image' => [
+                        'type' => 'Class\Fqn\ImageField',
+                    ],
+                ],
+            ],
+        ]);
+        $driver->loadMetadataForClass($reflection);
+    }
+
     private function createDriver(array $config)
     {
         return new ArrayDriver($config);

@@ -35,18 +35,28 @@ class ArrayDriver implements AdvancedDriverInterface
         ], $this->config[$class->getName()]);
 
         $classMetadata = new ClassMetadata($class->getName());
+        $defaults = [
+            'type' => null,
+            'role' => null,
+            'group' => null,
+            'options' => [],
+        ];
 
         foreach ($config['fields'] as $fieldName => $fieldConfig) {
-            $fieldConfig = array_merge([
-                'type' => null,
-                'role' => null,
-                'options' => [],
-            ], $fieldConfig);
+            if ($diff = array_diff(array_keys($fieldConfig), array_keys($defaults))) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Invalid configuration key(s) "%s" for field "%s" on class "%s", valid keys: "%s"',
+                    implode('", "', $diff), $fieldName, $class->getName(), implode('", "', array_keys($defaults))
+                ));
+            }
+
+            $fieldConfig = array_merge($defaults, $fieldConfig);
             $propertyMetadata = new PropertyMetadata(
                 $class->getName(),
                 $fieldName,
                 $fieldConfig['type'],
                 $fieldConfig['role'],
+                $fieldConfig['group'],
                 $fieldConfig['options']
             );
 
