@@ -7,7 +7,7 @@ use Psi\Component\ContentType\Metadata\Annotations as CMFCT;
 class Article
 {
     /**
-     * @CMFCT\Field(type="text", role="title")
+     * @CMFCT\Field(type="text", role="title", group="foobar")
      */
     public $title;
 

@@ -11,4 +11,5 @@ class Field
     public $type;
     public $options = [];
     public $role;
+    public $group;
 }
