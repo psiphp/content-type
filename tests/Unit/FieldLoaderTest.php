@@ -7,7 +7,7 @@ use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\LoadedField;
 use Psi\Component\ContentType\Metadata\PropertyMetadata;
-use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
+use Psi\Component\ContentType\Storage\TypeFactory;
 
 class FieldLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,10 +31,9 @@ class FieldLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReturnLoaded()
     {
-        $this->property1->getType()->willReturn('foobar');
-        $this->property1->getOptions()->willReturn([]);
         $this->fieldRegistry->get('foobar')->willReturn($this->field1);
-        $field = $this->loader->loadForProperty($this->property1->reveal());
+
+        $field = $this->loader->load('foobar', []);
 
         $this->assertInstanceOf(LoadedField::class, $field);
         $this->assertSame($this->field1->reveal(), $field->getInnerField());
@@ -45,19 +44,16 @@ class FieldLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testCache()
     {
-        $this->property1->getType()->willReturn('foobar');
-        $this->property2->getType()->willReturn('barfoo');
-        $this->property1->getOptions()->willReturn([]);
-        $this->property2->getOptions()->willReturn([]);
-
-        $this->fieldRegistry->get('foobar')->shouldBeCalledTimes(1)->willReturn($this->field1);
+        $this->fieldRegistry->get('foobar')->shouldBeCalledTimes(2)->willReturn($this->field1);
         $this->fieldRegistry->get('barfoo')->shouldBeCalledTimes(1)->willReturn($this->field1);
 
-        $field1 = $this->loader->loadForProperty($this->property1->reveal());
-        $field2 = $this->loader->loadForProperty($this->property2->reveal());
-        $field3 = $this->loader->loadForProperty($this->property1->reveal());
+        $field1 = $this->loader->load('foobar', []);
+        $field2 = $this->loader->load('barfoo', []);
+        $field3 = $this->loader->load('foobar', []);
+        $field4 = $this->loader->load('foobar', ['fo' => 'ba']);
 
         $this->assertSame($field1, $field3);
         $this->assertNotSame($field2, $field1);
+        $this->assertNotSame($field4, $field3);
     }
 }
