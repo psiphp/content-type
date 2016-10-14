@@ -2,9 +2,9 @@
 
 namespace Psi\Component\ContentType\Benchmark;
 
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Article;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
-use Psi\Component\ContentType\Tests\Functional\Storage\Doctrine\PhpcrOdm\PhpcrOdmTestCase;
+use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\Article;
+use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\PhpcrOdmTestCase;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 /**
  * @BeforeMethods({"setUp"})

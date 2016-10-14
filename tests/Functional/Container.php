@@ -3,63 +3,42 @@
 namespace Psi\Component\ContentType\Tests\Functional;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
-use Doctrine\DBAL\DriverManager;
-use Doctrine\ODM\PHPCR\Configuration;
-use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\ODM\PHPCR\Mapping\Driver\AnnotationDriver;
-use Doctrine\ODM\PHPCR\NodeTypeRegistrator;
-use Jackalope\RepositoryFactoryDoctrineDBAL;
-use Jackalope\Transport\DoctrineDBAL\RepositorySchema;
 use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
-use PHPCR\SimpleCredentials;
 use Pimple\Container as PimpleContainer;
-use Psi\Component\ContentType\ContentViewBuilder;
-use Psi\Component\ContentType\Field\CollectionField;
-use Psi\Component\ContentType\Field\DateTimeField;
-use Psi\Component\ContentType\Field\IntegerField;
-use Psi\Component\ContentType\Field\TextField;
 use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
 use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\FieldMapper;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\NodeTypeRegistrator as CtNodeTypeRegistrator;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\PropertyEncoder;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\CollectionSubscriber;
-use Psi\Component\ContentType\Storage\Doctrine\PhpcrOdm\Subscriber\MetadataSubscriber;
-use Psi\Component\ContentType\Storage\Mapping\Type\CollectionType;
-use Psi\Component\ContentType\Storage\Mapping\Type\DateTimeType;
-use Psi\Component\ContentType\Storage\Mapping\Type\IntegerType;
-use Psi\Component\ContentType\Storage\Mapping\Type\ObjectType;
-use Psi\Component\ContentType\Storage\Mapping\Type\ReferenceType;
-use Psi\Component\ContentType\Storage\Mapping\Type\StringType;
-use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
-use Psi\Component\ContentType\Storage\Mapping\TypeRegistry;
+use Psi\Component\ContentType\Standard\Field\CollectionField;
+use Psi\Component\ContentType\Standard\Field\DateTimeField;
+use Psi\Component\ContentType\Standard\Field\IntegerField;
+use Psi\Component\ContentType\Standard\Field\TextField;
+use Psi\Component\ContentType\Standard\Storage\CollectionType;
+use Psi\Component\ContentType\Standard\Storage\DateTimeType;
+use Psi\Component\ContentType\Standard\Storage\IntegerType;
+use Psi\Component\ContentType\Standard\Storage\ObjectType;
+use Psi\Component\ContentType\Standard\Storage\ReferenceType;
+use Psi\Component\ContentType\Standard\Storage\StringType;
+use Psi\Component\ContentType\Standard\View\ScalarView;
+use Psi\Component\ContentType\Storage\TypeFactory;
+use Psi\Component\ContentType\Storage\TypeRegistry;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ObjectReferenceField;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Psi\Component\ContentType\View\ScalarView;
-use Psi\Component\ContentType\ViewRegistry;
+use Psi\Component\ContentType\View\ViewBuilder;
+use Psi\Component\ContentType\View\ViewRegistry;
 use Symfony\Component\Form\Forms;
 
 class Container extends PimpleContainer
 {
     public function __construct(array $config = [])
     {
-        $this['config'] = array_merge([
-            'mapping' => [],
-            'db_path' => __DIR__ . '/../../cache/test.sqlite',
-        ], $config);
-
+        $this['config'] = $config;
         $this->loadGeneral();
         $this->loadPsiContentType();
         $this->loadSymfonyForm();
-        $this->loadDoctrineDbal();
-        $this->loadPhpcrOdm();
     }
 
     public function get($serviceId)
@@ -139,9 +118,9 @@ class Container extends PimpleContainer
         };
 
         $this['psi_content_type.view_builder'] = function ($container) {
-            return new ContentViewBuilder(
+            return new ViewBuilder(
                 $container['psi_content_type.metadata.factory'],
-                $container['psi_content_type.registry.field'],
+                $container['psi_content_type.field_loader'],
                 $container['psi_content_type.registry.view']
             );
         };
@@ -156,98 +135,6 @@ class Container extends PimpleContainer
                     $container['psi_content_type.registry.field']
                 ))
                 ->getFormFactory();
-        };
-    }
-
-    private function loadDoctrineDbal()
-    {
-        $this['dbal.connection'] = function () {
-            return DriverManager::getConnection([
-                'driver'    => 'pdo_sqlite',
-                'path' => $this['config']['db_path'],
-            ]);
-        };
-    }
-
-    private function loadPhpcrOdm()
-    {
-        $this['psi_content_type.storage.doctrine.phpcr_odm.property_encoder'] = function ($container) {
-            return new PropertyEncoder('psict', 'https://github.com/psiphp/content-type');
-        };
-
-        $this['psi_content_type.storage.doctrine.phpcr_odm.field_mapper'] = function ($container) {
-            return new FieldMapper(
-                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder'],
-                $container['psi_content_type.field_loader']
-            );
-        };
-
-        $this['psi_content_type.storage.doctrine.phpcr_odm.collection_updater'] = function ($container) {
-            return new CollectionIdentifierUpdater(
-                $container['psi_content_type.metadata.factory'],
-                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
-            );
-        };
-
-        $this['doctrine_phpcr.document_manager'] = function ($container) {
-            $registerNodeTypes = false;
-
-            // automatically setup the schema if the db doesn't exist yet.
-            if (!file_exists($container['config']['db_path'])) {
-                if (!file_exists($dir = dirname($container['config']['db_path']))) {
-                    mkdir($dir);
-                }
-
-                $connection = $container['dbal.connection'];
-
-                $schema = new RepositorySchema();
-                foreach ($schema->toSql($connection->getDatabasePlatform()) as $sql) {
-                    $connection->exec($sql);
-                }
-
-                $registerNodeTypes = true;
-            }
-
-            // register the phpcr session
-            $factory = new RepositoryFactoryDoctrineDBAL();
-            $repository = $factory->getRepository([
-                'jackalope.doctrine_dbal_connection' => $container['dbal.connection'],
-            ]);
-            $session = $repository->login(new SimpleCredentials(null, null), 'default');
-
-            if ($registerNodeTypes) {
-                $typeRegistrator = new NodeTypeRegistrator();
-                $typeRegistrator->registerNodeTypes($session);
-                $ctTypeRegistrator = new CtNodeTypeRegistrator(
-                    $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
-                );
-                $ctTypeRegistrator->registerNodeTypes($session);
-            }
-
-            // annotation driver
-            $annotationDriver = new AnnotationDriver($container['annotation_reader'], [
-                __DIR__ . '/../../vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Document',
-                __DIR__ . '/Example/Storage/Doctrine/PhpcrOdm',
-            ]);
-            $chain = new MappingDriverChain();
-            $chain->addDriver($annotationDriver, 'Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm');
-            $chain->addDriver($annotationDriver, 'Doctrine');
-
-            $config = new Configuration();
-            $config->setMetadataDriverImpl($chain);
-
-            $manager = DocumentManager::create($session, $config);
-            $manager->getEventManager()->addEventSubscriber(new MetadataSubscriber(
-                $container['psi_content_type.metadata.factory'],
-                $container['psi_content_type.field_loader'],
-                $container['psi_content_type.storage.doctrine.phpcr_odm.field_mapper']
-            ));
-            $manager->getEventManager()->addEventSubscriber(new CollectionSubscriber(
-                $container['psi_content_type.metadata.factory'],
-                $container['psi_content_type.storage.doctrine.phpcr_odm.property_encoder']
-            ));
-
-            return $manager;
         };
     }
 }

@@ -4,7 +4,7 @@ namespace Psi\Component\ContentType\Benchmark;
 
 use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 /**
  * @BeforeMethods({"setUp"})

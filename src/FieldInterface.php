@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Psi\Component\ContentType;
 
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
-use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
+use Psi\Component\ContentType\Storage\ConfiguredType;
+use Psi\Component\ContentType\Storage\TypeFactory;
 
 /**
  * Field types encompases storage and backend/frontend of a content field. For

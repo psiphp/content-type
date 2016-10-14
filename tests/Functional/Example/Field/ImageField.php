@@ -4,10 +4,10 @@ namespace Psi\Component\ContentType\Tests\Functional\Example\Field;
 
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
-use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
+use Psi\Component\ContentType\Storage\ConfiguredType;
+use Psi\Component\ContentType\Storage\TypeFactory;
 use Psi\Component\ContentType\Tests\Functional\Example\Form\Type\ImageType;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 
 class ImageField implements FieldInterface

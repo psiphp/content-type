@@ -6,8 +6,8 @@ use Prophecy\Argument;
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\LoadedField;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Storage\Mapping\ConfiguredType;
-use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
+use Psi\Component\ContentType\Storage\ConfiguredType;
+use Psi\Component\ContentType\Storage\TypeFactory;
 
 class LoadedFieldTest extends \PHPUnit_Framework_TestCase
 {

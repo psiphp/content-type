@@ -4,7 +4,7 @@ namespace Psi\Component\ContentType\Tests\Functional\Form\Extension;
 
 use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
-use Psi\Component\ContentType\Tests\Functional\Example\Storage\Doctrine\PhpcrOdm\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class FieldExtensionTest extends BaseTestCase
 {

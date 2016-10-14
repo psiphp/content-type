@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Psi\Component\ContentType;
 
-use Psi\Component\ContentType\Metadata\PropertyMetadata;
-use Psi\Component\ContentType\Storage\Mapping\TypeFactory;
+use Psi\Component\ContentType\Storage\TypeFactory;
 
 class FieldLoader
 {
     private $fieldRegistry;
     private $typeFactory;
+    private $fields = [];
 
     public function __construct(TypeFactory $typeFactory, FieldRegistry $fieldRegistry)
     {
@@ -18,24 +18,18 @@ class FieldLoader
         $this->typeFactory = $typeFactory;
     }
 
-    public function loadForProperty(PropertyMetadata $property): LoadedField
+    public function load(string $type, array $options = []): LoadedField
     {
-        $hash = spl_object_hash($property);
+        $hash = md5(serialize($options)) . $type;
+
         if (isset($this->fields[$hash])) {
             return $this->fields[$hash];
         }
 
-        $field = $this->fieldRegistry->get($property->getType());
-
-        $this->fields[$hash] = new LoadedField($this->typeFactory, $field, $property->getOptions());
-
-        return $this->fields[$hash];
-    }
-
-    public function loadByTypeAndOptions(string $type, array $options = []): LoadedField
-    {
         $field = $this->fieldRegistry->get($type);
         $field = new LoadedField($this->typeFactory, $field, $options);
+
+        $this->fields[$hash] = $field;
 
         return $field;
     }
