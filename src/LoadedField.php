@@ -74,6 +74,11 @@ class LoadedField
         return $this->resolvedViewOptions;
     }
 
+    public function getViewType(): string
+    {
+        return $this->field->getViewType();
+    }
+
     /**
      * Return the configured storage type.
      */

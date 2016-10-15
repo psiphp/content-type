@@ -15,20 +15,15 @@ use Psi\Component\ContentType\Standard\Field\CollectionField;
 use Psi\Component\ContentType\Standard\Field\DateTimeField;
 use Psi\Component\ContentType\Standard\Field\IntegerField;
 use Psi\Component\ContentType\Standard\Field\TextField;
-use Psi\Component\ContentType\Standard\Storage\CollectionType;
-use Psi\Component\ContentType\Standard\Storage\DateTimeType;
-use Psi\Component\ContentType\Standard\Storage\IntegerType;
-use Psi\Component\ContentType\Standard\Storage\ObjectType;
-use Psi\Component\ContentType\Standard\Storage\ReferenceType;
-use Psi\Component\ContentType\Standard\Storage\StringType;
-use Psi\Component\ContentType\Standard\View\ScalarView;
-use Psi\Component\ContentType\Storage\TypeFactory;
-use Psi\Component\ContentType\Storage\TypeRegistry;
+use Psi\Component\ContentType\Standard\Storage as StdStorage;
+use Psi\Component\ContentType\Standard\View as StdView;
+use Psi\Component\ContentType\Storage;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ObjectReferenceField;
-use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
-use Psi\Component\ContentType\View\ViewBuilder;
-use Psi\Component\ContentType\View\ViewRegistry;
+use Psi\Component\ContentType\Tests\Functional\Example\View\ImageType;
+use Psi\Component\ContentType\View;
+use Psi\Component\ContentType\View\Renderer\PhpRenderer;
+use Psi\Component\ContentType\View\ViewFactory;
 use Symfony\Component\Form\Forms;
 
 class Container extends PimpleContainer
@@ -39,6 +34,7 @@ class Container extends PimpleContainer
         $this->loadGeneral();
         $this->loadPsiContentType();
         $this->loadSymfonyForm();
+        $this->loadView();
     }
 
     public function get($serviceId)
@@ -86,22 +82,14 @@ class Container extends PimpleContainer
             return $registry;
         };
 
-        $this['psi_content_type.registry.view'] = function ($container) {
-            $registry = new ViewRegistry();
-            $registry->register(ScalarView::class, new ScalarView());
-            $registry->register(ImageView::class, new ImageView());
-
-            return $registry;
-        };
-
         $this['psi_content_type.registry.type'] = function ($container) {
-            $registry = new TypeRegistry();
-            $registry->register('string', new StringType());
-            $registry->register('integer', new IntegerType());
-            $registry->register('datetime', new DateTimeType());
-            $registry->register('reference', new ReferenceType());
-            $registry->register('object', new ObjectType());
-            $registry->register('collection', new CollectionType());
+            $registry = new Storage\TypeRegistry();
+            $registry->register('string', new StdStorage\StringType());
+            $registry->register('integer', new StdStorage\IntegerType());
+            $registry->register('datetime', new StdStorage\DateTimeType());
+            $registry->register('reference', new StdStorage\ReferenceType());
+            $registry->register('object', new StdStorage\ObjectType());
+            $registry->register('collection', new StdStorage\CollectionType());
 
             return $registry;
         };
@@ -114,15 +102,7 @@ class Container extends PimpleContainer
         };
 
         $this['psi_content_type.storage.type_factory'] = function ($container) {
-            return new TypeFactory($container->get('psi_content_type.registry.type'));
-        };
-
-        $this['psi_content_type.view_builder'] = function ($container) {
-            return new ViewBuilder(
-                $container['psi_content_type.metadata.factory'],
-                $container['psi_content_type.field_loader'],
-                $container['psi_content_type.registry.view']
-            );
+            return new Storage\TypeFactory($container->get('psi_content_type.registry.type'));
         };
     }
 
@@ -135,6 +115,39 @@ class Container extends PimpleContainer
                     $container['psi_content_type.registry.field']
                 ))
                 ->getFormFactory();
+        };
+    }
+
+    private function loadView()
+    {
+        $this['psi_content_type.view.factory'] = function ($container) {
+            return new ViewFactory($container['psi_content_type.view.type_registry']);
+        };
+        $this['psi_content_type.view.renderer.php'] = function ($container) {
+            return new PhpRenderer(__DIR__ . '/../../templates');
+        };
+
+        $this['psi_content_type.view.type_registry'] = function ($container) {
+            $registry = new View\TypeRegistry();
+            $registry->register(ImageType::class, new ImageType());
+            $registry->register(StdView\ScalarType::class, new StdView\ScalarType());
+            $registry->register(StdView\CollectionType::class, new StdView\CollectionType(
+                $container->get('psi_content_type.field_loader')
+            ));
+            $registry->register(StdView\ObjectType::class, new StdView\ObjectType(
+                $container->get('psi_content_type.metadata.factory'),
+                $container->get('psi_content_type.field_loader')
+            ));
+
+            return $registry;
+        };
+
+        $this['psi_content_type.view_factory'] = function ($container) {
+            return new View\ViewFactory(
+                $container['psi_content_type.metadata.factory'],
+                $container['psi_content_type.field_loader'],
+                $container['psi_content_type.view.type_registry']
+            );
         };
     }
 }

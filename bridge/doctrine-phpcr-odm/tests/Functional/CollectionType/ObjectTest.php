@@ -22,13 +22,13 @@ class ObjectTest extends PhpcrOdmTestCase
                         'slideshow' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'image',
+                                'field_type' => 'image',
                             ],
                         ],
                         'objectReferences' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'object_reference',
+                                'field_type' => 'object_reference',
                             ],
                         ],
                     ],

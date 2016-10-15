@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Bridge\ContentType\Twig;
 
-use Psi\Component\ContentType\View\View;
+use Psi\Component\ContentType\View\ViewInterface;
 
 class ContentTypeExtension extends \Twig_Extension
 {
@@ -20,7 +22,7 @@ class ContentTypeExtension extends \Twig_Extension
         ];
     }
 
-    public function renderContent(View $view)
+    public function renderContent(ViewInterface $view)
     {
         return $this->renderer->render($view);
     }

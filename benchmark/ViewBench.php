@@ -2,6 +2,7 @@
 
 namespace Psi\Component\ContentType\Benchmark;
 
+use Psi\Component\ContentType\Standard\View\ObjectType;
 use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
@@ -14,15 +15,14 @@ use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
  */
 class ViewBench extends BaseTestCase
 {
-    private $viewBuilder;
+    private $factory;
 
     public function setUp()
     {
-        $this->viewBuilder = $this->getContainer([
+        $container = $this->getContainer([
             'mapping' => [
                 Article::class => [
-                    'alias' => 'article',
-                    'properties' => [
+                    'fields' => [
                         'title' => [
                             'type' => 'text',
                         ],
@@ -32,17 +32,30 @@ class ViewBench extends BaseTestCase
                     ],
                 ],
             ],
-        ])->get('psi_content_type.view_builder');
+        ]);
+        $this->factory = $container->get('psi_content_type.view.factory');
     }
 
     /**
      * @Subject()
      */
-    public function create_view_build()
+    public function create_object_view()
     {
         $article = new Article();
         $article->title = 'Hello';
         $article->image = new Image('/path/to/image.jpg', 100, 100, 'image/jpeg');
-        $this->viewBuilder->build($article);
+        $this->factory->create(ObjectType::class, $article, []);
+    }
+
+    /**
+     * @Subject()
+     */
+    public function create_object_view_and_iterate()
+    {
+        $article = new Article();
+        $article->title = 'Hello';
+        $article->image = new Image('/path/to/image.jpg', 100, 100, 'image/jpeg');
+        $view = $this->factory->create(ObjectType::class, $article, []);
+        iterator_to_array($view);
     }
 }

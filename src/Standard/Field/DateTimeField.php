@@ -6,21 +6,21 @@ namespace Psi\Component\ContentType\Standard\Field;
 
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Standard\View\ScalarView;
+use Psi\Component\ContentType\Standard\View\ScalarType;
 use Psi\Component\ContentType\Storage\ConfiguredType;
 use Psi\Component\ContentType\Storage\TypeFactory;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type as FormType;
 
 class DateTimeField implements FieldInterface
 {
     public function getViewType(): string
     {
-        return ScalarView::class;
+        return ScalarType::class;
     }
 
     public function getFormType(): string
     {
-        return DateTimeType::class;
+        return FormType\DateTimeType::class;
     }
 
     public function getStorageType(TypeFactory $factory): ConfiguredType

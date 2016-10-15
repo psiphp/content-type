@@ -112,7 +112,7 @@ class FieldMapper
     private function mapCollectionType($fieldName, LoadedField $loadedField, ClassMetadata $metadata)
     {
         $options = $loadedField->getOptions();
-        $collectionField = $this->fieldLoader->load($options['field'], $options['field_options']);
+        $collectionField = $this->fieldLoader->load($options['field_type'], $options['field_options']);
         $storageType = $collectionField->getStorageType();
         $innerType = $storageType->getInnerType();
 
