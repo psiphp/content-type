@@ -24,7 +24,7 @@ class CollectionView implements ViewInterface, \Iterator
     ) {
         $this->template = $template;
         $this->factory = $factory;
-        $this->collection = $collection;
+        $this->collection = new \IteratorIterator($collection);
         $this->viewType = $viewType;
         $this->viewOptions = $viewOptions;
     }
@@ -38,28 +38,28 @@ class CollectionView implements ViewInterface, \Iterator
     {
         return $this->factory->create(
             $this->viewType,
-            current($this->collection),
+            $this->collection->current(),
             $this->viewOptions
         );
     }
 
     public function next()
     {
-        next($this->collection);
+        return $this->collection->next();
     }
 
     public function key()
     {
-        return key($this->collection);
+        return $this->collection->key();
     }
 
     public function rewind()
     {
-        reset($this->collection);
+        return $this->collection->rewind();
     }
 
     public function valid()
     {
-        return key($this->collection) !== null;
+        return $this->collection->valid();
     }
 }

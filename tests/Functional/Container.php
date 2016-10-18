@@ -130,6 +130,7 @@ class Container extends PimpleContainer
         $this['psi_content_type.view.type_registry'] = function ($container) {
             $registry = new View\TypeRegistry();
             $registry->register(ImageType::class, new ImageType());
+            $registry->register(StdView\NullType::class, new StdView\NullType());
             $registry->register(StdView\ScalarType::class, new StdView\ScalarType());
             $registry->register(StdView\CollectionType::class, new StdView\CollectionType(
                 $container->get('psi_content_type.field_loader')

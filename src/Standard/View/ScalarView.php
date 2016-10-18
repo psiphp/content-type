@@ -10,16 +10,23 @@ class ScalarView implements ViewInterface
 {
     private $template;
     private $value;
+    private $tag;
 
-    public function __construct(string $template, $value)
+    public function __construct(string $template, $value, string $tag = null)
     {
         $this->template = $template;
         $this->value = $value;
+        $this->tag = $tag;
     }
 
     public function getTemplate(): string
     {
         return $this->template;
+    }
+
+    public function getTag()
+    {
+        return $this->tag;
     }
 
     public function getValue()

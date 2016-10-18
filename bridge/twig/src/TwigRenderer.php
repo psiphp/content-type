@@ -28,6 +28,7 @@ class TwigRenderer implements RendererInterface
             sprintf('%s.twig', $templateName),
         ];
 
+        $template = null;
         foreach ($names as $name) {
             try {
                 $template = $this->twig->loadTemplate($name);

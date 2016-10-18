@@ -1,1 +1,3 @@
-<?php echo $view->getValue();
+<?php
+
+echo $view->getValue();

@@ -2,36 +2,98 @@
 
 namespace Psi\Bridge\ContentType\Twig\Tests\Functional;
 
-use Psi\Bridge\ContentType\Twig\ContentTypeExtension;
-use Psi\Bridge\ContentType\Twig\TwigRenderer;
-use Psi\Component\ContentType\Standard\View\ScalarView;
-use Psi\Component\ContentType\View\View;
+use Psi\Component\ContentType\Standard\View\CollectionType;
+use Psi\Component\ContentType\Standard\View\NullType;
+use Psi\Component\ContentType\Standard\View\ObjectType;
+use Psi\Component\ContentType\Standard\View\ScalarType;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 
-class TwigRendererTest extends \PHPUnit_Framework_TestCase
+class TwigRendererTest extends TestCase
 {
     private $renderer;
+    private $viewFactory;
 
     public function setUp()
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem(__DIR__ . '/templates'), [
-            'debug' => true,
-            'strict_variables' => true,
+        $container = $this->getContainer([
+            'mapping' => [
+                Article::class => [
+                    'alias' => 'article',
+                    'fields' => [
+                        'title' => [
+                            'type' => 'text',
+                        ],
+                    ],
+                ],
+            ],
         ]);
-        $this->renderer = new TwigRenderer($twig);
-        $twig->addExtension(new ContentTypeExtension($this->renderer));
+        $this->renderer = $container->get('psi_content_type.view.twig.renderer');
+        $this->viewFactory = $container->get('psi_content_type.view.factory');
     }
 
     /**
-     * It should renderer a view.
+     * It should renderer a views.
+     *
+     * @dataProvider provideViews
      */
-    public function testRender()
+    public function testRender($viewType, $data, array $options, $expected)
     {
-        $view = new ScalarView('psi/test', 'foobar');
+        $view = $this->viewFactory->create($viewType, $data, $options);
         $output = $this->renderer->render($view);
-        $this->assertEquals(<<<'EOT'
-foobar
+        $this->assertEquals($expected, $output);
+    }
+
+    public function provideViews()
+    {
+        $article = new Article();
+        $article->title = 'Hello';
+
+        return [
+            [
+                ScalarType::class,
+                'hello',
+                [],
+                'hello',
+            ],
+            [
+                ObjectType::class,
+                $article,
+                [],
+                <<<'EOT'
+    <div>
+        Hello
+    </div>
 
 EOT
-, $output);
+            ],
+            [
+                CollectionType::class,
+                [
+                    'hello',
+                    'goodbye',
+                ],
+                [
+                    'field_type' => 'text',
+                    'field_options' => [],
+                ],
+                <<<'EOT'
+<ul>
+            <li>
+            hello
+        </li>
+            <li>
+            goodbye
+        </li>
+    </ul>
+
+EOT
+            ],
+            [
+                NullType::class,
+                'nothing',
+                [],
+                '',
+            ],
+        ];
     }
 }
