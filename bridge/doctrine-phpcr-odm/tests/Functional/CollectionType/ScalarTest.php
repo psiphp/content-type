@@ -15,14 +15,14 @@ class ScalarTest extends PhpcrOdmTestCase
                         'paragraphs' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'text',
+                                'field_type' => 'text',
                                 'field_options' => [],
                             ],
                         ],
                         'numbers' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'integer',
+                                'field_type' => 'integer',
                             ],
                         ],
                     ],

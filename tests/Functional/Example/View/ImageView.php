@@ -2,26 +2,24 @@
 
 namespace Psi\Component\ContentType\Tests\Functional\Example\View;
 
-use Psi\Component\ContentType\View\View;
 use Psi\Component\ContentType\View\ViewInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageView implements ViewInterface
 {
-    public function buildView(View $view, $data, array $options)
+    private $value;
+
+    public function __construct($value)
     {
-        $view['width'] = $data->width;
-        $view['height'] = $data->height;
-        $view['mimetype'] = $data->mimetype;
-        $view['path'] = $data->path;
-        $view->setValue($data);
+        $this->value = $value;
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function getValue()
     {
-        $options->setDefaults([
-            'path' => null,
-            'repository' => null,
-        ]);
+        return $this->value;
+    }
+
+    public function getTemplate(): string
+    {
+        return 'psi/image';
     }
 }

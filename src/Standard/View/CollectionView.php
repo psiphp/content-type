@@ -4,48 +4,62 @@ declare(strict_types=1);
 
 namespace Psi\Component\ContentType\Standard\View;
 
-use Psi\Component\ContentType\View\View;
-use Psi\Component\ContentType\View\ViewBuilder;
+use Psi\Component\ContentType\View\ViewFactory;
 use Psi\Component\ContentType\View\ViewInterface;
-use Psi\Component\ContentType\View\ViewIterator;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CollectionView implements ViewInterface
+class CollectionView implements ViewInterface, \Iterator
 {
-    private $builder;
+    private $collection;
+    private $factory;
+    private $template;
+    private $viewType;
+    private $viewOptions;
 
-    public function __construct(ViewBuilder $builder)
-    {
-        $this->builder = $builder;
+    public function __construct(
+        string $template,
+        ViewFactory $factory,
+        \Traversable $collection,
+        string $viewType,
+        array $viewOptions
+    ) {
+        $this->template = $template;
+        $this->factory = $factory;
+        $this->collection = $collection;
+        $this->viewType = $viewType;
+        $this->viewOptions = $viewOptions;
     }
 
-    public function buildView(View $view, $data, array $options)
+    public function getTemplate(): string
     {
-        if (!is_array($data) && !$data instanceof \Traversable) {
-            throw new \InvalidArgumentException(sprintf(
-                'Data must be traversable or an array, got: "%s"',
-                is_object($data) ? get_class($data) : gettype($data)
-            ));
-        }
-
-        if (is_array($data)) {
-            $data = new \ArrayIterator($data);
-        }
-
-        $view->setValue(new ViewIterator(
-            $this->builder,
-            $data,
-            $options['field_type'],
-            $options['field_options']
-        ));
+        return $this->template;
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function current()
     {
-        $options->setDefault('template', 'psi/collection');
-        $options->setRequired([
-            'field_type',
-            'field_options',
-        ]);
+        return $this->factory->create(
+            $this->viewType,
+            current($this->collection),
+            $this->viewOptions
+        );
+    }
+
+    public function next()
+    {
+        next($this->collection);
+    }
+
+    public function key()
+    {
+        return key($this->collection);
+    }
+
+    public function rewind()
+    {
+        reset($this->collection);
+    }
+
+    public function valid()
+    {
+        return key($this->collection) !== null;
     }
 }

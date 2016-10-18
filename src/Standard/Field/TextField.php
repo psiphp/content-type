@@ -6,7 +6,7 @@ namespace Psi\Component\ContentType\Standard\Field;
 
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Standard\View\ScalarView;
+use Psi\Component\ContentType\Standard\View\ScalarType;
 use Psi\Component\ContentType\Storage\ConfiguredType;
 use Psi\Component\ContentType\Storage\TypeFactory;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,7 +15,7 @@ class TextField implements FieldInterface
 {
     public function getViewType(): string
     {
-        return ScalarView::class;
+        return ScalarType::class;
     }
 
     public function getFormType(): string

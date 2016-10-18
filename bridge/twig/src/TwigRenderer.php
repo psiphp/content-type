@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Bridge\ContentType\Twig;
 
 use Psi\Component\ContentType\View\RendererInterface;
-use Psi\Component\ContentType\View\View;
+use Psi\Component\ContentType\View\ViewInterface;
 
 class TwigRenderer implements RendererInterface
 {
@@ -17,7 +19,7 @@ class TwigRenderer implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render(View $view)
+    public function render(ViewInterface $view): string
     {
         $templateName = $view->getTemplate();
         $names = [
@@ -42,8 +44,7 @@ class TwigRenderer implements RendererInterface
         }
 
         return $template->render([
-            'vars' => $view->getVars(),
-            'value' => $view->getValue(),
+            'view' => $view,
         ]);
     }
 }

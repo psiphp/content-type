@@ -4,6 +4,7 @@ namespace Psi\Bridge\ContentType\Twig\Tests\Functional;
 
 use Psi\Bridge\ContentType\Twig\ContentTypeExtension;
 use Psi\Bridge\ContentType\Twig\TwigRenderer;
+use Psi\Component\ContentType\Standard\View\ScalarView;
 use Psi\Component\ContentType\View\View;
 
 class TwigRendererTest extends \PHPUnit_Framework_TestCase
@@ -25,34 +26,10 @@ class TwigRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
-        $view = new View('psi/test');
-        $view['foobar'] = 'hello';
-        $view->setValue('boo');
+        $view = new ScalarView('psi/test', 'foobar');
         $output = $this->renderer->render($view);
         $this->assertEquals(<<<'EOT'
-hello
-boo
-
-EOT
-, $output);
-    }
-
-    /**
-     * It should be able to recursively render a view.
-     */
-    public function testRenderRecursive()
-    {
-        $view = new View('psi/recurse');
-        $view['hello'] = 'goodbye';
-        $view['foobar'] = new View('psi/test');
-        $view['foobar']['foobar'] = 'hello';
-        $view['foobar']->setValue('boo');
-        $output = $this->renderer->render($view);
-        $this->assertEquals(<<<'EOT'
-goodbye
-hello
-boo
-
+foobar
 
 EOT
 , $output);

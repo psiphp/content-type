@@ -33,7 +33,7 @@ class DoctrinePhpcrBench extends PhpcrOdmTestCase
                         'slideshow' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'image',
+                                'field_type' => 'image',
                             ],
                         ],
                         'date' => [
@@ -45,14 +45,14 @@ class DoctrinePhpcrBench extends PhpcrOdmTestCase
                         'paragraphs' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'text',
+                                'field_type' => 'text',
                                 'field_options' => [],
                             ],
                         ],
                         'numbers' => [
                             'type' => 'collection',
                             'options' => [
-                                'field' => 'integer',
+                                'field_type' => 'integer',
                             ],
                         ],
                     ],

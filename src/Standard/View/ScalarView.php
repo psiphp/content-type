@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Psi\Component\ContentType\Standard\View;
 
-use Psi\Component\ContentType\View\View;
 use Psi\Component\ContentType\View\ViewInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ScalarView implements ViewInterface
 {
-    public function buildView(View $view, $data, array $options)
-    {
-        if (!is_scalar($data)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Scalar view only accepts scalar values! Got "%s"',
-                is_object($data) ? get_class($data) : gettype($data)
-            ));
-        }
+    private $template;
+    private $value;
 
-        $view->setValue($data);
+    public function __construct(string $template, $value)
+    {
+        $this->template = $template;
+        $this->value = $value;
     }
 
-    public function configureOptions(OptionsResolver $options)
+    public function getTemplate(): string
     {
-        $options->setDefault('template', 'psi/scalar');
+        return $this->template;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }
