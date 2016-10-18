@@ -30,7 +30,7 @@ class ObjectType implements TypeInterface
         $classFqn = get_class($data);
         $metadata = $this->metadataFactory->getMetadataForClass($classFqn);
 
-        if ($metadata instanceof NullMetadata) {
+        if (null === $metadata || $metadata instanceof NullMetadata) {
             throw new \RuntimeException(sprintf(
                 'Class "%s" is not mapped',
                 $classFqn
