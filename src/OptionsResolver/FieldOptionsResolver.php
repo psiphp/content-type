@@ -17,6 +17,7 @@ class FieldOptionsResolver extends OptionsResolver
 {
     private $formMapper;
     private $viewMapper;
+    private $storageMapper;
 
     /**
      * Set closure which will map the resolved field options to form options.
@@ -35,38 +36,36 @@ class FieldOptionsResolver extends OptionsResolver
     }
 
     /**
-     * Resolve the form options.
-     *
-     * @param array $options
+     * Set closure which will map the resolved field options to storage options.
      */
-    public function resolveFormOptions(array $options = []): array
+    public function setStorageMapper(\Closure $optionMapper)
     {
-        $options = $this->resolve($options);
-
-        if (!$this->formMapper) {
-            return [];
-        }
-
-        $mapper = $this->formMapper;
-
-        return $mapper($options);
+        $this->storageMapper = $optionMapper;
     }
 
-    /**
-     * Resolve the view options.
-     *
-     * @param array $options
-     */
+    public function resolveFormOptions(array $options = []): array
+    {
+        return $this->resolveOptions($this->formMapper, $options);
+    }
+
     public function resolveViewOptions(array $options = []): array
     {
-        $options = $this->resolve($options);
+        return $this->resolveOptions($this->viewMapper, $options);
+    }
 
-        if (!$this->viewMapper) {
+    public function resolveStorageOptions(array $options = []): array
+    {
+        return $this->resolveOptions($this->storageMapper, $options);
+    }
+
+    private function resolveOptions($mapper, array $options): array
+    {
+        if (!$mapper) {
             return [];
         }
 
-        $mapper = $this->viewMapper;
+        $options = $this->resolve($options);
 
-        return $mapper->call($this, $options);
+        return $mapper($options);
     }
 }

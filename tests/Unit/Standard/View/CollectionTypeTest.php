@@ -2,8 +2,8 @@
 
 namespace Psi\Component\ContentType\Tests\Unit\Standard\View;
 
+use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
-use Psi\Component\ContentType\LoadedField;
 use Psi\Component\ContentType\Standard\View\CollectionType;
 use Psi\Component\ContentType\Standard\View\CollectionView;
 use Psi\Component\ContentType\View\View;
@@ -16,7 +16,7 @@ class CollectionTypeTest extends TypeTestCase
     public function setUp()
     {
         $this->fieldLoader = $this->prophesize(FieldLoader::class);
-        $this->field = $this->prophesize(LoadedField::class);
+        $this->field = $this->prophesize(Field::class);
         $this->viewFactory = $this->prophesize(ViewFactory::class);
     }
 

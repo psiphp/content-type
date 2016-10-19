@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\ContentType;
 
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Storage\ConfiguredType;
-use Psi\Component\ContentType\Storage\TypeFactory;
 
 /**
  * Field types encompases storage and backend/frontend of a content field. For
@@ -26,10 +24,8 @@ interface FieldInterface
 
     /**
      * Return the storage type.
-     *
-     * @return ConfiguredType
      */
-    public function getStorageType(TypeFactory $factory): ConfiguredType;
+    public function getStorageType(): string;
 
     /**
      * Configure general options for this content field.

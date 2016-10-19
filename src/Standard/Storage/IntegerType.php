@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Value should be persisted as an integer.
  */
-class IntegerType implements TypeInterface
+final class IntegerType implements TypeInterface
 {
     public function configureOptions(OptionsResolver $resolver)
     {

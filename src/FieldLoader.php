@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace Psi\Component\ContentType;
 
-use Psi\Component\ContentType\Storage\TypeFactory;
-
 class FieldLoader
 {
     private $fieldRegistry;
-    private $typeFactory;
     private $fields = [];
 
-    public function __construct(TypeFactory $typeFactory, FieldRegistry $fieldRegistry)
+    public function __construct(FieldRegistry $fieldRegistry)
     {
         $this->fieldRegistry = $fieldRegistry;
-        $this->typeFactory = $typeFactory;
     }
 
-    public function load(string $type, array $options = []): LoadedField
+    public function load(string $type, array $options = []): Field
     {
         $hash = md5(serialize($options)) . $type;
 
@@ -27,7 +23,7 @@ class FieldLoader
         }
 
         $field = $this->fieldRegistry->get($type);
-        $field = new LoadedField($this->typeFactory, $field, $options);
+        $field = new Field($field, $options);
 
         $this->fields[$hash] = $field;
 

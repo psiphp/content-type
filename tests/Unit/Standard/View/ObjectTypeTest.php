@@ -4,9 +4,9 @@ namespace Psi\Component\ContentType\Tests\Unit\Standard\View;
 
 use Metadata\MetadataFactory;
 use Metadata\NullMetadata;
+use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\FieldLoader;
-use Psi\Component\ContentType\LoadedField;
 use Psi\Component\ContentType\Metadata\ClassMetadata;
 use Psi\Component\ContentType\Metadata\PropertyMetadata;
 use Psi\Component\ContentType\Standard\View\ObjectType;
@@ -29,7 +29,7 @@ class ObjectTypeTest extends TypeTestCase
         $this->propertyMetadata1 = $this->prophesize(PropertyMetadata::class);
 
         $this->childView = $this->prophesize(ViewInterface::class);
-        $this->field = $this->prophesize(LoadedField::class);
+        $this->field = $this->prophesize(Field::class);
         $this->innerField = $this->prophesize(FieldInterface::class);
     }
 
@@ -82,8 +82,7 @@ class ObjectTypeTest extends TypeTestCase
         $this->fieldLoader->load('foobar', $options)->willReturn(
             $this->field->reveal()
         );
-        $this->field->getInnerField()->willReturn($this->innerField->reveal());
-        $this->innerField->getViewType()->willReturn('foobar');
+        $this->field->getViewType()->willReturn('foobar');
         $this->field->getViewOptions()->willReturn($options);
 
         $view = $this->getType()->createView(

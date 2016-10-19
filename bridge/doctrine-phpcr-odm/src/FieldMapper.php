@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm;
 
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
+use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
-use Psi\Component\ContentType\LoadedField;
 use Psi\Component\ContentType\Standard\Storage\CollectionType;
 use Psi\Component\ContentType\Standard\Storage\DateTimeType;
 use Psi\Component\ContentType\Standard\Storage\IntegerType;
@@ -31,16 +31,15 @@ class FieldMapper
         $this->fieldLoader = $fieldLoader;
     }
 
-    public function __invoke($fieldName, LoadedField $loadedField, ClassMetadata $metadata, array $extraOptions = [])
+    public function __invoke($fieldName, Field $field, ClassMetadata $metadata, array $extraOptions = [])
     {
-        $configuredType = $loadedField->getStorageType();
-        $type = $configuredType->getInnerType();
+        $type = $field->getStorageType();
         $options = array_merge([
             'multivalue' => false,
         ], $extraOptions);
 
-        if ($type instanceof ObjectType) {
-            $options = $loadedField->getStorageType()->getOptions();
+        if ($type === ObjectType::class) {
+            $options = $field->getStorageOptions();
             $this->unrestrictChildClass($options['class'], $metadata);
             $metadata->mapChild([
                 'fieldName' => $fieldName,
@@ -51,13 +50,13 @@ class FieldMapper
             return;
         }
 
-        if ($type instanceof CollectionType) {
-            $this->mapCollectionType($fieldName, $loadedField, $metadata);
+        if ($type === CollectionType::class) {
+            $this->mapCollectionType($fieldName, $field, $metadata);
 
             return;
         }
 
-        if ($type instanceof StringType) {
+        if ($type === StringType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'string',
@@ -68,7 +67,7 @@ class FieldMapper
             return;
         }
 
-        if ($type instanceof IntegerType) {
+        if ($type === IntegerType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'long',
@@ -79,7 +78,7 @@ class FieldMapper
             return;
         }
 
-        if ($type instanceof DateTimeType) {
+        if ($type === DateTimeType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'date',
@@ -90,7 +89,7 @@ class FieldMapper
             return;
         }
 
-        if ($type instanceof ReferenceType) {
+        if ($type === ReferenceType::class) {
             $metadata->mapManyToOne([
                 'fieldName' => $fieldName,
                 'strategy' => 'hard',
@@ -109,15 +108,13 @@ class FieldMapper
         ));
     }
 
-    private function mapCollectionType($fieldName, LoadedField $loadedField, ClassMetadata $metadata)
+    private function mapCollectionType($fieldName, Field $field, ClassMetadata $metadata)
     {
-        $options = $loadedField->getOptions();
+        $options = $field->getOptions();
         $collectionField = $this->fieldLoader->load($options['field_type'], $options['field_options']);
-        $storageType = $collectionField->getStorageType();
-        $innerType = $storageType->getInnerType();
 
-        if ($innerType instanceof ObjectType) {
-            $options = $storageType->getOptions();
+        if ($collectionField->getStorageType() === ObjectType::class) {
+            $options = $collectionField->getStorageOptions();
             $this->unrestrictChildClass($options['class'], $metadata);
 
             $metadata->mapChildren([
@@ -131,7 +128,7 @@ class FieldMapper
             return;
         }
 
-        if ($innerType instanceof ReferenceType) {
+        if ($collectionField->getStorageType() === ReferenceType::class) {
             $metadata->mapManyToMany([
                 'fieldName' => $fieldName,
                 'strategy' => 'hard',

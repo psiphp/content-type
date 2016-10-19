@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Value should be persisted as a datetime object.
  */
-class DateTimeType implements TypeInterface
+final class DateTimeType implements TypeInterface
 {
     public function configureOptions(OptionsResolver $resolver)
     {

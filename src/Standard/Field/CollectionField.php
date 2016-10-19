@@ -7,10 +7,9 @@ namespace Psi\Component\ContentType\Standard\Field;
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Standard\View\CollectionType;
-use Psi\Component\ContentType\Storage\ConfiguredType;
-use Psi\Component\ContentType\Storage\TypeFactory;
-use Symfony\Component\Form\Extension\Core\Type as FormType;
+use Psi\Component\ContentType\Standard\Storage\CollectionType;
+use Psi\Component\ContentType\Standard\View as View;
+use Symfony\Component\Form\Extension\Core\Type as Form;
 
 class CollectionField implements FieldInterface
 {
@@ -23,17 +22,17 @@ class CollectionField implements FieldInterface
 
     public function getViewType(): string
     {
-        return CollectionType::class;
+        return View\CollectionType::class;
     }
 
     public function getFormType(): string
     {
-        return FormType\CollectionType::class;
+        return Form\CollectionType::class;
     }
 
-    public function getStorageType(TypeFactory $factory): ConfiguredType
+    public function getStorageType(): string
     {
-        return $factory->create('collection');
+        return CollectionType::class;
     }
 
     public function configureOptions(FieldOptionsResolver $options)
