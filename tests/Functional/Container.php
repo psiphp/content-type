@@ -96,7 +96,6 @@ class Container extends PimpleContainer
 
         $this['psi_content_type.field_loader'] = function ($container) {
             return new FieldLoader(
-                $container->get('psi_content_type.storage.type_factory'),
                 $container->get('psi_content_type.registry.field')
             );
         };

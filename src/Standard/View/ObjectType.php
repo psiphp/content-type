@@ -46,7 +46,7 @@ class ObjectType implements TypeInterface
                 );
 
                 return $factory->create(
-                    $field->getInnerField()->getViewType(),
+                    $field->getViewType(),
                     $propertyMetadata->getValue($data),
                     $field->getViewOptions()
                 );

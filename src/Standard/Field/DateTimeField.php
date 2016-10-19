@@ -6,10 +6,9 @@ namespace Psi\Component\ContentType\Standard\Field;
 
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
+use Psi\Component\ContentType\Standard\Storage\DateTimeType;
 use Psi\Component\ContentType\Standard\View\ScalarType;
-use Psi\Component\ContentType\Storage\ConfiguredType;
-use Psi\Component\ContentType\Storage\TypeFactory;
-use Symfony\Component\Form\Extension\Core\Type as FormType;
+use Symfony\Component\Form\Extension\Core\Type as Form;
 
 class DateTimeField implements FieldInterface
 {
@@ -20,12 +19,12 @@ class DateTimeField implements FieldInterface
 
     public function getFormType(): string
     {
-        return FormType\DateTimeType::class;
+        return Form\DateTimeType::class;
     }
 
-    public function getStorageType(TypeFactory $factory): ConfiguredType
+    public function getStorageType(): string
     {
-        return $factory->create('datetime');
+        return DateTimeType::class;
     }
 
     public function configureOptions(FieldOptionsResolver $options)

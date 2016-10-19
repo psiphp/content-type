@@ -36,9 +36,6 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
                     'image' => [
                         'type' => 'image',
                         'role' => 'image',
-                        'options' => [
-                            'class' => Image::class,
-                        ],
                     ],
                 ],
             ],
@@ -49,7 +46,6 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
         $article = new ArticleWithRestrictedChildren();
         $article->id = '/test/article';
         $article->title = 'Foo';
-        $article->date = new \DateTime();
         $article->image = $image;
 
         $this->documentManager->persist($article);
@@ -89,7 +85,6 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
         $article = new ArticleWithRestrictedChildren();
         $article->id = '/test/article';
         $article->title = 'Foo';
-        $article->date = new \DateTime();
         $article->slideshow = [$image1, $image2, $image3];
 
         $this->documentManager->persist($article);
