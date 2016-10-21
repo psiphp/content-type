@@ -2,8 +2,9 @@
 
 namespace Psi\Component\ContentType\Benchmark;
 
-use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\PhpcrOdmTestCase;
+use Psi\Bridge\ContentType\Doctrine\OrmOdm\Tests\Functional\OrmOdmTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Bridge\ContentType\Doctrine\Orm\Tests\Functional\OrmTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 
 /**
@@ -12,9 +13,9 @@ use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
  * @Iterations(10)
  * @OutputTimeUnit("milliseconds", precision=2)
  */
-class DoctrinePhpcrBench extends PhpcrOdmTestCase
+class DoctrineOrmBench extends OrmTestCase
 {
-    private $documentManager;
+    private $entityManager;
 
     public function setUp()
     {
@@ -59,8 +60,8 @@ class DoctrinePhpcrBench extends PhpcrOdmTestCase
                 ],
             ],
         ]);
-        $this->documentManager = $container->get('doctrine_phpcr.document_manager');
-        $this->initPhpcr($this->documentManager);
+        $this->entityManager = $container->get('doctrine.entity_manager');
+        $this->initOrm($this->entityManager);
     }
 
     /**
@@ -74,8 +75,8 @@ class DoctrinePhpcrBench extends PhpcrOdmTestCase
         );
         $image->id = '/test/image' . $id++;
 
-        $this->documentManager->persist($image);
-        $this->documentManager->flush();
+        $this->entityManager->persist($image);
+        $this->entityManager->flush();
     }
 
     /**
@@ -89,8 +90,8 @@ class DoctrinePhpcrBench extends PhpcrOdmTestCase
         $article->title = 'Hello';
         $article->date = new \DateTime('2016-01-01 00:00:00');
 
-        $this->documentManager->persist($article);
-        $this->documentManager->flush();
+        $this->entityManager->persist($article);
+        $this->entityManager->flush();
     }
 
     /**
@@ -108,7 +109,7 @@ class DoctrinePhpcrBench extends PhpcrOdmTestCase
             '/path/to/image', 100, 200, 'image/jpeg'
         );
 
-        $this->documentManager->persist($article);
-        $this->documentManager->flush();
+        $this->entityManager->persist($article);
+        $this->entityManager->flush();
     }
 }
