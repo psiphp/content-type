@@ -203,7 +203,6 @@ class GeneralTest extends PhpcrOdmTestCase
         $article->objectReferences = [$article1, $article2];
         $article = $this->persistAndReloadArticle($article);
 
-        $article = $this->documentManager->find(null, '/test/article');
         $this->assertCount(2, $article->objectReferences);
         $this->assertEquals('/test/article1', $article->objectReferences[0]->id);
         $this->assertEquals('/test/article2', $article->objectReferences[1]->id);
