@@ -2,10 +2,9 @@
 
 namespace Psi\Component\ContentType\Benchmark;
 
-use Psi\Bridge\ContentType\Doctrine\OrmOdm\Tests\Functional\OrmOdmTestCase;
-use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Bridge\ContentType\Doctrine\Orm\Tests\Functional\OrmTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 /**
  * @BeforeMethods({"setUp"})

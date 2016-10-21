@@ -3,8 +3,8 @@
 namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional;
 
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
-use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class PhpcrOdmTestCase extends \PHPUnit_Framework_TestCase
 {

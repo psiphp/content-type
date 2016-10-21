@@ -6,6 +6,7 @@ namespace Psi\Bridge\ContentType\Doctrine\Orm;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Psi\Component\ContentType\Field;
+use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\Standard\Storage\CollectionType;
 use Psi\Component\ContentType\Standard\Storage\DateTimeType;
 use Psi\Component\ContentType\Standard\Storage\IntegerType;
@@ -15,10 +16,29 @@ use Psi\Component\ContentType\Standard\Storage\StringType;
 
 class FieldMapper
 {
-    public function __invoke($fieldName, Field $field, ClassMetadata $metadata, array $extraOptions = [])
+    private $fieldLoader;
+
+    public function __construct(FieldLoader $fieldLoader)
+    {
+        $this->fieldLoader = $fieldLoader;
+    }
+
+    public function __invoke($fieldName, Field $field, ClassMetadata $metadata, $extraOptions = [])
     {
         $type = $field->getStorageType();
         $options = $field->getStorageOptions();
+        $extraOptions = array_merge([
+            'serialize_scalar' => false,
+        ], $extraOptions);
+
+        if (true === $extraOptions['serialize_scalar']) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'array',
+            ]);
+
+            return;
+        }
 
         if ($type === ObjectType::class) {
             $metadata->mapField([
@@ -30,6 +50,8 @@ class FieldMapper
         }
 
         if ($type === CollectionType::class) {
+            $this->mapCollectionType($fieldName, $field, $metadata);
+
             return;
         }
 
@@ -84,5 +106,16 @@ class FieldMapper
             'Do not know how to map field of type "%s"',
             get_class($type)
         ));
+    }
+
+    private function mapCollectionType($fieldName, Field $field, ClassMetadata $metadata)
+    {
+        $options = $field->getOptions();
+        $collectionField = $this->fieldLoader->load($options['field_type'], $options['field_options']);
+
+        // assume that other types are scalars...
+        $this->__invoke($fieldName, $collectionField, $metadata, [
+            'serialize_scalar' => true,
+        ]);
     }
 }

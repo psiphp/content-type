@@ -2,7 +2,6 @@
 
 namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional;
 
-use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\ArticleWithRestrictedChildren;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\Image;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\ImageNotAssignedGenerator;

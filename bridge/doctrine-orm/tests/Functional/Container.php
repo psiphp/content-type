@@ -24,6 +24,7 @@ class Container extends BaseContainer
     {
         $this['psi_content_type.storage.doctrine.orm.field_mapper'] = function ($container) {
             return new FieldMapper(
+                $container['psi_content_type.field_loader']
             );
         };
         $this['doctrine.entity_manager'] = function ($container) {

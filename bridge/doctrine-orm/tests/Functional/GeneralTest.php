@@ -38,6 +38,19 @@ class GeneralTest extends OrmTestCase
                                 'class' => Image::class,
                             ],
                         ],
+                        'paragraphs' => [
+                            'type' => 'collection',
+                            'options' => [
+                                'field_type' => 'text',
+                                'field_options' => [],
+                            ],
+                        ],
+                        'numbers' => [
+                            'type' => 'collection',
+                            'options' => [
+                                'field_type' => 'integer',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -93,13 +106,20 @@ class GeneralTest extends OrmTestCase
         $article->date = new \DateTime();
         $article->referencedImage = $image;
 
-        $article = $this->persistAndReloadArticle();
+        $article = $this->persistAndReloadArticle($article);
 
         $image = $article->referencedImage;
         $this->assertInstanceOf(Image::class, $image);
     }
-    public function testReferenceCollection()
+
+    public function testScalarCollection()
     {
+        $article = new Article();
+        $article->id = '/test/article';
+        $article->paragraphs = ['one', 'two', 'three'];
+        $article = $this->persistAndReloadArticle($article);
+
+        $this->assertSame(['one', 'two', 'three'], $article->paragraphs);
     }
 
     private function persistAndReloadArticle(Article $article)

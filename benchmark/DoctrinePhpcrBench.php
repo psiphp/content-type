@@ -3,8 +3,8 @@
 namespace Psi\Component\ContentType\Benchmark;
 
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\PhpcrOdmTestCase;
-use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 /**
  * @BeforeMethods({"setUp"})

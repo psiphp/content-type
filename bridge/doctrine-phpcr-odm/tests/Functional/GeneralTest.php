@@ -2,10 +2,10 @@
 
 namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional;
 
-use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
-use Psi\Component\ContentType\Tests\Functional\Storage\StorageTestTrait;
 use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\Storage\StorageTestTrait;
 
 class GeneralTest extends PhpcrOdmTestCase
 {

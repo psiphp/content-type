@@ -16,6 +16,9 @@
         <testsuite name="Doctine PHPCR-ODM Bridge">
             <directory>./bridge/doctrine-phpcr-odm/tests</directory>
         </testsuite>
+        <testsuite name="Doctine ORM Bridge">
+            <directory>./bridge/doctrine-orm/tests</directory>
+        </testsuite>
     </testsuites>
 
     <filter>
