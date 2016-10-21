@@ -13,5 +13,7 @@ final class ReferenceType implements TypeInterface
 {
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefaults('class', null);
+        $resolver->setAllowedTypes('class', ['null', 'array']);
     }
 }

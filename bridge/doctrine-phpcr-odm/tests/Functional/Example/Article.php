@@ -15,12 +15,12 @@ class Article
     public $id;
 
     // mapped via. the content-type metadata
-    public $title;
-    public $image;
-    public $slideshow;
     public $date;
-    public $referencedImage;
+    public $image;
     public $numbers;
-    public $paragraphs = [];
     public $objectReferences;
+    public $paragraphs = [];
+    public $referencedImage;
+    public $slideshow;
+    public $title;
 }

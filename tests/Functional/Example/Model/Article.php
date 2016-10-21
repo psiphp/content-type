@@ -4,11 +4,15 @@ namespace Psi\Component\ContentType\Tests\Functional\Example\Model;
 
 class Article
 {
-    public $title;
+    public $id;
+    public $date;
     public $body;
-    public $tags;
-    public $seo;
     public $image;
-    public $slideshow;
     public $paragraphs;
+    public $integer;
+    public $seo;
+    public $slideshow;
+    public $tags;
+    public $title;
+    public $referencedImage;
 }
