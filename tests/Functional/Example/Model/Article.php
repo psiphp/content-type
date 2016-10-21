@@ -15,4 +15,6 @@ class Article
     public $tags;
     public $title;
     public $referencedImage;
+    public $objectReferences;
+    public $numbers;
 }

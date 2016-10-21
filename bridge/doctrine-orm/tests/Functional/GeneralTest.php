@@ -93,13 +93,13 @@ class GeneralTest extends OrmTestCase
         $article->date = new \DateTime();
         $article->referencedImage = $image;
 
-        $this->entityManager->persist($article);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
+        $article = $this->persistAndReloadArticle();
 
-        $article = $this->entityManager->find(Article::class, '/test/article');
         $image = $article->referencedImage;
         $this->assertInstanceOf(Image::class, $image);
+    }
+    public function testReferenceCollection()
+    {
     }
 
     private function persistAndReloadArticle(Article $article)

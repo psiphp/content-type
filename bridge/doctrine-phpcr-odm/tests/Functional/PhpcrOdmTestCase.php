@@ -4,6 +4,7 @@ namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional;
 
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 
 class PhpcrOdmTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -33,5 +34,23 @@ class PhpcrOdmTestCase extends \PHPUnit_Framework_TestCase
         $image->mimetype = $mimeType;
 
         return $image;
+    }
+
+    protected function createArticleSlideshow()
+    {
+        $article = new Article();
+        $article->id = '/test/article';
+
+        $image1 = $this->createImage('/path/to/image1', 100, 200, 'image/jpeg');
+        $image2 = $this->createImage('/path/to/image2', 100, 200, 'image/jpeg');
+        $image3 = $this->createImage('/path/to/image3', 100, 200, 'image/jpeg');
+
+        $article->slideshow = [
+            $image1,
+            $image2,
+            $image3,
+        ];
+
+        return $article;
     }
 }

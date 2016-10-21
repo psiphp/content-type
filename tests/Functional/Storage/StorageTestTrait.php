@@ -38,4 +38,9 @@ trait StorageTestTrait
     {
         $this->markTestIncomplete();
     }
+
+    public function testReferenceCollection()
+    {
+        $this->markTestIncomplete();
+    }
 }
