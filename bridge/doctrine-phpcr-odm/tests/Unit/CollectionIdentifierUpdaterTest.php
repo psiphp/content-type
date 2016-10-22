@@ -8,7 +8,7 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory;
 use Metadata\MetadataFactoryInterface;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\CollectionIdentifierUpdater;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\PropertyEncoder;
-use Psi\Bridge\ContentType\Metadata\ClassMetadata;
+use Psi\Component\ContentType\Metadata\ClassMetadata;
 
 class CollectionIdentifierUpdaterTest extends \PHPUnit_Framework_TestCase
 {

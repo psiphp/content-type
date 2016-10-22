@@ -22,9 +22,9 @@
         "doctrine/phpcr-odm": "^1.4",
         "pimple/pimple": "^3.0",
         "jackalope/jackalope-doctrine-dbal": "^1.2",
-        "phpbench/phpbench": "^0.12.1",
         "twig/twig": "^1.26",
-        "doctrine/orm": "^2.5"
+        "doctrine/orm": "^2.5",
+        "phpbench/phpbench": "0.12.2"
     },
     "autoload": {
         "psr-4": {
