@@ -8,7 +8,7 @@ use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
 class OrmTestCase extends \PHPUnit_Framework_TestCase
 {
-    public function getContainer(array $config = [])
+    protected function getContainer(array $config = [])
     {
         return new Container($config);
     }
