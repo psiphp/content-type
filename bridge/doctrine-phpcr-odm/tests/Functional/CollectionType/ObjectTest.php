@@ -2,11 +2,10 @@
 
 namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional;
 
-use Doctrine\ODM\PHPCR\ChildrenCollection;
-use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\Article;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\ArticleWithRestrictedChildren;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\Image;
 use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\Example\ImageNotAssignedGenerator;
+use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 
 class ObjectTest extends PhpcrOdmTestCase
 {
@@ -38,32 +37,6 @@ class ObjectTest extends PhpcrOdmTestCase
         $this->documentManager = $container->get('doctrine_phpcr.document_manager');
         $this->initPhpcr($this->documentManager);
         $this->updater = $container->get('psi_content_type.storage.doctrine.phpcr_odm.collection_updater');
-    }
-
-    /**
-     * It should persist object colletions.
-     */
-    public function testCollectionType()
-    {
-        $article = $this->createArticleSlideshow();
-        $this->documentManager->persist($article);
-        $this->updater->update($this->documentManager, $article);
-        $this->documentManager->flush();
-        $this->documentManager->clear();
-
-        $article = $this->documentManager->find(null, '/test/article');
-        $slideshow = $article->slideshow;
-        $this->assertInstanceOf(ChildrenCollection::class, $slideshow);
-        $slideshow = iterator_to_array($slideshow);
-        $this->assertCount(3, $slideshow);
-
-        $image1 = array_shift($slideshow);
-        $image2 = array_shift($slideshow);
-        $image3 = array_shift($slideshow);
-
-        $this->assertEquals('/path/to/image1', $image1->path);
-        $this->assertEquals('/path/to/image2', $image2->path);
-        $this->assertEquals('/path/to/image3', $image3->path);
     }
 
     /**
@@ -205,52 +178,5 @@ class ObjectTest extends PhpcrOdmTestCase
         $this->updater->update($this->documentManager, $article);
         $this->documentManager->persist($article);
         $this->documentManager->flush();
-    }
-
-    /**
-     * It should store arrays of references.
-     */
-    public function testStoreArrayOfReferences()
-    {
-        $article = new Article();
-        $article->id = '/test/article';
-
-        $article1 = new Article();
-        $article1->id = '/test/article1';
-
-        $article2 = new Article();
-        $article2->id = '/test/article2';
-
-        $this->documentManager->persist($article1);
-        $this->documentManager->persist($article2);
-        $this->documentManager->flush();
-
-        $article->objectReferences = [$article1, $article2];
-        $this->documentManager->persist($article);
-        $this->documentManager->flush();
-        $this->documentManager->clear();
-
-        $article = $this->documentManager->find(null, '/test/article');
-        $this->assertCount(2, $article->objectReferences);
-        $this->assertEquals('/test/article1', $article->objectReferences[0]->id);
-        $this->assertEquals('/test/article2', $article->objectReferences[1]->id);
-    }
-
-    private function createArticleSlideshow()
-    {
-        $article = new Article();
-        $article->id = '/test/article';
-
-        $image1 = $this->createImage('/path/to/image1', 100, 200, 'image/jpeg');
-        $image2 = $this->createImage('/path/to/image2', 100, 200, 'image/jpeg');
-        $image3 = $this->createImage('/path/to/image3', 100, 200, 'image/jpeg');
-
-        $article->slideshow = [
-            $image1,
-            $image2,
-            $image3,
-        ];
-
-        return $article;
     }
 }

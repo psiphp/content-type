@@ -2,7 +2,7 @@
 
 namespace Psi\Component\ContentType\Benchmark;
 
-use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\PhpcrOdmTestCase;
+use Psi\Bridge\ContentType\Doctrine\Orm\Tests\Functional\OrmTestCase;
 
 /**
  * @BeforeMethods({"setUp"})
@@ -10,14 +10,14 @@ use Psi\Bridge\ContentType\Doctrine\PhpcrOdm\Tests\Functional\PhpcrOdmTestCase;
  * @Iterations(10)
  * @OutputTimeUnit("milliseconds", precision=2)
  */
-class DoctrinePhpcrBench extends PhpcrOdmTestCase
+class DoctrineOrmBench extends OrmTestCase
 {
     use DoctrineBenchTrait;
 
     public function setUp()
     {
         $container = $this->getBenchContainer();
-        $this->objectManager = $container->get('doctrine_phpcr.document_manager');
-        $this->initPhpcr($this->objectManager);
+        $this->objectManager = $container->get('doctrine.entity_manager');
+        $this->initOrm($this->objectManager);
     }
 }

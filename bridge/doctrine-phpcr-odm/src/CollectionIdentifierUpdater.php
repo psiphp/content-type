@@ -5,8 +5,11 @@ namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Doctrine\ODM\PHPCR\Event;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata as PhpcrMetadata;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory;
 use Metadata\MetadataFactory;
 use Metadata\MetadataFactoryInterface;
+use Psi\Component\ContentType\Metadata\ClassMetadata as CtMetadata;
 
 /**
  * The collection identifier updater updates the IDs (paths) of any documents
@@ -47,6 +50,11 @@ class CollectionIdentifierUpdater
             return;
         }
 
+        $this->doUpdate($metadataFactory, $odmMetadata, $ctMetadata, $document);
+    }
+
+    private function doUpdate(ClassMetadataFactory $metadataFactory, PhpcrMetadata $odmMetadata, CtMetadata $ctMetadata, $document)
+    {
         $documentId = $odmMetadata->getIdentifierValue($document);
 
         foreach ($odmMetadata->childrenMappings as $childrenField) {

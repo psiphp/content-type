@@ -27,5 +27,11 @@ class ObjectReferenceField implements FieldInterface
 
     public function configureOptions(FieldOptionsResolver $options)
     {
+        $options->setDefault('class', null);
+        $options->setStorageMapper(function ($options) {
+            return [
+                'class' => $options['class'],
+            ];
+        });
     }
 }

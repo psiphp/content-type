@@ -10,6 +10,9 @@ namespace Psi\Bridge\ContentType\Doctrine\PhpcrOdm;
  */
 class PropertyEncoder
 {
+    private $prefix;
+    private $uri;
+
     public function __construct(string $prefix, string $uri)
     {
         $this->prefix = $prefix;
