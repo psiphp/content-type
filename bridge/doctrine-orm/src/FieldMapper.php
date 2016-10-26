@@ -104,7 +104,7 @@ class FieldMapper
 
         throw new \RuntimeException(sprintf(
             'Do not know how to map field of type "%s"',
-            get_class($type)
+            $type
         ));
     }
 
