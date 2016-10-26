@@ -22,7 +22,6 @@ use Psi\Component\ContentType\Tests\Functional\Example\Field\ImageField;
 use Psi\Component\ContentType\Tests\Functional\Example\Field\ObjectReferenceField;
 use Psi\Component\ContentType\Tests\Functional\Example\View\ImageType;
 use Psi\Component\ContentType\View;
-use Psi\Component\ContentType\View\Renderer\PhpRenderer;
 use Psi\Component\ContentType\View\ViewFactory;
 use Symfony\Component\Form\Forms;
 
@@ -121,9 +120,6 @@ class Container extends PimpleContainer
     {
         $this['psi_content_type.view.factory'] = function ($container) {
             return new ViewFactory($container['psi_content_type.view.type_registry']);
-        };
-        $this['psi_content_type.view.renderer.php'] = function ($container) {
-            return new PhpRenderer(__DIR__ . '/../../templates');
         };
 
         $this['psi_content_type.view.type_registry'] = function ($container) {

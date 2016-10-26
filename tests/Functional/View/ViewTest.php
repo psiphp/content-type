@@ -2,10 +2,13 @@
 
 namespace Psi\Component\ContentType\Tests\Functional\Form\Extension;
 
+use Psi\Component\ContentType\Standard\View\CollectionView;
 use Psi\Component\ContentType\Standard\View\ObjectType;
+use Psi\Component\ContentType\Standard\View\ScalarView;
 use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
+use Psi\Component\ContentType\Tests\Functional\Example\View\ImageView;
 
 class ViewTest extends BaseTestCase
 {
@@ -34,7 +37,6 @@ class ViewTest extends BaseTestCase
             ],
         ]);
 
-        $this->renderer = $container->get('psi_content_type.view.renderer.php');
         $this->viewFactory = $container->get('psi_content_type.view.factory');
     }
 
@@ -59,23 +61,9 @@ class ViewTest extends BaseTestCase
         ];
 
         $view = $this->viewFactory->create(ObjectType::class, $article, []);
-        $output = $this->renderer->render($view);
-        $this->assertEquals(<<<'EOT'
-    <div>
-        Hello World    </div>
-    <div>
-        <img src="/path/to" />
-    </div>
-    <div>
-        <ul>
-    <li>
-                    <img src="/one.jpg" />
-                    <img src="/two.jpg" />
-            </li>
-</ul>
-    </div>
-
-EOT
-        , $output);
+        $imageView = $view['image'];
+        $this->assertInstanceOf(ImageView::class, $imageView);
+        $this->assertInstanceOf(ScalarView::class, $view['title']);
+        $this->assertInstanceOf(CollectionView::class, $view['slideshow']);
     }
 }

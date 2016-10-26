@@ -6,5 +6,4 @@ namespace Psi\Component\ContentType\View;
 
 interface ViewInterface
 {
-    public function getTemplate(): string;
 }
