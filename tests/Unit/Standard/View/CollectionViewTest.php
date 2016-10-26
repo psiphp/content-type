@@ -29,7 +29,6 @@ class CollectionViewTest extends \PHPUnit_Framework_TestCase
             new \stdClass(),
         ]);
 
-        $template = 'foo/bar';
         $viewType = 'type';
         $viewOptions = ['foo' => 'bar'];
 
@@ -43,7 +42,6 @@ class CollectionViewTest extends \PHPUnit_Framework_TestCase
         );
 
         $collection = new CollectionView(
-            $template,
             $this->factory->reveal(),
             $data,
             $viewType,

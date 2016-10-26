@@ -53,11 +53,10 @@ class ObjectType implements TypeInterface
             };
         }
 
-        return new ObjectView($options['template'], $map);
+        return new ObjectView($map);
     }
 
     public function configureOptions(OptionsResolver $options)
     {
-        $options->setDefault('template', 'psi/object');
     }
 }

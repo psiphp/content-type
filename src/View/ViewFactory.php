@@ -20,9 +20,6 @@ class ViewFactory
     public function create(string $viewName, $data, array $options): ViewInterface
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefault('template', null);
-        $resolver->setAllowedTypes('template', ['string', 'null']);
-
         $type = $this->registry->get($viewName);
         $type->configureOptions($resolver);
 

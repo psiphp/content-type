@@ -19,7 +19,6 @@ class ImageType implements TypeInterface
         $options->setDefaults([
             'path' => '/path',
             'repository' => 'foo',
-            'template' => 'psi/image',
         ]);
     }
 }

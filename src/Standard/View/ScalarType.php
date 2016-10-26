@@ -21,12 +21,11 @@ class ScalarType implements TypeInterface
             ));
         }
 
-        return new ScalarView($options['template'], $data, $options['tag'], $options['raw']);
+        return new ScalarView($data, $options['tag'], $options['raw']);
     }
 
     public function configureOptions(OptionsResolver $options)
     {
-        $options->setDefault('template', 'psi/scalar');
         $options->setDefault('tag', null);
         $options->setDefault('raw', false);
     }

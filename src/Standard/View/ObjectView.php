@@ -8,12 +8,10 @@ use Psi\Component\ContentType\View\ViewInterface;
 
 class ObjectView implements ViewInterface, \ArrayAccess, \Iterator
 {
-    private $template;
     private $viewClosures;
 
-    public function __construct(string $template, array $viewClosures)
+    public function __construct(array $viewClosures)
     {
-        $this->template = $template;
         $this->viewClosures = $viewClosures;
     }
 
@@ -71,10 +69,5 @@ class ObjectView implements ViewInterface, \ArrayAccess, \Iterator
     public function valid()
     {
         return key($this->viewClosures) !== null;
-    }
-
-    public function getTemplate(): string
-    {
-        return $this->template;
     }
 }

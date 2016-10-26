@@ -38,7 +38,6 @@ class CollectionType implements TypeInterface
         );
 
         return new CollectionView(
-            $options['template'],
             $factory,
             $data,
             $field->getViewType(),
@@ -48,7 +47,6 @@ class CollectionType implements TypeInterface
 
     public function configureOptions(OptionsResolver $options)
     {
-        $options->setDefault('template', 'psi/collection');
         $options->setRequired([
             'field_type',
             'field_options',

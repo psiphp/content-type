@@ -88,9 +88,7 @@ class ObjectTypeTest extends TypeTestCase
         $view = $this->getType()->createView(
             $this->viewFactory->reveal(),
             $content,
-            [
-                'template' => 'adsf',
-            ]
+            []
         );
 
         $this->assertInstanceOf(ObjectView::class, $view);

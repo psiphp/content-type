@@ -11,27 +11,19 @@ class CollectionView implements ViewInterface, \Iterator
 {
     private $collection;
     private $factory;
-    private $template;
     private $viewType;
     private $viewOptions;
 
     public function __construct(
-        string $template,
         ViewFactory $factory,
         \Traversable $collection,
         string $viewType,
         array $viewOptions
     ) {
-        $this->template = $template;
         $this->factory = $factory;
         $this->collection = new \IteratorIterator($collection);
         $this->viewType = $viewType;
         $this->viewOptions = $viewOptions;
-    }
-
-    public function getTemplate(): string
-    {
-        return $this->template;
     }
 
     public function current()

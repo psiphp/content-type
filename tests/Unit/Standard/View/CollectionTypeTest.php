@@ -36,7 +36,6 @@ class CollectionTypeTest extends TypeTestCase
         $fieldType = 'foo';
         $viewType = 'view_type';
         $fieldOptions = $viewOptions = ['foo' => 'bar'];
-        $template = 'some/template';
 
         $this->fieldLoader->load(
             $fieldType,
@@ -49,14 +48,12 @@ class CollectionTypeTest extends TypeTestCase
             $this->viewFactory->reveal(),
             $data,
             [
-                'template' => $template,
                 'field_type' => $fieldType,
                 'field_options' => $fieldOptions,
             ]
         );
 
         $this->assertInstanceOf(CollectionView::class, $view);
-        $this->assertEquals($template, $view->getTemplate());
     }
 
     public function provideViewIterate()
