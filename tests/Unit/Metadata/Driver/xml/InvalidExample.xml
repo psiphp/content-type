@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<content-type-mapping
+    xmlns="http://github.com/psiphp/content-type/mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://github.com/psiphp/content-type
+    https://github.com/psiphp/content-type/raw/master/schema/mapping.xsd"
+    >
+
+    <class
+        name="Psi\Component\ContentType\Tests\Unit\Metadata\Driver\Model\Example"
+        >
+
+        <foo name="fieldOne" type="markdown" role="title" group="group_one">
+        </foo>
+
+    </class>
+
+</content-type-mapping>
