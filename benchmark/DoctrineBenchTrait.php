@@ -2,7 +2,6 @@
 
 namespace Psi\Component\ContentType\Benchmark;
 
-use Pimple\Container;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Article;
 use Psi\Component\ContentType\Tests\Functional\Example\Model\Image;
 
@@ -112,5 +111,5 @@ trait DoctrineBenchTrait
         $this->objectManager->flush();
     }
 
-    abstract protected function getContainer(array $config = []): Container;
+    abstract protected function getContainer(array $config = []);
 }
