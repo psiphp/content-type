@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://github.com/psiphp/content-type/mapping"
+    xmlns:psi="http://github.com/psiphp/content-type/mapping"
+    elementFormDefault="qualified">
+
+  <xs:annotation>
+      <xs:documentation><![CDATA[
+          This is the XML schema for the class mappings
+          for the Psi Content Type component.
+     ]]></xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="content-type-mapping">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="class" type="psi:class" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="class">
+    <xs:sequence>
+      <xs:element name="field" type="psi:field" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+</xs:complexType>
+
+  <xs:complexType name="field">
+    <xs:sequence>
+      <xs:element name="option" type="psi:option" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="type" type="xs:string" use="required" />
+    <xs:attribute name="role" type="xs:string" />
+    <xs:attribute name="group" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="option" mixed="true">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="option" type="psi:option"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="psi:option_type" />
+  </xs:complexType>
+
+  <xs:simpleType name="option_type">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="collection"/>
+      <xs:enumeration value="scalar"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -17,7 +17,7 @@ class XmlDriver extends AbstractFileDriver
     {
         $classMetadata = new ClassMetadata($class->getName());
 
-        libxml_use_internal_errors(true);
+        $use = libxml_use_internal_errors(true);
         $dom = new \DOMDocument('1.0');
         $dom->load($path);
 
@@ -30,10 +30,10 @@ class XmlDriver extends AbstractFileDriver
                 $path, $message
             ));
         }
+        libxml_use_internal_errors($use);
 
         $xpath = new \DOMXpath($dom);
         $xpath->registerNamespace('psict', self::XML_NAMESPACE);
-
 
         foreach ($xpath->query('//psict:class') as $classEl) {
             $classAttr = $classEl->getAttribute('name');
