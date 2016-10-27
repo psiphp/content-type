@@ -34,6 +34,10 @@
             "Psi\\Bridge\\ContentType\\Doctrine\\Orm\\": "bridge/doctrine-orm/src/"
         }
     },
+    "suggest": {
+        "doctrine/phpcr-odm": "^1.4 in order to persist content with the PHPCR-ODM",
+        "doctrine/orm": "^1.4 in order to persist content with the Doctrine ORM"
+    },
     "autoload-dev": {
         "psr-4": {
             "Psi\\Component\\ContentType\\Tests\\": "tests/",
