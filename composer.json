@@ -24,12 +24,11 @@
         "jackalope/jackalope-doctrine-dbal": "^1.2",
         "twig/twig": "^1.26",
         "doctrine/orm": "^2.5",
-        "phpbench/phpbench": "0.12.2"
+        "phpbench/phpbench": "^0.12.1"
     },
     "autoload": {
         "psr-4": {
             "Psi\\Component\\ContentType\\": "src/",
-            "Psi\\Bridge\\ContentType\\Twig\\": "bridge/twig/src/",
             "Psi\\Bridge\\ContentType\\Doctrine\\PhpcrOdm\\": "bridge/doctrine-phpcr-odm/src/",
             "Psi\\Bridge\\ContentType\\Doctrine\\Orm\\": "bridge/doctrine-orm/src/"
         }
@@ -42,7 +41,6 @@
         "psr-4": {
             "Psi\\Component\\ContentType\\Tests\\": "tests/",
             "Psi\\Component\\ContentType\\Benchmark\\": "benchmark/",
-            "Psi\\Bridge\\ContentType\\Twig\\Tests\\": "bridge/twig/tests/",
             "Psi\\Bridge\\ContentType\\Doctrine\\PhpcrOdm\\Tests\\": "bridge/doctrine-phpcr-odm/tests/",
             "Psi\\Bridge\\ContentType\\Doctrine\\Orm\\Tests\\": "bridge/doctrine-orm/tests/"
         }

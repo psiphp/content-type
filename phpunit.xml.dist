@@ -10,9 +10,6 @@
         <testsuite name="Content Type Component">
             <directory>./tests</directory>
         </testsuite>
-        <testsuite name="Twig Bridge">
-            <directory>./bridge/twig/tests</directory>
-        </testsuite>
         <testsuite name="Doctine PHPCR-ODM Bridge">
             <directory>./bridge/doctrine-phpcr-odm/tests</directory>
         </testsuite>
