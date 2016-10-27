@@ -3,6 +3,7 @@
 namespace Psi\Component\ContentType\Tests\Unit\Standard\Field;
 
 use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 use Psi\Component\ContentType\View\TypeInterface;
 use Psi\Component\ContentType\View\ViewInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -35,5 +36,14 @@ abstract class FieldTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue(class_exists($viewType), 'Valid class returned');
         $reflection = new \ReflectionClass($viewType);
         $this->assertTrue($reflection->isSubclassOf(FormTypeInterface::class), 'FormType is instance of FormTypeInterface');
+    }
+
+    /**
+     * It should configure options.
+     */
+    public function testConfigureOptions()
+    {
+        $options = new FieldOptionsResolver();
+        $this->getField()->configureOptions($options);
     }
 }
