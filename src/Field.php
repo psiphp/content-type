@@ -54,6 +54,11 @@ class Field
         return $this->field->getStorageType();
     }
 
+    public function getInnerField()
+    {
+        return $this->field;
+    }
+
     private function getResolver(): FieldOptionsResolver
     {
         if ($this->resolver) {
