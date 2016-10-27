@@ -93,6 +93,13 @@ Storage
 Persistence
 ~~~~~~~~~~~
 
+...
+
+Mapping Reference
+~~~~~~~~~~~~~~~~~
+
+... (XML, YAML, array)
+
 .. note:: 
 
     Describe special actions required with PHPCR-ODM when persisting documents
