@@ -24,6 +24,7 @@ use Psi\Component\ContentType\Tests\Functional\Example\View\ImageType;
 use Psi\Component\ContentType\View;
 use Psi\Component\ContentType\View\ViewFactory;
 use Symfony\Component\Form\Forms;
+use Psi\Component\ContentType\Standard\Field\ChoiceField;
 
 class Container extends PimpleContainer
 {
@@ -77,6 +78,7 @@ class Container extends PimpleContainer
             $registry->register('image', new ImageField());
             $registry->register('object_reference', new ObjectReferenceField());
             $registry->register('collection', new CollectionField($registry));
+            $registry->register('choice', new ChoiceField($registry));
 
             return $registry;
         };
