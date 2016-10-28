@@ -8,10 +8,14 @@ use Psi\Component\ContentType\View\TypeInterface;
 use Psi\Component\ContentType\View\ViewInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Form;
 
 abstract class FieldTestCase extends BaseTestCase
 {
-    private $container;
+    private $fieldLoader;
+    private $viewFactory;
+    private $formFactory;
 
     public function setUp()
     {
@@ -20,6 +24,7 @@ abstract class FieldTestCase extends BaseTestCase
         ]);
         $this->fieldLoader = $container->get('psi_content_type.field_loader');
         $this->viewFactory = $container->get('psi_content_type.view.factory');
+        $this->formFactory = $container->get('symfony.form_factory');
     }
 
     abstract protected function getFieldName(): string;
@@ -51,5 +56,22 @@ abstract class FieldTestCase extends BaseTestCase
             $viewOptions
         );
         $this->assertInstanceOf(ViewInterface::class, $view);
+    }
+
+    /**
+     * The view can be built.
+     *
+     * @dataProvider provideValidConfigs
+     */
+    public function testBuildForm(array $config)
+    {
+        $field = $this->getField($config);
+        $formOptions = $field->getFormOptions();
+        $form = $this->formFactory->create(
+            $field->getFormType(),
+            $this->getDefaultData(),
+            $formOptions
+        );
+        $this->assertInstanceOf(Form::class, $form);
     }
 }

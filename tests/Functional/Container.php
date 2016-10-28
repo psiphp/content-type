@@ -129,6 +129,7 @@ class Container extends PimpleContainer
             $registry->register(ImageType::class, new ImageType());
             $registry->register(StdView\NullType::class, new StdView\NullType());
             $registry->register(StdView\ScalarType::class, new StdView\ScalarType());
+            $registry->register(StdView\DateTimeType::class, new StdView\DateTimeType());
             $registry->register(StdView\CollectionType::class, new StdView\CollectionType(
                 $container->get('psi_content_type.field_loader')
             ));
