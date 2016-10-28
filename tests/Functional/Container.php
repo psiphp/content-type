@@ -11,6 +11,7 @@ use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
 use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
+use Psi\Component\ContentType\Standard\Field\ChoiceField;
 use Psi\Component\ContentType\Standard\Field\CollectionField;
 use Psi\Component\ContentType\Standard\Field\DateTimeField;
 use Psi\Component\ContentType\Standard\Field\IntegerField;
@@ -24,7 +25,6 @@ use Psi\Component\ContentType\Tests\Functional\Example\View\ImageType;
 use Psi\Component\ContentType\View;
 use Psi\Component\ContentType\View\ViewFactory;
 use Symfony\Component\Form\Forms;
-use Psi\Component\ContentType\Standard\Field\ChoiceField;
 
 class Container extends PimpleContainer
 {
@@ -85,12 +85,12 @@ class Container extends PimpleContainer
 
         $this['psi_content_type.registry.type'] = function ($container) {
             $registry = new Storage\TypeRegistry();
-            $registry->register('string', new StdStorage\StringType());
-            $registry->register('integer', new StdStorage\IntegerType());
-            $registry->register('datetime', new StdStorage\DateTimeType());
-            $registry->register('reference', new StdStorage\ReferenceType());
-            $registry->register('object', new StdStorage\ObjectType());
-            $registry->register('collection', new StdStorage\CollectionType());
+            $registry->register(StdStorage\StringType::class, new StdStorage\StringType());
+            $registry->register(StdStorage\IntegerType::class, new StdStorage\IntegerType());
+            $registry->register(StdStorage\DateTimeType::class, new StdStorage\DateTimeType());
+            $registry->register(StdStorage\ReferenceType::class, new StdStorage\ReferenceType());
+            $registry->register(StdStorage\ObjectType::class, new StdStorage\ObjectType());
+            $registry->register(StdStorage\CollectionType::class, new StdStorage\CollectionType());
 
             return $registry;
         };

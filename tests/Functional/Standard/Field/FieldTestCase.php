@@ -2,20 +2,17 @@
 
 namespace Psi\Component\ContentType\Tests\Functional\Standard\Field;
 
-use Psi\Component\ContentType\FieldInterface;
-use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\View\TypeInterface;
-use Psi\Component\ContentType\View\ViewInterface;
-use Symfony\Component\Form\FormTypeInterface;
 use Psi\Component\ContentType\Tests\Functional\BaseTestCase;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Psi\Component\ContentType\View\ViewInterface;
 use Symfony\Component\Form\Form;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class FieldTestCase extends BaseTestCase
 {
     private $fieldLoader;
     private $viewFactory;
     private $formFactory;
+    private $storageRegistry;
 
     public function setUp()
     {
@@ -25,6 +22,7 @@ abstract class FieldTestCase extends BaseTestCase
         $this->fieldLoader = $container->get('psi_content_type.field_loader');
         $this->viewFactory = $container->get('psi_content_type.view.factory');
         $this->formFactory = $container->get('symfony.form_factory');
+        $this->storageRegistry = $container->get('psi_content_type.registry.type');
     }
 
     abstract protected function getFieldName(): string;
@@ -73,5 +71,21 @@ abstract class FieldTestCase extends BaseTestCase
             $formOptions
         );
         $this->assertInstanceOf(Form::class, $form);
+    }
+
+    /**
+     * The storage can be configured.
+     *
+     * @dataProvider provideValidConfigs
+     */
+    public function testBuildStorage(array $config)
+    {
+        $field = $this->getField($config);
+        $storageOptions = $field->getStorageOptions();
+        $resolver = new OptionsResolver();
+
+        $type = $this->storageRegistry->get($field->getStorageType());
+        $type->configureOptions($resolver);
+        $resolver->resolve($storageOptions);
     }
 }

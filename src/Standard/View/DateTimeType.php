@@ -29,5 +29,3 @@ class DateTimeType implements TypeInterface
         $options->setDefault('tag', null);
     }
 }
-
-
