@@ -12,19 +12,23 @@ use Psi\Component\ContentType\Metadata\ClassMetadata;
 use Psi\Component\ContentType\Metadata\PropertyMetadata;
 use Psi\Component\ContentType\Standard\View\ObjectType;
 use Psi\Component\ContentType\Standard\View\ObjectView;
-use Psi\Component\ContentType\View\ViewFactory;
 use Psi\Component\ContentType\View\ViewInterface;
 
 class ObjectTypeTest extends TypeTestCase
 {
-    private $type;
     private $metadataFactory;
+    private $fieldLoader;
+    private $innerField;
+    private $propertyMetadata1;
+    private $classMetadata;
+    private $childView;
+    private $field;
 
     public function setUp()
     {
+        parent::setUp();
         $this->metadataFactory = $this->prophesize(MetadataFactory::class);
         $this->fieldLoader = $this->prophesize(FieldLoader::class);
-        $this->viewFactory = $this->prophesize(ViewFactory::class);
 
         $this->classMetadata = $this->prophesize(ClassMetadata::class);
         $this->propertyMetadata1 = $this->prophesize(PropertyMetadata::class);
@@ -54,7 +58,7 @@ class ObjectTypeTest extends TypeTestCase
             new NullMetadata('stdClass')
         );
 
-        $this->getType()->createView($this->viewFactory->reveal(), new \stdClass(), []);
+        $this->getType()->createView($this->factory->reveal(), new \stdClass(), []);
     }
 
     /**
@@ -81,7 +85,7 @@ class ObjectTypeTest extends TypeTestCase
         $this->propertyMetadata1->getOptions()->willReturn($options);
         $this->propertyMetadata1->getValue($content)->willReturn($value);
 
-        $this->viewFactory->create('foobar', $value, $viewOptions)->willReturn($this->childView->reveal());
+        $this->factory->create('foobar', $value, $viewOptions)->willReturn($this->childView->reveal());
 
         $this->fieldLoader->load('foobar', $options)->willReturn(
             $this->field->reveal()
@@ -90,7 +94,7 @@ class ObjectTypeTest extends TypeTestCase
         $this->field->getViewOptions()->willReturn($viewOptions);
 
         $view = $this->getType()->createView(
-            $this->viewFactory->reveal(),
+            $this->factory->reveal(),
             $content,
             []
         );
