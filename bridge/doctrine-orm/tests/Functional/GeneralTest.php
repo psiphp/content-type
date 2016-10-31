@@ -34,20 +34,20 @@ class GeneralTest extends OrmTestCase
                         ],
                         'referencedImage' => [
                             'type' => 'object_reference',
-                            'options' => [
+                            'shared' => [
                                 'class' => Image::class,
                             ],
                         ],
                         'paragraphs' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'text',
                                 'field_options' => [],
                             ],
                         ],
                         'numbers' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'integer',
                             ],
                         ],

@@ -10,18 +10,20 @@ class Field
 {
     private $resolved;
     private $resolver;
-    private $options;
     private $field;
+    private $options;
 
-    public function __construct(FieldInterface $field, array $options)
-    {
+    public function __construct(
+        FieldInterface $field,
+        FieldOptions $options
+    ) {
         $this->field = $field;
         $this->options = $options;
     }
 
     public function getOptions(): array
     {
-        return $this->resolve('resolve');
+        return $this->getResolver()->resolve($this->options->getSharedOptions());
     }
 
     public function getFormType(): string

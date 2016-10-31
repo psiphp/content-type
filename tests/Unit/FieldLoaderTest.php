@@ -5,6 +5,7 @@ namespace Psi\Component\ContentType\Tests\Unit;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\FieldLoader;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Metadata\PropertyMetadata;
 
@@ -31,7 +32,7 @@ class FieldLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fieldRegistry->get('foobar')->willReturn($this->field1);
 
-        $field = $this->loader->load('foobar', []);
+        $field = $this->loader->load('foobar', FieldOptions::create([]));
 
         $this->assertInstanceOf(Field::class, $field);
     }
@@ -44,10 +45,10 @@ class FieldLoaderTest extends \PHPUnit_Framework_TestCase
         $this->fieldRegistry->get('foobar')->shouldBeCalledTimes(2)->willReturn($this->field1);
         $this->fieldRegistry->get('barfoo')->shouldBeCalledTimes(1)->willReturn($this->field1);
 
-        $field1 = $this->loader->load('foobar', []);
-        $field2 = $this->loader->load('barfoo', []);
-        $field3 = $this->loader->load('foobar', []);
-        $field4 = $this->loader->load('foobar', ['fo' => 'ba']);
+        $field1 = $this->loader->load('foobar', FieldOptions::create([]));
+        $field2 = $this->loader->load('barfoo', FieldOptions::create([]));
+        $field3 = $this->loader->load('foobar', FieldOptions::create([]));
+        $field4 = $this->loader->load('foobar', FieldOptions::create(['shared' => ['fo' => 'ba']]));
 
         $this->assertSame($field1, $field3);
         $this->assertNotSame($field2, $field1);

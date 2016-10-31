@@ -11,17 +11,36 @@
         >
 
         <field name="fieldOne" type="markdown" role="title" group="group_one">
-            <option name="option_one">Foobar</option>
-            <option name="option_two">Barfoo</option>
-            <option name="option_three" type="collection">
-                <option name="sub_one">One</option>
-                <option name="sub_two">Two</option>
-            </option>
+
+            <shared-options>
+                <option name="option_one">Foobar</option>
+                <option name="option_two">Barfoo</option>
+                <option name="option_three" type="collection">
+                    <option name="sub_one">One</option>
+                    <option name="sub_two">Two</option>
+                </option>
+            </shared-options>
+
+            <form-options>
+                <option name="a">A</option>
+                <option name="b">B</option>
+            </form-options>
+
+            <view-options>
+                <option name="c">C</option>
+            </view-options>
+
+            <storage-options>
+                <option name="d">D</option>
+            </storage-options>
+
         </field>
 
         <field name="fieldTwo" type="date">
-            <option name="option_one">Foobar</option>
-            <option name="option_two">Barfoo</option>
+            <shared-options>
+                <option name="option_one">Foobar</option>
+                <option name="option_two">Barfoo</option>
+            </shared-options>
         </field>
 
     </class>

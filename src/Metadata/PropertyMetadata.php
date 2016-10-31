@@ -3,11 +3,12 @@
 namespace Psi\Component\ContentType\Metadata;
 
 use Metadata\PropertyMetadata as BasePropertyMetadata;
+use Psi\Component\ContentType\FieldOptions;
 
 class PropertyMetadata extends BasePropertyMetadata
 {
     private $type;
-    private $options = [];
+    private $options;
     private $role;
     private $group;
 
@@ -22,22 +23,22 @@ class PropertyMetadata extends BasePropertyMetadata
         parent::__construct($class, $name);
 
         $this->type = $type;
-        $this->options = $options;
         $this->role = $role;
         $this->group = $group;
+        $this->options = FieldOptions::create($options);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getOptions()
+    public function getOptions(): FieldOptions
     {
         return $this->options;
     }
@@ -47,7 +48,7 @@ class PropertyMetadata extends BasePropertyMetadata
         return $this->role;
     }
 
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }

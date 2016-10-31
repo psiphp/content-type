@@ -25,7 +25,7 @@ class FieldExtensionTest extends BaseTestCase
                         ],
                         'slideshow' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'image',
                             ],
                         ],

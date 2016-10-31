@@ -7,6 +7,7 @@ use Metadata\NullMetadata;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\FieldLoader;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\Metadata\ClassMetadata;
 use Psi\Component\ContentType\Metadata\PropertyMetadata;
 use Psi\Component\ContentType\Standard\View\ObjectType;
@@ -71,19 +72,22 @@ class ObjectTypeTest extends TypeTestCase
             $this->propertyMetadata1->reveal(),
         ]);
 
-        $options = ['foo' => 'bar'];
+        $viewOptions = ['foo' => 'bar'];
+        $options = FieldOptions::create([
+            'view' => $viewOptions,
+        ]);
         $this->propertyMetadata1->getType()->willReturn('foobar');
         $this->propertyMetadata1->getName()->willReturn('prop1');
         $this->propertyMetadata1->getOptions()->willReturn($options);
         $this->propertyMetadata1->getValue($content)->willReturn($value);
 
-        $this->viewFactory->create('foobar', $value, $options)->willReturn($this->childView->reveal());
+        $this->viewFactory->create('foobar', $value, $viewOptions)->willReturn($this->childView->reveal());
 
         $this->fieldLoader->load('foobar', $options)->willReturn(
             $this->field->reveal()
         );
         $this->field->getViewType()->willReturn('foobar');
-        $this->field->getViewOptions()->willReturn($options);
+        $this->field->getViewOptions()->willReturn($viewOptions);
 
         $view = $this->getType()->createView(
             $this->viewFactory->reveal(),

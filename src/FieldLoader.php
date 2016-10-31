@@ -14,7 +14,7 @@ class FieldLoader
         $this->fieldRegistry = $fieldRegistry;
     }
 
-    public function load(string $type, array $options = []): Field
+    public function load(string $type, FieldOptions $options): Field
     {
         $hash = md5(serialize($options)) . $type;
 

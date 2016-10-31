@@ -2,6 +2,7 @@
 
 namespace Psi\Component\ContentType\Tests\Unit\OptionsResolver;
 
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class FieldOptionsResolverTest extends \PHPUnit_Framework_TestCase
@@ -29,7 +30,22 @@ class FieldOptionsResolverTest extends \PHPUnit_Framework_TestCase
         $this->resolver->setDefault('foo', 'bar');
         $this->resolver->setDefault('bar', 'foo');
 
-        $this->assertEquals([], $this->resolver->resolveFormOptions());
+        $this->assertEquals([], $this->resolver->resolveFormOptions(FieldOptions::create([])));
+    }
+
+    /**
+     * It should pass type options directly if no mapper is provided.
+     */
+    public function testNoFormMapperPassDirect()
+    {
+        $this->resolver->setDefault('foo', 'bar');
+        $this->resolver->setDefault('bar', 'foo');
+
+        $this->assertEquals(['foo' => 'bar'], $this->resolver->resolveFormOptions(FieldOptions::create([
+            'form' => [
+                'foo' => 'bar',
+            ],
+        ])));
     }
 
     /**
@@ -48,7 +64,7 @@ class FieldOptionsResolverTest extends \PHPUnit_Framework_TestCase
         $this->resolver->setDefault('foo', 'bar');
         $this->resolver->setDefault('bar', 'foo');
 
-        $this->assertEquals([], $this->resolver->resolveViewOptions());
+        $this->assertEquals([], $this->resolver->resolveViewOptions(FieldOptions::create([])));
     }
 
     private function doTestMapOptions($type)
@@ -58,9 +74,9 @@ class FieldOptionsResolverTest extends \PHPUnit_Framework_TestCase
 
         $this->resolver->setDefault('foo', 'bar');
         $this->resolver->setDefault('bar', 'foo');
-        $this->resolver->$setMethod(function (array $options) {
+        $this->resolver->$setMethod(function (array $options, array $shared) {
             return [
-                'baz' => $options['bar'],
+                'baz' => $shared['bar'],
                 'ban' => 'bon',
             ];
         });
@@ -74,6 +90,6 @@ class FieldOptionsResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             'baz' => 'foo',
             'ban' => 'bon',
-        ], $this->resolver->$resolveMethod());
+        ], $this->resolver->$resolveMethod(FieldOptions::create([])));
     }
 }

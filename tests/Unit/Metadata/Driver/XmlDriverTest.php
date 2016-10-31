@@ -29,6 +29,7 @@ class XmlDriverTest extends \PHPUnit_Framework_TestCase
         $properties = $metadata->getPropertyMetadata();
         $this->assertArrayHasKey('fieldOne', $properties);
         $propertyOne = $properties['fieldOne'];
+
         $this->assertEquals('markdown', $propertyOne->getType());
         $this->assertEquals('title', $propertyOne->getRole());
         $this->assertEquals('group_one', $propertyOne->getGroup());
@@ -39,7 +40,21 @@ class XmlDriverTest extends \PHPUnit_Framework_TestCase
                 'sub_one' => 'One',
                 'sub_two' => 'Two',
             ],
-        ], $propertyOne->getOptions());
+        ], $propertyOne->getOptions()->getSharedOptions());
+
+        $this->assertEquals([
+            'a' => 'A',
+            'b' => 'B',
+        ], $propertyOne->getOptions()->getFormOptions());
+
+        $this->assertEquals([
+            'c' => 'C',
+        ], $propertyOne->getOptions()->getViewOptions());
+
+        $this->assertEquals([
+            'd' => 'D',
+        ], $propertyOne->getOptions()->getStorageOptions());
+
         $this->assertArrayHasKey('fieldTwo', $properties);
     }
 
