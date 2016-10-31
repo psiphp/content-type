@@ -53,13 +53,13 @@ class GeneralTest extends PhpcrOdmTestCase
                     'fields' => [
                         'slideshow' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'image',
                             ],
                         ],
                         'objectReferences' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'object_reference',
                             ],
                         ],
@@ -80,14 +80,14 @@ class GeneralTest extends PhpcrOdmTestCase
                     'fields' => [
                         'paragraphs' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'text',
                                 'field_options' => [],
                             ],
                         ],
                         'numbers' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'integer',
                             ],
                         ],

@@ -39,7 +39,10 @@ class ArrayDriver implements AdvancedDriverInterface
             'type' => null,
             'role' => null,
             'group' => null,
-            'options' => [],
+            'shared' => [],
+            'form' => [],
+            'view' => [],
+            'storage' => [],
         ];
 
         foreach ($config['fields'] as $fieldName => $fieldConfig) {
@@ -57,7 +60,7 @@ class ArrayDriver implements AdvancedDriverInterface
                 $fieldConfig['type'],
                 $fieldConfig['role'],
                 $fieldConfig['group'],
-                $fieldConfig['options']
+                array_intersect_key($fieldConfig, array_flip(['view', 'storage', 'form', 'shared']))
             );
 
             $classMetadata->addPropertyMetadata($propertyMetadata);

@@ -29,11 +29,5 @@ class TextField implements FieldInterface
 
     public function configureOptions(FieldOptionsResolver $options)
     {
-        $options->setDefault('tag', null);
-        $options->setViewMapper(function (array $options) {
-            return [
-                'tag' => $options['tag'],
-            ];
-        });
     }
 }

@@ -5,6 +5,7 @@ namespace Psi\Component\ContentType\Tests\Unit;
 use Prophecy\Argument;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
@@ -28,8 +29,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $mapperMethod = sprintf('set%sMapper', $type);
 
         $field = $this->createField([
-            'foo' => 'bar',
-            'bar' => 'foo',
+            'shared' => [
+                'foo' => 'bar',
+                'bar' => 'foo',
+            ],
         ]);
 
         $this->innerField->configureOptions(Argument::type(FieldOptionsResolver::class))->will(function ($args) use ($mapperMethod) {
@@ -37,9 +40,9 @@ class FieldTest extends \PHPUnit_Framework_TestCase
                 'foo' => '0',
                 'bar' => '2',
             ]);
-            $args[0]->$mapperMethod(function ($options) {
+            $args[0]->$mapperMethod(function ($options, $shared) {
                 return [
-                    'foo' => $options['foo'],
+                    'foo' => $shared['foo'],
                     'car' => 'zar',
                 ];
             });
@@ -64,8 +67,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $optionsMethod = sprintf('get%sOptions', $type);
         $field = $this->createField([
-            'foo' => 'bar',
-            'bar' => 'foo',
+            'shared' => [
+                'foo' => 'bar',
+                'bar' => 'foo',
+            ],
         ]);
 
         $this->innerField->configureOptions(Argument::type(FieldOptionsResolver::class))->shouldBeCalled();
@@ -109,6 +114,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     private function createField(array $options)
     {
-        return new Field($this->innerField->reveal(), $options);
+        return new Field($this->innerField->reveal(), FieldOptions::create($options));
     }
 }

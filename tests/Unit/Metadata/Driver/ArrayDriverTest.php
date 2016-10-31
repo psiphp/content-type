@@ -31,7 +31,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
                     'title' => [
                         'type' => 'Class\Fqn\TextField',
                         'group' => 'foobar',
-                        'options' => [
+                        'shared' => [
                             'option_1' => 100,
                         ],
                     ],
@@ -51,7 +51,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
 
         $property1 = current($properties);
         $this->assertEquals('Class\Fqn\TextField', $property1->getType());
-        $this->assertEquals(['option_1' => 100], $property1->getOptions());
+        $this->assertEquals(['option_1' => 100], $property1->getOptions()->getSharedOptions());
         $this->assertEquals('foobar', $property1->getGroup());
 
         $property2 = next($properties);
@@ -72,7 +72,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
      * It should throw an exception if invalid field configuration keys are given.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid configuration key(s) "bar", "foo" for field "title" on class "Psi\Component\ContentType\Tests\Unit\Metadata\Driver\TestContent", valid keys: "type", "role", "group", "options"
+     * @expectedExceptionMessage Invalid configuration key(s) "bar", "foo" for field "title" on class "Psi\Component\ContentType\Tests\Unit\Metadata\Driver\TestContent", valid keys: "type", "role", "group", "shared", "form", "view", "storage"
      */
     public function testInvalidKeys()
     {
@@ -84,7 +84,7 @@ class ArrayDriverTest extends \PHPUnit_Framework_TestCase
                         'bar' => 'boo',
                         'foo' => 'baa',
                         'type' => 'Class\Fqn\TextField',
-                        'options' => [
+                        'shared' => [
                             'option_1' => 100,
                         ],
                     ],

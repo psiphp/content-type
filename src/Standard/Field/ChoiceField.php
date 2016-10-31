@@ -27,17 +27,5 @@ class ChoiceField implements FieldInterface
 
     public function configureOptions(FieldOptionsResolver $options)
     {
-        $options->setDefaults([
-            'choices' => [],
-            'expanded' => false,
-            'group_by' => null,
-            'multiple' => false,
-            'placeholder' => null,
-            'preferred_choices' => [],
-        ]);
-
-        $options->setFormMapper(function ($options) {
-            return $options;
-        });
     }
 }

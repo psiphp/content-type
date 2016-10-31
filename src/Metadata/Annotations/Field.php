@@ -9,7 +9,10 @@ namespace Psi\Component\ContentType\Metadata\Annotations;
 class Field
 {
     public $type;
-    public $options = [];
+    public $shared = [];
+    public $form = [];
+    public $view = [];
+    public $storage = [];
     public $role;
     public $group;
 }

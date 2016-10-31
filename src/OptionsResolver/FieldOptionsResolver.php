@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psi\Component\ContentType\OptionsResolver;
 
+use Psi\Component\ContentType\FieldOptions;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -43,29 +44,33 @@ class FieldOptionsResolver extends OptionsResolver
         $this->storageMapper = $optionMapper;
     }
 
-    public function resolveFormOptions(array $options = []): array
+    public function resolveFormOptions(FieldOptions $options): array
     {
-        return $this->resolveOptions($this->formMapper, $options);
+        return $this->resolveOptions($this->formMapper, $options->getSharedOptions(), $options->getFormOptions());
     }
 
-    public function resolveViewOptions(array $options = []): array
+    public function resolveViewOptions(FieldOptions $options): array
     {
-        return $this->resolveOptions($this->viewMapper, $options);
+        return $this->resolveOptions($this->viewMapper, $options->getSharedOptions(), $options->getViewOptions());
     }
 
-    public function resolveStorageOptions(array $options = []): array
+    public function resolveStorageOptions(FieldOptions $options): array
     {
-        return $this->resolveOptions($this->storageMapper, $options);
+        return $this->resolveOptions($this->storageMapper, $options->getSharedOptions(), $options->getViewOptions());
     }
 
-    private function resolveOptions($mapper, array $options): array
+    private function resolveOptions($mapper, array $sharedOptions, array $typeOptions): array
     {
+        // if no mapper was specified, then pass all of the type options
+        // directly.
         if (!$mapper) {
-            return [];
+            return $typeOptions;
         }
 
-        $options = $this->resolve($options);
+        // otherwise use the mapper callback, passing both type and shared
+        // options.
+        $options = $this->resolve($sharedOptions);
 
-        return $mapper($options);
+        return $mapper($typeOptions, $options);
     }
 }

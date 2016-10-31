@@ -4,6 +4,7 @@ namespace Psi\Component\ContentType\Tests\Unit\Standard\View;
 
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\Standard\View\CollectionType;
 use Psi\Component\ContentType\Standard\View\CollectionView;
 use Psi\Component\ContentType\View\View;
@@ -35,11 +36,14 @@ class CollectionTypeTest extends TypeTestCase
     {
         $fieldType = 'foo';
         $viewType = 'view_type';
-        $fieldOptions = $viewOptions = ['foo' => 'bar'];
+        $viewOptions = ['foo' => 'bar'];
+        $fieldOptions = [
+            'view' => $viewOptions,
+        ];
 
         $this->fieldLoader->load(
             $fieldType,
-            $fieldOptions
+            FieldOptions::create($fieldOptions)
         )->willReturn($this->field->reveal());
         $this->field->getViewType()->willReturn($viewType);
         $this->field->getViewOptions()->willReturn($viewOptions);

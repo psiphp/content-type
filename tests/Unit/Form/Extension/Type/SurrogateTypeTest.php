@@ -4,6 +4,7 @@ namespace Psi\Component\ContentType\Tests\Unit\Form\Extension\Type;
 
 use Prophecy\Argument;
 use Psi\Component\ContentType\FieldInterface;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\Type\SurrogateType;
 use Psi\Component\ContentType\Metadata\ClassMetadata;
@@ -46,7 +47,7 @@ class SurrogateTypeTest extends TypeTestCase
         $propertyName = 'propname';
         $formType = TextType::class;
 
-        $property = $this->createProperty($propertyName, $type, null, ['data' => 'value']);
+        $property = $this->createProperty($propertyName, $type, null, ['shared' => ['data' => 'value']]);
         $this->classMetadata->getPropertyMetadata()->willReturn([
             $property,
         ]);
@@ -72,9 +73,9 @@ class SurrogateTypeTest extends TypeTestCase
         $type = 'hello';
         $formType = TextType::class;
 
-        $property1 = $this->createProperty('ungrouped_prop', $type, null, ['data' => 'value']);
-        $property2 = $this->createProperty('grouped_1', $type, 'hello', ['data' => 'value']);
-        $property3 = $this->createProperty('grouped_2', $type, 'hello', ['data' => 'value']);
+        $property1 = $this->createProperty('ungrouped_prop', $type, null, ['shared' => ['data' => 'value']]);
+        $property2 = $this->createProperty('grouped_1', $type, 'hello', ['shared' => ['data' => 'value']]);
+        $property3 = $this->createProperty('grouped_2', $type, 'hello', ['shared' => ['data' => 'value']]);
         $this->classMetadata->getPropertyMetadata()->willReturn([
             $property1,
             $property2,
@@ -111,7 +112,7 @@ class SurrogateTypeTest extends TypeTestCase
         $property = $this->prophesize(PropertyMetadata::class);
         $property->getType()->willReturn($type);
         $property->getGroup()->willReturn($group);
-        $property->getOptions()->willReturn($options);
+        $property->getOptions()->willReturn(FieldOptions::create($options));
         $property->getName()->willReturn($propertyName);
 
         return $property;

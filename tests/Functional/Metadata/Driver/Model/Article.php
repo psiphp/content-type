@@ -17,7 +17,7 @@ class Article
     public $body;
 
     /**
-     * @CMFCT\Field(type="image-collection", options={ "max" = 10 })
+     * @CMFCT\Field(type="image-collection", shared={ "max" = 10 }, form={ "foo": "bar" }, view={"tag": "h1"}, storage={"serialize": false})
      */
     public $slider;
 }

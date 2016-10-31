@@ -46,14 +46,23 @@ class XmlDriver extends AbstractFileDriver
             }
 
             foreach ($xpath->query('./psict:field', $classEl) as $fieldEl) {
-                $options = $this->extractOptions($xpath, $fieldEl);
+                $shared = $this->extractOptionSet($xpath, $fieldEl, 'shared-options');
+                $form = $this->extractOptionSet($xpath, $fieldEl, 'form-options');
+                $view = $this->extractOptionSet($xpath, $fieldEl, 'view-options');
+                $storage = $this->extractOptionSet($xpath, $fieldEl, 'storage-options');
+
                 $propertyMetadata = new PropertyMetadata(
                     $class->getName(),
                     $fieldEl->getAttribute('name'),
                     $fieldEl->getAttribute('type'),
                     $fieldEl->getAttribute('role'),
                     $fieldEl->getAttribute('group'),
-                    $options
+                    [
+                        'shared' => $shared,
+                        'form' => $form,
+                        'view' => $view,
+                        'storage' => $storage,
+                    ]
                 );
 
                 $classMetadata->addPropertyMetadata($propertyMetadata);
@@ -63,11 +72,18 @@ class XmlDriver extends AbstractFileDriver
         return $classMetadata;
     }
 
-    private function extractOptions(\DOMXPath $xpath, \DOMElement $fieldEl)
+    private function extractOptionSet(\DOMXpath $xpath, \DOMElement $fieldEl, $type)
+    {
+        foreach ($xpath->query('./psict:' . $type, $fieldEl) as $setEl) {
+            return $this->extractOptions($xpath, $setEl);
+        }
+    }
+
+    private function extractOptions(\DOMXPath $xpath, \DOMElement $setEl)
     {
         $options = [];
 
-        foreach ($xpath->query('./psict:option', $fieldEl) as $optionEl) {
+        foreach ($xpath->query('./psict:option', $setEl) as $optionEl) {
             if ($optionEl->getAttribute('type') === 'collection') {
                 $options[$optionEl->getAttribute('name')] = $this->extractOptions($xpath, $optionEl);
                 continue;

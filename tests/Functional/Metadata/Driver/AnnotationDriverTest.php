@@ -27,7 +27,10 @@ class AnnotationDriverTest extends BaseTestCase
         $this->assertEquals('foobar', $properties['title']->getGroup());
         $this->assertEquals('markdown', $properties['body']->getType());
         $this->assertEquals('image-collection', $properties['slider']->getType());
-        $this->assertEquals(['max' => 10], $properties['slider']->getOptions());
+        $this->assertEquals(['max' => 10], $properties['slider']->getOptions()->getSharedOptions());
+        $this->assertEquals(['foo' => 'bar'], $properties['slider']->getOptions()->getFormOptions());
+        $this->assertEquals(['tag' => 'h1'], $properties['slider']->getOptions()->getViewOptions());
+        $this->assertEquals(['serialize' => false], $properties['slider']->getOptions()->getStorageOptions());
     }
 
     /**

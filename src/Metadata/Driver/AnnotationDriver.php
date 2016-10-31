@@ -39,7 +39,12 @@ class AnnotationDriver implements DriverInterface
                         $annotation->type,
                         $annotation->role,
                         $annotation->group,
-                        $annotation->options
+                        [
+                            'shared' => $annotation->shared,
+                            'form' => $annotation->form,
+                            'view' => $annotation->view,
+                            'storage' => $annotation->storage,
+                        ]
                     );
                     $propertyMetadatas[] = $propertyMetadata;
                 }

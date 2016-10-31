@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psi\Component\ContentType\Standard\View;
 
 use Psi\Component\ContentType\FieldLoader;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\View\TypeInterface;
 use Psi\Component\ContentType\View\ViewFactory;
 use Psi\Component\ContentType\View\ViewInterface;
@@ -34,7 +35,7 @@ class CollectionType implements TypeInterface
 
         $field = $this->fieldLoader->load(
             $options['field_type'],
-            $options['field_options']
+            FieldOptions::create($options['field_options'])
         );
 
         return new CollectionView(

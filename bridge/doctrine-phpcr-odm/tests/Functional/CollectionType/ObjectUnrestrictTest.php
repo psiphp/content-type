@@ -70,7 +70,7 @@ class ObjectUnrestrictTest extends PhpcrOdmTestCase
                     ],
                     'slideshow' => [
                         'type' => 'collection',
-                        'options' => [
+                        'shared' => [
                             'field_type' => 'image',
                         ],
                     ],

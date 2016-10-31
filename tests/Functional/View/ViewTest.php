@@ -27,7 +27,7 @@ class ViewTest extends BaseTestCase
                         ],
                         'slideshow' => [
                             'type' => 'collection',
-                            'options' => [
+                            'shared' => [
                                 'field_type' => 'image',
                                 'field_options' => [],
                             ],

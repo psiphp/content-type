@@ -31,10 +31,10 @@ class ImageField implements FieldInterface
         $options->setDefault('repository', 'default');
         $options->setDefault('path', '/');
 
-        $options->setViewMapper(function (array $options) {
+        $options->setViewMapper(function (array $options, array $shared) {
             return [
-                'repository' => $options['repository'],
-                'path' => $options['path'],
+                'repository' => $shared['repository'],
+                'path' => $shared['path'],
             ];
         });
 

@@ -7,6 +7,7 @@ namespace Psi\Bridge\ContentType\Doctrine\Orm;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
+use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\Standard\Storage\CollectionType;
 use Psi\Component\ContentType\Standard\Storage\DateTimeType;
 use Psi\Component\ContentType\Standard\Storage\IntegerType;
@@ -111,7 +112,7 @@ class FieldMapper
     private function mapCollectionType($fieldName, Field $field, ClassMetadata $metadata)
     {
         $options = $field->getOptions();
-        $collectionField = $this->fieldLoader->load($options['field_type'], $options['field_options']);
+        $collectionField = $this->fieldLoader->load($options['field_type'], FieldOptions::create($options['field_options']));
 
         // assume that other types are scalars...
         $this->__invoke($fieldName, $collectionField, $metadata, [
