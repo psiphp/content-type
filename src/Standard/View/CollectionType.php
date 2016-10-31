@@ -48,9 +48,15 @@ class CollectionType implements TypeInterface
 
     public function configureOptions(OptionsResolver $options)
     {
+        $options->setDefaults([
+            'field_options' => [],
+        ]);
+
         $options->setRequired([
             'field_type',
-            'field_options',
         ]);
+
+        $options->setAllowedTypes('field_type', ['string']);
+        $options->setAllowedTypes('field_options', ['array']);
     }
 }

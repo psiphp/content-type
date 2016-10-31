@@ -8,7 +8,6 @@ use Psi\Component\ContentType\FieldOptions;
 use Psi\Component\ContentType\Standard\View\CollectionType;
 use Psi\Component\ContentType\Standard\View\CollectionView;
 use Psi\Component\ContentType\View\View;
-use Psi\Component\ContentType\View\ViewFactory;
 
 class CollectionTypeTest extends TypeTestCase
 {
@@ -16,9 +15,9 @@ class CollectionTypeTest extends TypeTestCase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fieldLoader = $this->prophesize(FieldLoader::class);
         $this->field = $this->prophesize(Field::class);
-        $this->viewFactory = $this->prophesize(ViewFactory::class);
     }
 
     protected function getType()
@@ -49,7 +48,7 @@ class CollectionTypeTest extends TypeTestCase
         $this->field->getViewOptions()->willReturn($viewOptions);
 
         $view = $this->getType()->createView(
-            $this->viewFactory->reveal(),
+            $this->factory->reveal(),
             $data,
             [
                 'field_type' => $fieldType,
@@ -90,7 +89,7 @@ class CollectionTypeTest extends TypeTestCase
     {
         $data = 'hello';
         $this->getType()->createView(
-            $this->viewFactory->reveal(),
+            $this->factory->reveal(),
             $data,
             [
             ]

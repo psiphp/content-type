@@ -27,7 +27,7 @@ class IntegerField implements FieldInterface
         return IntegerType::class;
     }
 
-    public function configureOptions(FieldOptionsResolver $options)
+    public function configureOptions(FieldOptionsResolver $resolver)
     {
     }
 }
