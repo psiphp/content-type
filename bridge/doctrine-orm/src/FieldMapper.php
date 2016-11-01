@@ -8,8 +8,10 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\FieldOptions;
+use Psi\Component\ContentType\Standard\Storage\BooleanType;
 use Psi\Component\ContentType\Standard\Storage\CollectionType;
 use Psi\Component\ContentType\Standard\Storage\DateTimeType;
+use Psi\Component\ContentType\Standard\Storage\DoubleType;
 use Psi\Component\ContentType\Standard\Storage\IntegerType;
 use Psi\Component\ContentType\Standard\Storage\ObjectType;
 use Psi\Component\ContentType\Standard\Storage\ReferenceType;
@@ -45,6 +47,26 @@ class FieldMapper
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'object',
+            ]);
+
+            return;
+        }
+
+        if ($type === BooleanType::class) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'boolean',
+                'nullable' => true,
+            ]);
+
+            return;
+        }
+
+        if ($type === DoubleType::class) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'float',
+                'nullable' => true,
             ]);
 
             return;

@@ -11,11 +11,7 @@ use Psi\Component\ContentType\FieldRegistry;
 use Psi\Component\ContentType\Form\Extension\FieldExtension;
 use Psi\Component\ContentType\Metadata\Driver\AnnotationDriver as CTAnnotationDriver;
 use Psi\Component\ContentType\Metadata\Driver\ArrayDriver;
-use Psi\Component\ContentType\Standard\Field\ChoiceField;
-use Psi\Component\ContentType\Standard\Field\CollectionField;
-use Psi\Component\ContentType\Standard\Field\DateTimeField;
-use Psi\Component\ContentType\Standard\Field\IntegerField;
-use Psi\Component\ContentType\Standard\Field\TextField;
+use Psi\Component\ContentType\Standard\Field as Field;
 use Psi\Component\ContentType\Standard\Storage as StdStorage;
 use Psi\Component\ContentType\Standard\View as StdView;
 use Psi\Component\ContentType\Storage;
@@ -72,13 +68,29 @@ class Container extends PimpleContainer
 
         $this['psi_content_type.registry.field'] = function ($container) {
             $registry = new FieldRegistry();
-            $registry->register('text', new TextField());
-            $registry->register('integer', new IntegerField());
-            $registry->register('datetime', new DateTimeField());
+            $registry->register('birthday', new Field\BirthdayField());
+            $registry->register('checkbox', new Field\CheckboxField());
+            $registry->register('currency', new Field\CurrencyField());
+            $registry->register('language', new Field\LanguageField());
+            $registry->register('locale', new Field\LocaleField());
+            $registry->register('money', new Field\MoneyField());
+            $registry->register('number', new Field\NumberField());
+            $registry->register('percent', new Field\PercentField());
+            $registry->register('range', new Field\RangeField());
+            $registry->register('textarea', new Field\TextareaField());
+            $registry->register('time', new Field\TimeField());
+            $registry->register('timezone', new Field\TimezoneField());
+            $registry->register('url', new Field\UrlField());
+            $registry->register('email', new Field\EmailField());
+            $registry->register('date', new Field\DateField());
+            $registry->register('country', new Field\CountryField());
+            $registry->register('text', new Field\TextField());
+            $registry->register('integer', new Field\IntegerField());
+            $registry->register('datetime', new Field\DateTimeField());
             $registry->register('image', new ImageField());
             $registry->register('object_reference', new ObjectReferenceField());
-            $registry->register('collection', new CollectionField($registry));
-            $registry->register('choice', new ChoiceField($registry));
+            $registry->register('collection', new Field\CollectionField($registry));
+            $registry->register('choice', new Field\ChoiceField($registry));
 
             return $registry;
         };
@@ -90,6 +102,8 @@ class Container extends PimpleContainer
             $registry->register(StdStorage\DateTimeType::class, new StdStorage\DateTimeType());
             $registry->register(StdStorage\ReferenceType::class, new StdStorage\ReferenceType());
             $registry->register(StdStorage\ObjectType::class, new StdStorage\ObjectType());
+            $registry->register(StdStorage\BooleanType::class, new StdStorage\BooleanType());
+            $registry->register(StdStorage\DoubleType::class, new StdStorage\DoubleType());
             $registry->register(StdStorage\CollectionType::class, new StdStorage\CollectionType());
 
             return $registry;
@@ -128,11 +142,13 @@ class Container extends PimpleContainer
             $registry = new View\TypeRegistry();
             $registry->register(ImageType::class, new ImageType());
             $registry->register(StdView\NullType::class, new StdView\NullType());
+            $registry->register(StdView\UrlType::class, new StdView\UrlType());
             $registry->register(StdView\ScalarType::class, new StdView\ScalarType());
             $registry->register(StdView\DateTimeType::class, new StdView\DateTimeType());
             $registry->register(StdView\CollectionType::class, new StdView\CollectionType(
                 $container->get('psi_content_type.field_loader')
             ));
+            $registry->register(StdView\BooleanType::class, new StdView\BooleanType());
             $registry->register(StdView\ObjectType::class, new StdView\ObjectType(
                 $container->get('psi_content_type.metadata.factory'),
                 $container->get('psi_content_type.field_loader')

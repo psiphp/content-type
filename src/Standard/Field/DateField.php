@@ -10,7 +10,7 @@ use Psi\Component\ContentType\Standard\Storage;
 use Psi\Component\ContentType\Standard\View;
 use Symfony\Component\Form\Extension\Core\Type as Form;
 
-class DateTimeField implements FieldInterface
+class DateField implements FieldInterface
 {
     public function getViewType(): string
     {
@@ -19,7 +19,7 @@ class DateTimeField implements FieldInterface
 
     public function getFormType(): string
     {
-        return Form\DateTimeType::class;
+        return Form\DateType::class;
     }
 
     public function getStorageType(): string
@@ -31,6 +31,14 @@ class DateTimeField implements FieldInterface
     {
         $options->setFormMapper(function ($options, $shared) {
             $options['input'] = 'datetime';
+
+            return $options;
+        });
+
+        $options->setViewMapper(function ($options, $shared) {
+            $options = array_merge([
+                'time_format' => 'none',
+            ], $options);
 
             return $options;
         });

@@ -10,7 +10,7 @@ use Psi\Component\ContentType\Standard\Storage as Storage;
 use Psi\Component\ContentType\Standard\View as View;
 use Symfony\Component\Form\Extension\Core\Type as Form;
 
-class TextField implements FieldInterface
+class RangeField implements FieldInterface
 {
     public function getViewType(): string
     {
@@ -19,12 +19,12 @@ class TextField implements FieldInterface
 
     public function getFormType(): string
     {
-        return Form\TextType::class;
+        return Form\RangeType::class;
     }
 
     public function getStorageType(): string
     {
-        return Storage\StringType::class;
+        return Storage\DoubleType::class;
     }
 
     public function configureOptions(FieldOptionsResolver $options)

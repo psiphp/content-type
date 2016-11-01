@@ -10,24 +10,24 @@ use Psi\Component\ContentType\Standard\Storage as Storage;
 use Psi\Component\ContentType\Standard\View as View;
 use Symfony\Component\Form\Extension\Core\Type as Form;
 
-class TextField implements FieldInterface
+class CheckboxField implements FieldInterface
 {
     public function getViewType(): string
     {
-        return View\ScalarType::class;
+        return View\BooleanType::class;
     }
 
     public function getFormType(): string
     {
-        return Form\TextType::class;
+        return Form\CheckboxType::class;
     }
 
     public function getStorageType(): string
     {
-        return Storage\StringType::class;
+        return Storage\BooleanType::class;
     }
 
-    public function configureOptions(FieldOptionsResolver $options)
+    public function configureOptions(FieldOptionsResolver $resolver)
     {
     }
 }

@@ -10,16 +10,16 @@ use Psi\Component\ContentType\Standard\Storage as Storage;
 use Psi\Component\ContentType\Standard\View as View;
 use Symfony\Component\Form\Extension\Core\Type as Form;
 
-class TextField implements FieldInterface
+class UrlField implements FieldInterface
 {
     public function getViewType(): string
     {
-        return View\ScalarType::class;
+        return View\UrlType::class;
     }
 
     public function getFormType(): string
     {
-        return Form\TextType::class;
+        return Form\UrlType::class;
     }
 
     public function getStorageType(): string
