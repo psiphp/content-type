@@ -17,4 +17,6 @@ class Article
     public $referencedImage;
     public $objectReferences;
     public $numbers;
+    public $boolean;
+    public $double;
 }

@@ -6,15 +6,15 @@ namespace Psi\Component\ContentType\Standard\Field;
 
 use Psi\Component\ContentType\FieldInterface;
 use Psi\Component\ContentType\OptionsResolver\FieldOptionsResolver;
-use Psi\Component\ContentType\Standard\Storage\IntegerType;
-use Psi\Component\ContentType\Standard\View\ScalarType;
+use Psi\Component\ContentType\Standard\Storage;
+use Psi\Component\ContentType\Standard\View;
 use Symfony\Component\Form\Extension\Core\Type as Form;
 
 class IntegerField implements FieldInterface
 {
     public function getViewType(): string
     {
-        return ScalarType::class;
+        return View\ScalarType::class;
     }
 
     public function getFormType(): string
@@ -24,7 +24,7 @@ class IntegerField implements FieldInterface
 
     public function getStorageType(): string
     {
-        return IntegerType::class;
+        return Storage\IntegerType::class;
     }
 
     public function configureOptions(FieldOptionsResolver $resolver)

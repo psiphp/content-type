@@ -8,8 +8,10 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\FieldOptions;
+use Psi\Component\ContentType\Standard\Storage\BooleanType;
 use Psi\Component\ContentType\Standard\Storage\CollectionType;
 use Psi\Component\ContentType\Standard\Storage\DateTimeType;
+use Psi\Component\ContentType\Standard\Storage\DoubleType;
 use Psi\Component\ContentType\Standard\Storage\IntegerType;
 use Psi\Component\ContentType\Standard\Storage\ObjectType;
 use Psi\Component\ContentType\Standard\Storage\ReferenceType;
@@ -74,6 +76,26 @@ class FieldMapper
                 'type' => 'long',
                 'nullable' => true,
                 'multivalue' => $options['multivalue'],
+            ]);
+
+            return;
+        }
+
+        if ($type === BooleanType::class) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'boolean',
+                'nullable' => true,
+            ]);
+
+            return;
+        }
+
+        if ($type === DoubleType::class) {
+            $metadata->mapField([
+                'fieldName' => $fieldName,
+                'type' => 'double',
+                'nullable' => true,
             ]);
 
             return;

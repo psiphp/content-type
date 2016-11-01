@@ -51,6 +51,12 @@ class GeneralTest extends OrmTestCase
                                 'field_type' => 'integer',
                             ],
                         ],
+                        'boolean' => [
+                            'type' => 'checkbox',
+                        ],
+                        'double' => [
+                            'type' => 'range',
+                        ],
                     ],
                 ],
             ],
@@ -120,6 +126,22 @@ class GeneralTest extends OrmTestCase
         $article = $this->persistAndReloadArticle($article);
 
         $this->assertSame(['one', 'two', 'three'], $article->paragraphs);
+    }
+
+    public function testBoolean()
+    {
+        $article = new Article();
+        $article->boolean = true;
+        $article = $this->persistAndReloadArticle($article);
+        $this->assertEquals(true, $article->boolean);
+    }
+
+    public function testDouble()
+    {
+        $article = new Article();
+        $article->double = 12.5;
+        $article = $this->persistAndReloadArticle($article);
+        $this->assertEquals(12.5, $article->double);
     }
 
     private function persistAndReloadArticle(Article $article)

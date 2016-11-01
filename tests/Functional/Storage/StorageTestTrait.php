@@ -43,4 +43,14 @@ trait StorageTestTrait
     {
         $this->markTestIncomplete();
     }
+
+    public function testBoolean()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testDouble()
+    {
+        $this->markTestIncomplete();
+    }
 }

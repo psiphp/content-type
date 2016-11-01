@@ -37,6 +37,12 @@ class GeneralTest extends PhpcrOdmTestCase
                         'referencedImage' => [
                             'type' => 'object_reference',
                         ],
+                        'boolean' => [
+                            'type' => 'checkbox',
+                        ],
+                        'double' => [
+                            'type' => 'range',
+                        ],
                     ],
                 ],
             ],
@@ -128,6 +134,26 @@ class GeneralTest extends PhpcrOdmTestCase
         $article->date = new \DateTime('2016-01-01 00:00:00');
         $article = $this->persistAndReloadArticle($article);
         $this->assertEquals(new \DateTime('2016-01-01 00:00:00'), $article->date);
+    }
+
+    public function testBoolean()
+    {
+        $this->initGeneralArticle();
+
+        $article = new Article();
+        $article->boolean = true;
+        $article = $this->persistAndReloadArticle($article);
+        $this->assertEquals(true, $article->boolean);
+    }
+
+    public function testDouble()
+    {
+        $this->initGeneralArticle();
+
+        $article = new Article();
+        $article->double = 12.5;
+        $article = $this->persistAndReloadArticle($article);
+        $this->assertEquals(12.5, $article->double);
     }
 
     public function testObject()
