@@ -8,14 +8,7 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Psi\Component\ContentType\Field;
 use Psi\Component\ContentType\FieldLoader;
 use Psi\Component\ContentType\FieldOptions;
-use Psi\Component\ContentType\Standard\Storage\BooleanType;
-use Psi\Component\ContentType\Standard\Storage\CollectionType;
-use Psi\Component\ContentType\Standard\Storage\DateTimeType;
-use Psi\Component\ContentType\Standard\Storage\DoubleType;
-use Psi\Component\ContentType\Standard\Storage\IntegerType;
-use Psi\Component\ContentType\Standard\Storage\ObjectType;
-use Psi\Component\ContentType\Standard\Storage\ReferenceType;
-use Psi\Component\ContentType\Standard\Storage\StringType;
+use Psi\Component\ContentType\Standard\Storage as Type;
 
 /**
  * The FieldMapper maps the correct PHPCR-ODM field for the given content-type
@@ -41,7 +34,7 @@ class FieldMapper
             'multivalue' => false,
         ], $extraOptions);
 
-        if ($type === ObjectType::class) {
+        if ($type === Type\ObjectType::class) {
             $options = $field->getStorageOptions();
             $this->unrestrictChildClass($options['class'], $metadata);
             $metadata->mapChild([
@@ -53,13 +46,13 @@ class FieldMapper
             return;
         }
 
-        if ($type === CollectionType::class) {
+        if ($type === Type\CollectionType::class) {
             $this->mapCollectionType($fieldName, $field, $metadata);
 
             return;
         }
 
-        if ($type === StringType::class) {
+        if ($type === Type\StringType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'string',
@@ -70,7 +63,7 @@ class FieldMapper
             return;
         }
 
-        if ($type === IntegerType::class) {
+        if ($type === Type\IntegerType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'long',
@@ -81,7 +74,7 @@ class FieldMapper
             return;
         }
 
-        if ($type === BooleanType::class) {
+        if ($type === Type\BooleanType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'boolean',
@@ -91,7 +84,7 @@ class FieldMapper
             return;
         }
 
-        if ($type === DoubleType::class) {
+        if ($type === Type\DoubleType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'double',
@@ -101,7 +94,7 @@ class FieldMapper
             return;
         }
 
-        if ($type === DateTimeType::class) {
+        if ($type === Type\DateTimeType::class) {
             $metadata->mapField([
                 'fieldName' => $fieldName,
                 'type' => 'date',
@@ -112,7 +105,7 @@ class FieldMapper
             return;
         }
 
-        if ($type === ReferenceType::class) {
+        if ($type === Type\ReferenceType::class) {
             $metadata->mapManyToOne([
                 'fieldName' => $fieldName,
                 'strategy' => 'hard',
@@ -136,7 +129,7 @@ class FieldMapper
         $options = $field->getOptions();
         $collectionField = $this->fieldLoader->load($options['field_type'], FieldOptions::create($options['field_options']));
 
-        if ($collectionField->getStorageType() === ObjectType::class) {
+        if ($collectionField->getStorageType() === Type\ObjectType::class) {
             $options = $collectionField->getStorageOptions();
             $this->unrestrictChildClass($options['class'], $metadata);
 
@@ -151,7 +144,7 @@ class FieldMapper
             return;
         }
 
-        if ($collectionField->getStorageType() === ReferenceType::class) {
+        if ($collectionField->getStorageType() === Type\ReferenceType::class) {
             $metadata->mapManyToMany([
                 'fieldName' => $fieldName,
                 'strategy' => 'hard',
