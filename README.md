@@ -5,8 +5,8 @@
 [![StyleCI](https://styleci.io/repos/59910930/shield)](https://styleci.io/repos/59910930)
 [![Scrutinizer Code
 Quality](https://scrutinizer-ci.com/g/psiphp/content-type/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/psiphp/content-type/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/psiphp/content-type/version.png)](https://packagist.org/packages/psiphp/content-type)
-[![Total Downloads](https://poser.pugx.org/psiphp/content-type/d/total.png)](https://packagist.org/packages/psiphp/content-type)
+[![Latest Stable Version](https://poser.pugx.org/psiphp/content-type/version.png?format=plastic)](https://packagist.org/packages/psiphp/content-type)
+[![Total Downloads](https://poser.pugx.org/psiphp/content-type/d/total.png?format=plastic)](https://packagist.org/packages/psiphp/content-type)
 
 
 This component is part of the Psi Content Management Framework
