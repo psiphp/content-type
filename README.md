@@ -19,8 +19,7 @@ Example content types might include "markdown", "image", "image_collection",
 
 ## Documentation
 
-You can find out more about this component and others
-[here](https://psiphp.readthedocs.io/en/latest/components/content-type/docs/index.html).
+See the documentation in [doc/index.rst](https://github.com/psiphp/content-type/blob/master/docs/index.rst).
 
 ## Installation
 
