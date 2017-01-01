@@ -17,9 +17,10 @@ The content-type component provides a facility to unify form, storage and
 Example content types might include "markdown", "image", "image_collection",
 "geolocation", etc.
 
+
 ## Documentation
 
-See the documentation in [doc/index.rst](https://github.com/psiphp/content-type/blob/master/docs/index.rst).
+Documentation is in progress, there may be documentation in [doc/index.rst](https://github.com/psiphp/content-type/blob/master/docs/index.rst).
 
 ## Installation
 
